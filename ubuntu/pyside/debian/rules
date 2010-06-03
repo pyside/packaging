@@ -1,0 +1,107 @@
+#!/usr/bin/make -f
+
+%:
+	dh --buildsystem=cmake --parallel $@
+
+# Python versions
+PYVERSIONS=$(shell pyversions -v -r)
+DEFAULT_PY=$(shell pyversions -v -d)
+
+#### CONFIGURE ####
+
+## DBG: override_dh_auto_configure: $(PYVERSIONS:%=override_dh_auto_configure_dbg-%) $(PYVERSIONS:%=override_dh_auto_configure-%)
+override_dh_auto_configure: $(PYVERSIONS:%=override_dh_auto_configure-%)
+
+override_dh_auto_configure_dbg-%:
+	mkdir -p build-$*-dbg
+	dh_auto_configure --builddirectory=build-$*-dbg -- \
+	-DCMAKE_BUILD_TYPE:STRING="Debug" \
+	-DCMAKE_SKIP_RPATH=true \
+	-DCMAKE_MODULE_PATH="$(shell pwd)/debian/cmake" \
+	-DCMAKE_PYTHON_VERSION="$*-dbg;$*" \
+	-DCMAKE_PYTHONLIB_VERSION="$*_d;$*" \
+	-DCMAKE_DEBUG_POSTFIX=_d \
+	-DLIBPYSIDE_POSTFIX=$(shell echo -py$* | sed -e 's/\.//g' -) \
+	-DSHIBOKEN_POSTFIX=$(shell echo -py$* | sed -e 's/\.//g' -)
+
+override_dh_auto_configure-%:
+	mkdir -p build-$*
+	dh_auto_configure --builddirectory=build-$* -- \
+	-DCMAKE_BUILD_TYPE:STRING="Release" \
+	-DCMAKE_SKIP_RPATH=true \
+	-DCMAKE_MODULE_PATH="$(shell pwd)/debian/cmake" \
+	-DCMAKE_PYTHON_VERSION=$* \
+	-DCMAKE_PYTHONLIB_VERSION=$* \
+	-DLIBPYSIDE_POSTFIX=$(shell echo -py$* | sed -e 's/\.//g' -) \
+	-DSHIBOKEN_POSTFIX=$(shell echo -py$* | sed -e 's/\.//g' -)
+
+#### BUILD ####
+
+## DBG: override_dh_auto_build: $(PYVERSIONS:%=override_dh_auto_build_dbg-%) $(PYVERSIONS:%=override_dh_auto_build-%)
+override_dh_auto_build: $(PYVERSIONS:%=override_dh_auto_build-%)
+
+override_dh_auto_build_dbg-%:
+	dh_auto_build --builddirectory=build-$*-dbg
+
+override_dh_auto_build-%:
+	dh_auto_build --builddirectory=build-$*
+
+#### INSTALL ####
+
+## DBG: override_dh_auto_install: $(PYVERSIONS:%=override_dh_auto_install_dbg-%) $(PYVERSIONS:%=override_dh_auto_install-%)
+override_dh_auto_install: $(PYVERSIONS:%=override_dh_auto_install-%)
+
+override_dh_auto_install_dbg-%:
+	dh_auto_install --builddirectory=build-$*-dbg --destdir=debian/tmp-dbg
+
+override_dh_auto_install-%:
+	dh_auto_install --builddirectory=build-$*
+
+#### STRIP ####
+override_dh_strip:
+	dh_strip --dbg-package=pyside-qt4-dbg --exclude=_d.so
+
+#### Symbols ####
+override_dh_shlibdeps:
+	dh_shlibdeps -Llibpyside0 -Lpyside-qt4-core -Lpyside-qt4-dbg
+
+#### TEST ####
+## DBG: override_dh_auto_test: $(PYVERSIONS:%=override_dh_auto_test_dbg-%) $(PYVERSIONS:%=override_dh_auto_test-%)
+override_dh_auto_test: $(PYVERSIONS:%=override_dh_auto_test-%)
+
+override_dh_auto_test_dbg-%:
+	# Don't be blocking.
+	- dh_auto_test --builddirectory=build-$*-dbg
+
+override_dh_auto_test-%:
+	# Don't be blocking.
+	- dh_auto_test --builddirectory=build-$*
+
+#### CLEAN ####
+override_dh_auto_clean:
+	rm -rf build-*
+	cd tests; rm -Rf *.pyc */*.pyc */*/*.pyc */*/*/*.pyc
+	rm -rf debian/tmp-dbg
+
+#### DEBIAN INSTALL ####
+
+override_dh_install: override_dh_install_last
+
+override_dh_install_first:
+# Move the debug .so's right in place
+## DBG: $(shell rename 's/(debian\/tmp-dbg\/)(.*)\.so(.*)$$/debian\/tmp\/$$2.so$$3/'\
+## DBG:              debian/tmp-dbg/usr/lib/python*/*-packages/PySide/*.so)
+## DBG: $(shell rename 's/(debian\/tmp-dbg\/)(.*)\.so(.*)$$/debian\/tmp\/$$2.so$$3/'\
+## DBG:              debian/tmp-dbg/usr/lib/*.so*)
+# Setup the default version symbolic links
+	$(shell ln -s libpyside`echo -py${DEFAULT_PY} | sed -e 's/\.//g' -`.so \
+	              debian/tmp/usr/lib/libpyside.so )
+
+override_dh_install_real: override_dh_install_first
+# Do the legacy install
+	dh_install --list-missing
+
+override_dh_install_last: override_dh_install_real
+# Move the debug library to the correct package.
+## DBG: $(shell rename 's/(debian\/libpyside0\/)(.*)_d\.so(.*)$$/debian\/pyside-qt4-dbg\/$$2_d.so$$3/' \
+## DBG:              debian/libpyside0/usr/lib/*_d.so*)
