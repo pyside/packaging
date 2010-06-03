@@ -1,0 +1,184 @@
+apiextractor (0.6.0-0ubuntu1) lucid; urgency=low
+
+  * Release 0.6.0
+
+ -- Renato Filho <renato.filho@openbossa.org>  Thu, 03 Jun 2010 11:24:07 -0300
+
+apiextractor (0.5.1-0) unstable; urgency=low
+
+  * New release
+
+ -- Bruno dos Santos de Araujo <bruno.araujo@openbossa.org>  Mon, 03 May 2010 12:02:12 -0400
+
+apiextractor (0.4.0-0pyside0~ppa2) karmic; urgency=low
+
+  * Reuse Debian packaging for Ubuntu (PPA) and Maemo builds.
+  * Remove use_cmake_config_no_find.patch - Included upstream.
+  * debian/source/format: downgrade to 1.0 format for karmic.
+  * Remove boost dependencies.
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Tue, 23 Mar 2010 11:08:54 -0400
+
+apiextractor (0.3.3-0pyside0~ppa1) karmic; urgency=low
+
+  [ Renato Filho ]
+  * Release 0.3.2.
+
+  [ Marcelo Lira ]
+  * [6d8dea5] Added methods to set and check for protected and virtual
+    destructor on AbstractMetaClass objects. Also added tests for this.
+
+  [ Hugo Lima ]
+  * [c1353d4] Install FindApiExtractor.cmake in the correct directory
+    when using cmake 2.8. Reviewed by Luciano Wolf
+    <luciano.wolf@openbossa.org>
+
+  [ renato araujo oliveira ]
+  * [221d877] updated changelog.
+  * [9e03faa] Bump version to 0.3.3
+
+  [ Marcelo Lira ]
+  * [5c8637f] Modified the AbstractMetaFunction class to have a
+    separated flag to indicate that it was added by the user or not,
+    instead of using the AbstractMetaFunction::UserAddedFunction enum
+    value. The old way prevented the function to be an UserAddedFunction
+    and a ConstructorFunction at the same time, since this information
+    was stored as an enum of the AbstractMetaFunction::FunctionType
+    type. A test case was also added. Reviewed by Hugo Parente
+    <hugo.lima@openbossa.org>
+
+  [ Lauro Neto ]
+  * [2346d25] Adding index attr to parent example
+  * [8b65c7a] Initial version of ownership documentation Reviewed by
+    Marcelo Lira <marcelo.lira@openbossa.org>
+
+  [ Hugo Lima ]
+  * [6d16532] TypeEntries created for unknown types found in user added
+    functions are marked as CustomType isntead of TargetLangType.
+    Reviewed by Marcelo Lira <marcelo.lira@openbossa.org>
+
+  [ renato ]
+  * [00a880f] Fixed support for modify args in add-function tag. Created
+    tests. Reviewed by Hugo Lima <hugo.lima@openbossa.org>
+
+  [ Marcelo Lira ]
+  * [aeeb950] Adds support for module level 'add-function' tag. The
+    TypeDatabase now stores global added functions as well as function
+    modifications. The AbstractMetaFunction::modifications method was
+    improved to check for global modifications. The test suite was
+    updated with the changes.
+  * [5900a05] Modified AbstractMetaFunction::hasSignatureModifications
+    to check for function renaming.
+  * [cb253eb] Modifications in ancestors are not returned if the current
+    class reimplements the function.
+  * [f2fd366] Adds normalizedSignature static method to TypeDatabase.
+    All the uses of QMetaObject::normalizedSignature were replaced to
+    use TypeDatabase::normalizedSignature; the former always changes the
+    unsigned primitives to the shorter versions (e.g. "unsigned int"
+    becomes "uint") that aren't necessarily used by the parsed library.
+    The new normalizer changes back "uNUMBER" to "unsigned NUMBER" if
+    the former is not present in the TypeDatabase. Reviewed by Hugo
+    Parente <hugo.lima@openbossa.org>
+  * [0a740ad] Adds support for varargs in AbstractMetaArgument,
+    AbstractMetaType and VarargsTypeEntry. Reviewed by Hugo Parente
+    <hugo.lima@openbossa.org>
+
+  [ renato ]
+  * [08fc38b] Updated ChangeLog.
+
+ -- Renato Araujo Oliveira Filho  <renato.filho@openbossa.org>  Mon, 21 Dec 2009 14:49:43 -0300
+
+apiextractor (0.3.3-1) unstable; urgency=low
+
+  * New upstream release.
+    - Refresh patches.
+  * Use 3.0 (quilt) format.
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 14 Jan 2010 15:44:15 +0100
+
+apiextractor (0.3.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Add use_cmake_config_no_find.patch:
+    - Don't ship buggy FindApiExtractor.cmake (it is shipped in the wrong
+      directory and useless anyway).
+    - Ship instead a home-brewn ApiExtractorConfig.cmake and other cmake
+      specific configuration files
+    + Many thanks to Modestas Vainius for his time and skills in helping me
+      through this patch!
+    + This should Closes: #556822 generatorrunner: FTBFS
+
+ -- Didier Raboud <didier@raboud.com>  Wed, 09 Dec 2009 19:11:36 +0100
+
+apiextractor (0.3.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Remove patch fix_boostgraph_binary_lib_dependency.patch, incorporated
+    upstream.
+    - Get rid of quilt B-D.
+    - Dont use --with=quilt in the dh7 magic.
+  * Disable the build tests (they fail to show "bugs to-be-fixed").
+
+ -- Didier Raboud <didier@raboud.com>  Tue, 13 Oct 2009 15:23:02 +0200
+
+apiextractor (0.3.1-0pyside0~ppa3) unstable; urgency=low
+
+  * Update to final 0.3.1 release.
+
+ -- Lauro Moura <lauro.neto@openbossa.org>  Tue, 13 Oct 2009 15:11:50 -0300
+
+apiextractor (0.3.1-0pyside0~ppa2) unstable; urgency=low
+
+  * Now replacing the old packages.
+
+ -- Lauro Moura <lauro.neto@openbossa.org>  Thu, 10 Sep 2009 19:50:51 -0300
+
+apiextractor (0.3.1-0pyside0~ppa1) unstable; urgency=low
+
+  * Bump version to 0.3.1
+
+ -- Lauro Moura <lauro.neto@openbossa.org>  Thu, 20 Aug 2009 18:36:04 -0300
+
+apiextractor (0.3-1) unstable; urgency=low
+
+  [ Didier Raboud ]
+  * Initial Debian release (Closes: #543642)
+    - Use the Ubuntu packaging as starting point.
+    - Convert to dh7.
+  * debian/watch: Add.
+  * debian/cmake.mk: Remove dirty workaround.
+  * debian/control:
+    - Update Depends to dh7
+    - Add myself to Maintainers
+    - Put under collab-maint git.
+    - Add Homepage and Vcs-* fields
+    - Update descriptions and Build-Depends.
+    - Include the symbols version in the binary package name.
+    - Adjust priority.
+  * debian/patches/fix_boostgraph_binary_lib_dependency.patch
+    - Add to avoid Build-Dependency on the binary libboost-graph.
+    - Adjust Build-Depends accordingly.
+    - Add README.source.
+  * debian/copyright: Update to include all copyright holders.
+  * Bump Standards to 3.8.3
+
+  [ Bernd Zeimetz ]
+  * debian/control, debian/rules:
+    - Add a -dbg package.
+  * debian/control:
+    - libapiextractor-dev needs to depend on libqt4-dev as pkg-config
+      requires it.
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 01 Oct 2009 13:19:57 +0200
+
+apiextractor (0.2-0ubuntu1) jaunty; urgency=low
+
+  * Build for Ubuntu 9.04.
+
+ -- Anderson Lizardo <anderson.lizardo@indt.org.br>  Tue, 18 Aug 2009 08:05:11 -0400
+
+apiextractor (0.2-0maemo1) unstable; urgency=low
+
+  * Initial release
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Thu, 16 Jul 2009 09:12:10 -0400
