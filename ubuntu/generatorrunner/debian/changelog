@@ -1,0 +1,123 @@
+generatorrunner (0.4.2-0) unstable; urgency=low
+ 
+  * New release
+  * libgenrunner0 renamed to libgenrunner0.4 due to SOVERSION changes
+
+ -- Bruno dos Santos de Araujo <bruno.araujo@openbossa.org>  Mon, 03 May 2010 12:09:10 -0400
+
+generatorrunner (0.4.0-0pyside0~ppa1) karmic; urgency=low
+
+  * Reuse Debian packaging for Ubuntu (PPA) and Maemo builds.
+  * Remove use_cmake_config_no_find.patch - Included upstream.
+  * debian/source/format: downgrade to 1.0 format for karmic.
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Wed, 24 Mar 2010 12:30:37 -0400
+
+generatorrunner (0.3.3-0pyside0~ppa1) karmic; urgency=low
+
+  [ Renato Filho ]
+  * Final release 0.3.2
+
+  [ Hugo Lima ]
+  * [5f1029f] Remove white spaces at end of each line when formating
+    injected code.
+  * [7abd582] Fix macros about dllexport/dllimport.
+  * [f94e3ab] Add proper compiler flags for msvc.
+  * [0c1ef18] Install FindGenRunner.cmake and libgenrunner in the
+    correct directory.
+  * [01c2666] FindGeneratorRunner.cmake now respect the find_package
+    REQUIRED attribute.
+  * [04b6a05] Disable GENRUNNER_DEPRECATED macro when using msvc.
+  * [302029e] Change the getGenerators signature, because on some
+    platforms a function exported as a C function can't return a C++
+    type by value. All generators plugins *MUST* be recompiled. Reviewed
+    by Luciano Wolf <luciano.wolf@openbossa.org>
+
+  [ Renato Filho ]
+  * [0010455] Updated Changelog.
+  * [9a434d3] Bump to version 0.3.3.
+
+  [ Marcelo Lira ]
+  * [6bdce6a] Improved Generator::replaceTemplateVariables method to
+    avoid segfaults. Reviewed by Hugo Parente <hugo.lima@openbossa.org>
+
+  [ Bruno dos Santos de Araujo ]
+  * [bd98924] Add constraint to avoid index out-of-range errors
+    Reviewer: Lauro Neto <lauro.neto@openbossa.org>
+
+  [ Renato Filho ]
+
+ -- Renato Araujo Oliveira Filho <renato.filho@openbossa.org>  Mon, 21 Dec 2009 15:18:59 -0300
+
+generatorrunner (0.3.3-1) unstable; urgency=low
+
+  * New upstream release.
+    - Refresh patches.
+    - Bump libgenrunner SONAME to 0.3.3
+    - Bump apiextractor dependency to 0.3.3 (recommended by upstream).
+  * Use 3.0 (quilt) format.
+
+ -- Didier Raboud <didier@raboud.com>  Fri, 22 Jan 2010 16:56:56 +0100
+
+generatorrunner (0.3.2-1) unstable; urgency=low
+
+  * New upstream release.
+    - Split out boostpythongenerator.
+    - Remove fix_manpages.patch - Included upstream.
+    - Bump libgenrunner SONAME to 0.3.2
+    - Add libxslt-dev Build-Dependency
+  * Add use_cmake_config_no_find.patch:
+    - Don't ship buggy FindGeneratorRunner.cmake (it is shipped in the wrong
+      directory and useless anyway).
+    - Ship instead a home-brewn GeneratorRunnerConfig.cmake and other cmake
+      specific configuration files
+    + Many thanks to Modestas Vainius for his time and skills in helping me
+      through this patch!
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 10 Dec 2009 00:23:35 +0100
+
+generatorrunner (0.3.2-0pyside0~ppa1) unstable; urgency=low
+
+  * First release after splitting boostpythongenerator.
+  * Renaming source package
+
+ -- Lauro Moura <lauro@openbossa.org>  Mon, 26 Oct 2009 20:28:36 -0300
+
+generatorrunner (0.3.1-1) unstable; urgency=low
+
+  * Initial Debian release (Closes: #543719)
+    - Use the Ubuntu packaging as starting point.
+    - Convert to dh7.
+  * Follow upstream in renaming to generatorrunner.
+  * debian/watch: Add.
+  * debian/cmake.mk: Remove dirty workaround.
+  * debian/control:
+    - Update Depends to dh7
+    - Update Maintainer to Debian Python Modules Team
+    - Add myself to Uploaders
+    - Add Homepage and Vcs-* fields
+    - Update description
+    - Produce multiple binary packages with the various sub-parts.
+    - Let libgenrunner-dev depend on libapiextractor-dev (>= 0.3.1).
+  * debian/copyright: Update.
+  * debian/patches:
+    - Add fix_manpages.patch to solve the hyphens-as-minus lintian info
+    - Add quilt to Build-Depends.
+    - Add README.source
+  * Add a debugging package.
+  * Bump Standards to 3.8.3
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 15 Oct 2009 11:38:29 +0200
+
+boostpythongenerator (0.2-0ubuntu2) jaunty; urgency=low
+
+  * Build for Ubuntu 9.04.
+  * Remove unused header from docgenerator.cpp.
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Tue, 18 Aug 2009 08:27:33 -0400
+
+boostpythongenerator (0.2-0maemo1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Thu, 16 Jul 2009 09:34:42 -0400
