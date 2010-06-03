@@ -1,19 +1,20 @@
 MAJOR_VERSION=0
-MINOR_VERSION=5
-MICRO_VERSION=0
+MINOR_VERSION=3
+MICRO_VERSION=2
 VERSION=$(MAJOR_VERSION).$(MINOR_VERSION).$(MICRO_VERSION)
 LIB_APIEXTRACTOR_VERSION='0.6.0'
-PACKAGE=generatorrunner
+GENERATORRUNNER_VERSION='0.5.0'
+PACKAGE=shiboken
 TARBALL=$(PACKAGE)-$(VERSION).tar.bz2
 WORK_DIR=$(PACKAGE)-$(VERSION)
 DISTRO='lucid'
 VERSION_NAME='ubuntu'
 
+
 all: new_release
 
-
-new_release: debian_version_new.stamp $(TARBALL) ./build/$(WORK_DIR)/debian/libgenrunner$(MAJOR_VERSION).$(MINOR_VERSION).install dpkg_sources.stamp
-update_release: debian_version_update.stamp $(TARBALL) ./build/$(WORK_DIR)/debian/libgenrunner$(MAJOR_VERSION).$(MINOR_VERSION).install dpkg_sources.stamp
+new_release: debian_version_new.stamp $(TARBALL) ./build/$(WORK_DIR)/debian/libshiboken$(MAJOR_VERSION).$(MINOR_VERSION).install dpkg_sources.stamp
+update_release: debian_version_update.stamp $(TARBALL) ./build/$(WORK_DIR)/debian/libshiboken$(MAJOR_VERSION).$(MINOR_VERSION).install dpkg_sources.stamp
 
 debian_version_update.stamp:
 	dch -i
@@ -28,11 +29,13 @@ $(TARBALL):
 	mkdir build
 	tar jxvf $(TARBALL) -C ./build
 
-./build/$(WORK_DIR)/debian/libgenrunner$(MAJOR_VERSION).$(MINOR_VERSION).install:
+./build/$(WORK_DIR)/debian/libshiboken$(MAJOR_VERSION).$(MINOR_VERSION).install:
 	cp -rf debian ./build/$(WORK_DIR)/
-	mv ./build/$(WORK_DIR)/debian/libgenrunner.install ./build/$(WORK_DIR)/debian/libgenrunner$(MAJOR_VERSION).$(MINOR_VERSION).install
+	mv ./build/$(WORK_DIR)/debian/libshiboken.install ./build/$(WORK_DIR)/debian/libshiboken$(MAJOR_VERSION).$(MINOR_VERSION).install
 	sed 's/@VERSION/$(MAJOR_VERSION).$(MINOR_VERSION)/g' ./build/$(WORK_DIR)/debian/control > ./build/$(WORK_DIR)/debian/control.new
-	sed 's/@LIB_APIEXTRACTOR_VERSION/$(LIB_APIEXTRACTOR_VERSION)/g' ./build/$(WORK_DIR)/debian/control.new > ./build/$(WORK_DIR)/debian/control
+	sed 's/@LIB_APIEXTRACTOR_VERSION/$(LIB_APIEXTRACTOR_VERSION)/g' ./build/$(WORK_DIR)/debian/control.new > ./build/$(WORK_DIR)/debian/control.new2
+	sed 's/@GENERATORRUNNER_VERSION/$(GENERATORRUNNER_VERSION)/g' ./build/$(WORK_DIR)/debian/control.new2 > ./build/$(WORK_DIR)/debian/control
+	rm ./build/$(WORK_DIR)/debian/control.new2
 	rm ./build/$(WORK_DIR)/debian/control.new
 
 dpkg_sources.stamp:
