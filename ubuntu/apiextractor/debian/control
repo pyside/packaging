@@ -13,7 +13,7 @@ Package: libapiextractor-dbg
 Section: debug
 Architecture: any
 Priority: extra
-Depends: libapiextractor0.6 (= ${binary:Version}), ${misc:Depends}
+Depends: libapiextractor@VERSION (= ${binary:Version}), ${misc:Depends}
 Description: Debugging symbols for the library headers parser
  The API Extractor library is used by the binding generator to parse headers of
  a given library and merge this data with information provided by typesystem
@@ -26,7 +26,7 @@ Description: Debugging symbols for the library headers parser
 Package: libapiextractor-dev
 Section: libdevel
 Architecture: any
-Depends: libapiextractor0.6 (= ${binary:Version}), ${misc:Depends},
+Depends: libapiextractor@VERSION (= ${binary:Version}), ${misc:Depends},
  libqt4-dev
 Description: Development files for the library headers parser
  The API Extractor library is used by the binding generator to parse headers of
@@ -37,10 +37,10 @@ Description: Development files for the library headers parser
  .
  This package contains the development files.
 
-Package: libapiextractor0.6
+Package: libapiextractor@VERSION
 Architecture: any
-Conflicts: libapiextractor (<< 0.6.0)
-Replaces: libapiextractor (<< 0.6.0)
+Conflicts: libapiextractor (<< @VERSION)
+Replaces: libapiextractor (<< @VERSION)
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Library headers parser that creates an API abstract representation
  The API Extractor library is used by the binding generator to parse headers of

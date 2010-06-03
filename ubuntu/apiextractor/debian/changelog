@@ -1,4 +1,10 @@
-apiextractor (0.6.0-0ubuntu1) lucid; urgency=low
+apiextractor (0.6.0-1ppa0) lucid; urgency=low
+
+  * a
+
+ -- Renato Filho <renato.filho@openbossa.org>  Thu, 03 Jun 2010 18:14:11 -0300
+
+apiextractor (0.6.0-0ubuntu3) lucid; urgency=low
 
   * Release 0.6.0
 
