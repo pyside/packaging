@@ -1,5 +1,11 @@
+generatorrunner (0.5.0-0ubuntu1) karmic; urgency=low
+
+  * Release 0.5.0.
+
+ -- Renato Filho <renato.filho@openbossa.org>  Thu, 03 Jun 2010 14:50:35 -0300
+
 generatorrunner (0.4.2-0) unstable; urgency=low
- 
+
   * New release
   * libgenrunner0 renamed to libgenrunner0.4 due to SOVERSION changes
 
