@@ -26,8 +26,7 @@ Description: Debugging symbols for the library headers parser
 Package: libapiextractor-dev
 Section: libdevel
 Architecture: any
-Depends: libapiextractor0.6 (= ${binary:Version}), ${misc:Depends},
- libqt4-dev
+Depends: libapiextractor0.6 (= ${binary:Version}), ${misc:Depends}, libqt4-dev (>= 4.4.0)
 Description: Development files for the library headers parser
  The API Extractor library is used by the binding generator to parse headers of
  a given library and merge this data with information provided by typesystem
