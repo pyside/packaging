@@ -2,6 +2,7 @@ MAJOR_VERSION=0
 MINOR_VERSION=6
 MICRO_VERSION=0
 VERSION=$(MAJOR_VERSION).$(MINOR_VERSION).$(MICRO_VERSION)
+PACKAGE_NAME='apiextractor'
 TARBALL=apiextractor-$(VERSION).tar.bz2
 WORK_DIR=apiextractor-$(VERSION)
 DISTRO='lucid'
@@ -28,7 +29,7 @@ $(TARBALL):
 
 ./build/$(WORK_DIR)/debian/libapiextract$(MAJOR_VERSION).$(MINOR_VERSION).install:
 	cp -rf debian ./build/$(WORK_DIR)/
-	mv ./build/$(WORK_DIR)/debian/libapiextractor.install ./build/$(WORK_DIR)/debian/libapiextract$(MAJOR_VERSION).$(MINOR_VERSION).install
+	mv ./build/$(WORK_DIR)/debian/libapiextractor.install ./build/$(WORK_DIR)/debian/libapiextractor$(MAJOR_VERSION).$(MINOR_VERSION).install
 	sed 's/@VERSION/$(MAJOR_VERSION).$(MINOR_VERSION)/g' debian/control > ./build/$(WORK_DIR)/debian/control
 
 dpkg_sources.stamp:
