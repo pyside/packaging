@@ -1,3 +1,9 @@
+shiboken (0.3.2-1ubuntu0) lucid; urgency=low
+
+  * Release 0.3.2.
+
+ -- Renato Filho <renato.filho@openbossa.org>  Fri, 04 Jun 2010 13:27:46 -0300
+
 shiboken (0.3.1-0) unstable; urgency=low
 
   * Bump to 0.3.1 based on maemo 0.2.0 packaging.

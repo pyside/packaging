@@ -1,3 +1,9 @@
+pyside (0.3.2-1ubuntu0) lucid; urgency=low
+
+  * Release 0.3.2.
+
+ -- Renato Filho <renato.filho@openbossa.org>  Fri, 04 Jun 2010 13:38:38 -0300
+
 pyside (0.3.1-1) unstable; urgency=low
 
   * Update to 0.3.1
@@ -22,7 +28,7 @@ pyside (0.3.0-1) experimental; urgency=low
   * TODO before release:
     - Proper symbols
     - Enable -dbg builg (## DBG: in rules)
-  
+
   * debian/rules
     - dh_install now lists missing files.
     - Multiple python versions tweak with custom cmake.
@@ -66,7 +72,7 @@ pyside (0.2.3-1) unstable; urgency=low
     - Add tweaks to get multiple python versions built. It does not build on
       python 2.4, but is ready for 2.6.
     - Allow parallel build.
-  * debian/patches: 
+  * debian/patches:
     - multiple_python_versions.patch: Add
     - use_cmake_no_config.patch     : Add
     - debug_build_add_postfix.patch : Add
@@ -88,7 +94,7 @@ pyside (0.1.4.5-0ubuntu2) jaunty; urgency=low
 
 pyside (0.1.4.5-0maemo1) unstable; urgency=low
 
-  * Initial Release 
+  * Initial Release
 
  -- Lauro Moura <lauro.neto@openbossa.org>  Mon, 17 Aug 2009 16:21:54 -0300
 
