@@ -1,8 +1,8 @@
-shiboken (0.3.2-0maemo1) unstable; urgency=low
+shiboken (0.3.2-1maemo1) unstable; urgency=low
 
   * New release
 
- -- Luciano Miguel Wolf <luciano.wolf@openbossa.org>  Thu, 03 Jun 2010 14:22:46 -0300
+ -- Luciano Miguel Wolf <luciano.wolf@openbossa.org>  Fri, 04 Jun 2010 14:17:35 -0300
 
 shiboken (0.3.1-0maemo1) unstable; urgency=low
 

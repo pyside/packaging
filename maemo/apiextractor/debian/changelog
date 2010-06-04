@@ -1,8 +1,8 @@
-apiextractor (0.6.0-0maemo1) unstable; urgency=low
+apiextractor (0.6.0-1maemo0) unstable; urgency=low
 
   * New release
 
- -- Luciano Miguel Wolf <luciano.wolf@openbossa.org>  Thu, 03 Jun 2010 14:14:07 -0300
+ -- Luciano Miguel Wolf <luciano.wolf@openbossa.org>  Fri, 04 Jun 2010 13:56:45 -0300
 
 apiextractor (0.5.1-0maemo1) unstable; urgency=low
 

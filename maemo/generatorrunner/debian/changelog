@@ -1,8 +1,8 @@
-generatorrunner (0.5.0-0maemo1) unstable; urgency=low
+generatorrunner (0.5.0-1maemo2) unstable; urgency=low
 
   * New release
 
- -- Luciano Miguel Wolf <luciano.wolf@openbossa.org>  Thu, 03 Jun 2010 14:18:12 -0300
+ -- Luciano Miguel Wolf <luciano.wolf@openbossa.org>  Fri, 04 Jun 2010 14:15:35 -0300
 
 generatorrunner (0.4.2-0maemo1) unstable; urgency=low
 
@@ -11,7 +11,7 @@ generatorrunner (0.4.2-0maemo1) unstable; urgency=low
  -- Bruno dos Santos de Araujo <bruno.araujo@openbossa.org>  Tue, 04 May 2010 15:11:40 -0400
 
 generatorrunner (0.4.2-0) unstable; urgency=low
- 
+
   * New release
   * libgenrunner0 renamed to libgenrunner0.4 due to SOVERSION changes
 

@@ -1,0 +1,3 @@
+usr/lib/libpyside*.so.*
+usr/lib/cmake/PySide-*/*
+usr/lib/pkgconfig/pyside.pc

@@ -1,0 +1,106 @@
+pyside (0.3.2-1maemo0) unstable; urgency=low
+
+  * New release
+
+ -- Luciano Miguel Wolf <luciano.wolf@openbossa.org>  Thu, 03 Jun 2010 14:23:49 -0300
+
+pyside (0.3.1-1maemo2) unstable; urgency=low
+
+  * Maemo 5 build.
+
+ -- Willer Moreira <willer.moreira@openbossa.org>  Tue, 04 May 2010 17:14:41 -0400
+
+pyside (0.3.1-1) unstable; urgency=low
+
+  * Update to 0.3.1
+  * libshiboken0 renamed to libshiboken0.3 to reflect new SOVERSION
+  * Added missing modules (QtScript, QtScriptTools, Phonon)
+
+ -- Lauro Neto <lauro.neto@openbossa.org>  Tue, 04 May 2010 17:14:41 -0300
+
+pyside (0.3.0-1pyside0~ppa4) karmic; urgency=low
+
+  * Add generatorrunner and libshiboken-dev to Build-Depends.
+  * Renamed all packages to match old naming from previous releases.
+  * Removed unneeded boost dependency.
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Fri, 26 Mar 2010 16:37:58 -0400
+
+pyside (0.3.0-1) experimental; urgency=low
+
+  * New 0.3.0 upstream release
+    - Moves away from boost to fly with shiboken
+
+  * TODO before release:
+    - Proper symbols
+    - Enable -dbg builg (## DBG: in rules)
+  
+  * debian/rules
+    - dh_install now lists missing files.
+    - Multiple python versions tweak with custom cmake.
+  * debian/cmake/
+    - Include patched FindPython*.cmake from #569321
+  * debian/control
+    - Update Build-Depends list
+  * Rename library to libpyside0
+    - Add lintian override to be able to ship python specific files.
+  * Update binary package list in debian/control and all .install files.
+  * Patches: remove all previous (new codebase), add new:
+    - multiple_python_versions.patch: Drop
+    - debug_build_add_postfix.patch: Drop
+    - use_cmake_no_config.patch: Drop
+    - spelling_error_in_binary.patch: Drop, incorporated upstream
+    + fixDebugPostix.patch: include debug postfix'ed files
+    + lib_pythonversionpostfix.patch: append -py* to the libraries
+    + fixConvenienceSymlinks.patch: correctly symlink postfix'ed files
+
+  ## DBG: * Re-enable -dbg build.
+
+  * Bump Standards to 3.8.4. No changes needed.
+
+ -- Didier Raboud <didier@raboud.com>  Fri, 26 Mar 2010 16:27:04 +0100
+
+pyside (0.2.3-1) unstable; urgency=low
+
+  * Initial release to Debian (Closes: #543636)
+    - Use the Ubuntu packaging as starting point.
+    - Convert to dh 7.
+  * debian/copyright: Update
+  * debian/control:
+    - Change the library name to libpysidebase0.
+    - Simplify Depends.
+    - Set Debian Python Modules Team as Maintainer.
+    - Add myself to Uploaders.
+    - Add Vcs-* and Homepage fields.
+    - Change binary packages names from pyside-$module to
+      python-pyside.qt$module to fit with Debian Python Policy.
+  * debian/rules
+    - Add tweaks to get multiple python versions built. It does not build on
+      python 2.4, but is ready for 2.6.
+    - Allow parallel build.
+  * debian/patches: 
+    - multiple_python_versions.patch: Add
+    - use_cmake_no_config.patch     : Add
+    - debug_build_add_postfix.patch : Add
+    - spelling_error_in_binary.patch: Add
+  * debian/watch: Add.
+  * Bump Standards to 3.8.3 - No changes needed.
+  * Use 3.0 (quilt) source format.
+
+  * -dbg build is disabled for now.
+
+ -- Didier Raboud <didier@raboud.com>  Wed, 26 Aug 2009 11:38:40 +0200
+
+pyside (0.1.4.5-0ubuntu2) jaunty; urgency=low
+
+  * Build for Ubuntu 9.04.
+  * Remove pyside-tests package (not applicable to Ubuntu).
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Tue, 18 Aug 2009 09:19:21 -0400
+
+pyside (0.1.4.5-0maemo1) unstable; urgency=low
+
+  * Initial Release 
+
+ -- Lauro Moura <lauro.neto@openbossa.org>  Mon, 17 Aug 2009 16:21:54 -0300
+
