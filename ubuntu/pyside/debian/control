@@ -38,19 +38,19 @@ Architecture: any
 Priority: extra
 Section: debug
 Depends: ${shlibs:Depends}, ${misc:Depends},
-	 pyside-qt4-phonon (>= ${binary:Version}) |
-	 pyside-qt4-core (>= ${binary:Version}) |
-	 pyside-qt4-gui (>= ${binary:Version}) |
-	 pyside-qt4-help (>= ${binary:Version}) |
-	 pyside-qt4-network (>= ${binary:Version}) |
-	 pyside-qt4-opengl (>= ${binary:Version}) |
-	 pyside-qt4-script (>= ${binary:Version}) |
-	 pyside-qt4-sql (>= ${binary:Version}) |
-	 pyside-qt4-svg (>= ${binary:Version}) |
-	 pyside-qt4-uitools (>= ${binary:Version}) |
-	 pyside-qt4-webkit (>= ${binary:Version}) |
-	 pyside-qt4-xml (>= ${binary:Version}) |
-	 pyside-qt4-xmlpatterns (>= ${binary:Version}) |
+	 pyside-qt4-phonon (>= ${binary:Version}),
+	 pyside-qt4-core (>= ${binary:Version}),
+	 pyside-qt4-gui (>= ${binary:Version}),
+	 pyside-qt4-help (>= ${binary:Version}),
+	 pyside-qt4-network (>= ${binary:Version}),
+	 pyside-qt4-opengl (>= ${binary:Version}),
+	 pyside-qt4-script (>= ${binary:Version}),
+	 pyside-qt4-sql (>= ${binary:Version}),
+	 pyside-qt4-svg (>= ${binary:Version}),
+	 pyside-qt4-uitools (>= ${binary:Version}),
+	 pyside-qt4-webkit (>= ${binary:Version}),
+	 pyside-qt4-xml (>= ${binary:Version}),
+	 pyside-qt4-xmlpatterns (>= ${binary:Version}),
 	 libpyside0.3 (>= ${binary:Version})
 Description: Python bindings for Qt 4 (debug symbols)
  Qt is a cross-platform C++ application framework. Qt's primary feature
