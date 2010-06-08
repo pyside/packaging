@@ -1,8 +1,8 @@
-pyside (0.3.2-1maemo0) unstable; urgency=low
+pyside (0.3.2-1maemo6) unstable; urgency=low
 
   * New release
 
- -- Luciano Miguel Wolf <luciano.wolf@openbossa.org>  Thu, 03 Jun 2010 14:23:49 -0300
+ -- Luciano Miguel Wolf <luciano.wolf@openbossa.org>  Thu, 08 Jun 2010 11:32:49 -0300
 
 pyside (0.3.1-1maemo2) unstable; urgency=low
 

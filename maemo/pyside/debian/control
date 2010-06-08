@@ -5,7 +5,7 @@ Maintainer: PySide Team <pyside@openbossa.org>
 XSBC-Original-Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
 Build-Depends: debhelper7, cmake (>= 2.6.0),
 	python-all-dev (>= 2.3.5-11), python-all-dbg (>= 2.3.5-11), python-support (>= 0.3.9),
-	libqt4-dev (>= @QT_VERSION), libphonon-dev (>= @QT_VERSION), libqt4-opengl-dev (>= @QT_VERSION),
+	libqt4-dev (>= @QT_VERSION), libqt4-phonon (>= @QT_VERSION), libqt4-opengl-dev (>= @QT_VERSION),
 	shiboken (>= @SHIBOKEN_VERSION), generatorrunner (>= @GENERATORRUNNER_VERSION), libshiboken-dev (>= @SHIBOKEN_VERSION)
 Standards-Version: 3.8.4
 XS-Python-Version: >= 2.5
