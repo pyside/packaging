@@ -1,0 +1,11 @@
+#!/usr/bin/make -f
+
+# Allow to find debhelper7 on Maemo
+PATH := /usr/bin/dh7:$(PATH)
+export PATH
+
+%:
+	dh --buildsystem=cmake --parallel $@
+
+override_dh_strip:
+	dh_strip --dbg-package=generatorrunner-dbg
