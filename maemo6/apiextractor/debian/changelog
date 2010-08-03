@@ -1,3 +1,9 @@
+apiextractor (0.7.0-1maemo1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Lauro Moura <lauro.neto@openbossa.org>  Mon, 02 Aug 2010 15:44:25 -0300
+
 apiextractor (0.6.0-1maemo1) unstable; urgency=low
 
   * New release
