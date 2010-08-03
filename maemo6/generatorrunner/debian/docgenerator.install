@@ -1,2 +1,2 @@
 usr/bin/docgenerator
-usr/lib/generatorrunner/libqtdoc_generator.so
+usr/lib/generatorrunner/qtdoc_generator.so
