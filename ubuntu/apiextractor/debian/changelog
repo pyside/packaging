@@ -1,3 +1,9 @@
+apiextractor (0.7.0-1ubuntu0) lucid; urgency=low
+
+  * Release 0.7.0
+
+ -- renato araujo  <renato@renato.note>  Tue, 03 Aug 2010 16:10:47 -0300
+
 apiextractor (0.6.0-0ubuntu5) lucid; urgency=low
 
   * Release 0.6.0

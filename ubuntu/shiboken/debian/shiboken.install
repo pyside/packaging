@@ -1,2 +1,2 @@
 usr/bin/shiboken
-usr/lib/generatorrunner/libshiboken_generator*.so
+usr/lib/generatorrunner/shiboken_generator*.so

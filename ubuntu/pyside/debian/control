@@ -51,7 +51,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
 	 pyside-qt4-webkit (>= ${binary:Version}),
 	 pyside-qt4-xml (>= ${binary:Version}),
 	 pyside-qt4-xmlpatterns (>= ${binary:Version}),
-	 libpyside0.3 (>= ${binary:Version})
+	 libpyside@VERSION (>= ${binary:Version})
 Description: Python bindings for Qt 4 (debug symbols)
  Qt is a cross-platform C++ application framework. Qt's primary feature
  is its rich set of widgets that provide standard GUI functionality.
