@@ -7,7 +7,7 @@ PACKAGE=generatorrunner
 TARBALL=$(PACKAGE)-$(VERSION).tar.bz2
 WORK_DIR=$(PACKAGE)-$(VERSION)
 DISTRO='unstable'
-VERSION_NAME='maemo'
+VERSION_NAME='1maemo1'
 
 all: new_release
 
@@ -20,7 +20,7 @@ debian_version_update.stamp:
 	touch debian_version_update.stamp
 
 debian_version_new.stamp:
-	dch --newversion='$(VERSION)-1$(VERSION_NAME)0' --distribution=$(DISTRO)
+	dch --newversion='$(VERSION)-$(VERSION_NAME)' --distribution=$(DISTRO)
 	touch debian_version_new.stamp
 
 $(TARBALL):
