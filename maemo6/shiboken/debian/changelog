@@ -1,3 +1,9 @@
+shiboken (0.4.0-1maemo1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Lauro Moura <lauro.neto@openbossa.org>  Mon, 02 Aug 2010 16:16:51 -0300
+
 shiboken (0.3.2-1maemo1) unstable; urgency=low
 
   * New release
