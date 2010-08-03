@@ -12,8 +12,8 @@ Homepage: http://www.pyside.org/home-binding/binding-generator/
 Package: libgenrunner@VERSION
 Architecture: any
 Section: libs
-Conflicts: libgenrunner0 (<< $VERSION)
-Replaces: libgenrunner0 (<< $VERSION)
+Conflicts: libgenrunner0 (<< $VERSION), libgenrunner0.5
+Replaces: libgenrunner0 (<< $VERSION), libgenrunner0.5
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Recommends: generatorrunner (=${binary:Version})
 Description: generatorrunner dedicated library
