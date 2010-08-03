@@ -6,7 +6,7 @@ XSBC-Original-Maintainer: Debian Python Modules Team <python-modules-team@lists.
 Build-Depends: debhelper, cmake (>= 2.6.0),
 	python-all-dev (>= 2.3.5-11), python-all-dbg (>= 2.3.5-11), python-support (>= 0.3.9),
 	libqt4-dev (>= 4.6), libqt4-phonon (>= 4.6), libqt4-opengl-dev (>= 4.6),
-	shiboken (>= 0.3.2), generatorrunner (>= 0.5.0), libshiboken-dev (>= 0.3.2)
+	shiboken (>= 0.4.0), generatorrunner (>= 0.6.0), libshiboken-dev (>= 0.4.0)
 Standards-Version: 3.8.4
 XS-Python-Version: >= 2.5
 Vcs-Svn: svn://svn.debian.org/python-modules/packages/pyside/trunk/
@@ -47,14 +47,14 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
 	 pyside-qt4-webkit (>= ${binary:Version}),
 	 pyside-qt4-xml (>= ${binary:Version}),
 	 pyside-qt4-xmlpatterns (>= ${binary:Version}),
-	 libpyside0.3 (>= ${binary:Version})
+	 libpyside0.4 (>= ${binary:Version})
 Description: Python bindings for Qt 4 (debug symbols)
  Qt is a cross-platform C++ application framework. Qt's primary feature
  is its rich set of widgets that provide standard GUI functionality.
  .
  This package contains the debugging symbols.
 
-Package: libpyside0.3
+Package: libpyside0.4
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
 Description: Python bindings for Qt 4 (base files)
