@@ -2,6 +2,7 @@ MAJOR_VERSION=0
 MINOR_VERSION=2
 MICRO_VERSION=0
 VERSION=$(MAJOR_VERSION).$(MINOR_VERSION).$(MICRO_VERSION)
+PYSIDE_VERSION=0.4.0
 PACKAGE=pyside-tools
 TARBALL=$(PACKAGE)-$(VERSION).tar.bz2
 WORK_DIR=$(PACKAGE)-$(VERSION)
@@ -29,8 +30,7 @@ $(TARBALL):
 dpkg_control.stamp:
 	cp -rf debian ./build/$(WORK_DIR)/
 	sed 's/@PYSIDE_VERSION/$(PYSIDE_VERSION)/g' ./build/$(WORK_DIR)/debian/control > ./build/$(WORK_DIR)/debian/control.new
-	cp -f ./build/$(WORK_DIR)/debian/control.new ./build/$(WORK_DIR)/debian/control
-	rm ./build/$(WORK_DIR)/debian/control.new
+	mv ./build/$(WORK_DIR)/debian/control.new ./build/$(WORK_DIR)/debian/control
 
 dpkg_sources.stamp:
 	cd ./build/$(WORK_DIR)/ && dpkg-buildpackage -rfakeroot -S -I.git -i.git -k$(GPG_KEY)
