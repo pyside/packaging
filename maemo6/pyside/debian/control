@@ -56,6 +56,8 @@ Description: Python bindings for Qt 4 (debug symbols)
 
 Package: libpyside0.4
 Architecture: any
+Conflicts: libpyside0.3
+Replaces: libpyside0.3
 Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}
 Description: Python bindings for Qt 4 (base files)
  Qt is a cross-platform C++ application framework. Qt's primary feature
