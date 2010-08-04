@@ -1,0 +1,35 @@
+This README file contains instructions on how to proceed
+to generate a new release using the automated scripts
+(Makefile) files.
+
+How to generate a new release:
+==============================
+Each component (Apiextractor, GeneratorRunner, Shiboken
+and PySide) has its own Makefile. The only modifications
+needed inside those files resides in the first lines:
+the VERSION numbers. Updated them properly and run:
+
+make
+
+It might ask about release type. Go on and it will ask
+for a new entry into Changelog file. Modify it where needed
+and save. The new set of packages will be generated (under
+the build directory) and is ready to be uploaded to the
+Maemo.org build bot[1].
+
+
+Not so easy:
+============
+Sometimes it will be needed to update manually the control
+and rules files. This is needed only when you need to
+set specific rules (like: conflicts with some older version).
+Further information on how to modify these files is provided
+by Debian packaging guide[2].
+
+
+Enjoy it!
+
+[1]
+https://garage.maemo.org/extras-assistant/index.php
+[2]
+http://www.debian.org/doc/manuals/maint-guide/ch-dreq.en.html
