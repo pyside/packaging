@@ -1,3 +1,9 @@
+pyside (0.4.0-1ubuntu0) lucid; urgency=low
+
+  * Release 0.4.0
+
+ -- renato araujo  <renato@renato.note>  Wed, 04 Aug 2010 16:43:08 -0300
+
 pyside (0.3.2-1ubuntu0) lucid; urgency=low
 
   * Release 0.3.2.
