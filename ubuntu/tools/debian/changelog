@@ -1,0 +1,26 @@
+pyside-tools (0.2.0-1ubuntu0) lucid; urgency=low
+
+  * Release 0.2.0
+
+ -- renato araujo  <renato@renato.note>  Wed, 04 Aug 2010 11:09:07 -0300
+
+pyside-tools (0.1.3-0) unstable; urgency=low
+
+  * Update to 0.1.3
+  * Does not need PySide to build
+
+ -- Lauro Neto <lauro.neto@openbossa.org>  Tue, 04 May 2010 19:24:41 -0300
+
+pyside-tools (0.1.2-0pyside0~ppa4) unstable; urgency=low
+
+  * Release 0.1.2
+  * Added pyside-lupdate tool
+  * Added XS-Python-Version to control (used while PySide supports only one python version)
+
+ -- Lauro Moura <lauro.neto@openbossa.org>  Fri, 23 Oct 2009 16:55:38 -0300
+
+pyside-tools (0.1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Lauro Moura <contact@pyside.org>  Fri, 28 Aug 2009 14:42:45 -0300

@@ -1,0 +1,4 @@
+usr/local/bin/pyside-uic
+usr/local/bin/pyside-rcc4
+usr/local/bin/pyside-lupdate
+usr/local/lib/python2.6/dist-packages/pysideuic/*
