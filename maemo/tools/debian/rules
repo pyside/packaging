@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+# Allow to find Qt 4.6 on Maemo
+PATH := /usr/bin/dh7:$(PATH)
+export PATH
+
+%:
+	dh --buildsystem=cmake --parallel $@
+
+override_dh_auto_test:
