@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
 %:
-	dh --buildsystem=cmake --parallel $@
+	dh --with quilt --buildsystem=cmake --parallel $@
 
 
