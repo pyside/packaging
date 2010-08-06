@@ -2,7 +2,7 @@ Source: pyside-mobility
 Section: python
 Priority: optional
 Maintainer: Bruno Araujo <bruno.araujo@indt.org.br>
-Build-Depends: debhelper, cmake (>= 2.6.0), python-all-dev (>= 2.5.2-3), python-all-dbg (>= 2.5.2-3), python-support (>= 0.3.9), libqt4-dev (>= 4.6), libqtm-dev (>= 1.0.2), shiboken (>= 0.4.0), generatorrunner (>= 0.6.0), libshiboken-dev (>= 0.4.0), pyside-qt4 (>= 0.4.0)
+Build-Depends: debhelper, quilt, cmake (>= 2.6.0), python-all-dev (>= 2.5.2-3), python-all-dbg (>= 2.5.2-3), python-support (>= 0.3.9), libqt4-dev (>= 4.6), libqtm-dev (>= 1.0.2), shiboken (>= 0.4.0), generatorrunner (>= 0.6.0), libshiboken-dev (>= 0.4.0), pyside-qt4 (>= 0.4.0)
 Standards-Version: 3.8.4
 XS-Python-Version: >= 2.5
 Homepage: http://www.pyside.org/
