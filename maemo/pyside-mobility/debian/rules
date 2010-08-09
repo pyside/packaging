@@ -5,7 +5,7 @@ PATH := /usr/bin/dh7:$(PATH)
 export PATH
 
 %:
-	dh --with quilt --buildsystem=cmake --parallel $@
+	dh --buildsystem=cmake --parallel $@
 
 LDFLAGS="-Wl,--reduce-memory-overheads"
 
