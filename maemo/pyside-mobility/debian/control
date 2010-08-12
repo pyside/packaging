@@ -10,8 +10,11 @@ Homepage: http://www.pyside.org/
 Package: pyside-mobility
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends},
+	 pyside-mobility-bearer (>= ${binary:Version}),
 	 pyside-mobility-contacts (>= ${binary:Version}),
 	 pyside-mobility-location (>= ${binary:Version}),
+	 pyside-mobility-messaging (>= ${binary:Version}),
+	 pyside-mobility-publishsubscribe (>= ${binary:Version}),
 	 pyside-mobility-sensors (>= ${binary:Version}),
 	 pyside-mobility-serviceframework (>= ${binary:Version}),
 	 pyside-mobility-systeminfo (>= ${binary:Version}),
@@ -24,14 +27,26 @@ Architecture: any
 Priority: extra
 Section: debug
 Depends: ${shlibs:Depends}, ${misc:Depends},
+	 pyside-mobility-bearer (>= ${binary:Version}),
 	 pyside-mobility-contacts (>= ${binary:Version}),
 	 pyside-mobility-location (>= ${binary:Version}),
+	 pyside-mobility-messaging (>= ${binary:Version}),
+	 pyside-mobility-publishsubscribe (>= ${binary:Version}),
 	 pyside-mobility-sensors (>= ${binary:Version}),
 	 pyside-mobility-serviceframework (>= ${binary:Version}),
 	 pyside-mobility-systeminfo (>= ${binary:Version}),
 	 pyside-mobility-versit (>= ${binary:Version})
 Description: Python bindings for Qt Mobility (debug symbols)
  Python bindings for Qt Mobility. This package contains the debug symbols.
+
+Package: pyside-mobility-bearer
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-gui, pyside-qt4-network, pyside-qt4-xml
+Description: Qt Mobility Bearer Management module - Python bindings
+ Qt Mobility Project delivers a set of new APIs to Qt with features that are
+ well known from the mobile device world, in particular phones.
+ .
+ This package provides Python bindings for the Bearer Management module.
 
 Package: pyside-mobility-contacts
 Architecture: any
@@ -50,6 +65,24 @@ Description: Qt Mobility Location module - Python bindings
  well known from the mobile device world, in particular phones.
  .
  This package provides Python bindings for the Location module.
+
+Package: pyside-mobility-messaging
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-gui, pyside-qt4-xml
+Description: Qt Mobility Messaging module - Python bindings
+ Qt Mobility Project delivers a set of new APIs to Qt with features that are
+ well known from the mobile device world, in particular phones.
+ .
+ This package provides Python bindings for the Messaging module.
+
+Package: pyside-mobility-publishsubscribe
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-network, pyside-qt4-xml
+Description: Qt Mobility Publish and Subscribe module - Python bindings
+ Qt Mobility Project delivers a set of new APIs to Qt with features that are
+ well known from the mobile device world, in particular phones.
+ .
+ This package provides Python bindings for the Publish and Subscribe module.
 
 Package: pyside-mobility-sensors
 Architecture: any

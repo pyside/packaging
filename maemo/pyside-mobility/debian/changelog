@@ -1,3 +1,9 @@
+pyside-mobility (0.1-0maemo2) unstable; urgency=low
+
+  * Add missing modules: Bearer, Messaging, PublishSubscribe
+
+ -- Bruno dos Santos de Araujo <bruno.araujo@openbossa.org>  Thu, 12 Aug 2010 09:21:00 -0400
+
 pyside-mobility (0.1-0maemo1) unstable; urgency=low
 
   * Initial Release
