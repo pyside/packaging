@@ -87,7 +87,7 @@ for (var i in requiredPrograms) {
 
 function getSources(module)
 {
-    if (fso.FolderExists(module)) return;
+    if (fso.FolderExists(module))
         fso.DeleteFolder(module, true);
 
     var repo = modules[module][1];
@@ -148,7 +148,7 @@ function createWindowsInstaller()
     while (status.Status == 0)
         WScript.Sleep(100);
     var output = status.StdErr.ReadLine();
-    var result = output.match(/(\d+.\d+).\d+/);
+    var result = output.match(/(\d+\.\d+)(\.\d+)?/);
     if (result)
         pythonVersion = result[1];
 
@@ -178,6 +178,8 @@ function createWindowsInstaller()
 
 try {
     WScript.Echo("Using " + tempDir + " as temporary directory.");
+    if (fso.FolderExists(tempDir + "\\PySideInstall"))
+        fso.DeleteFolder(tempDir + "\\PySideInstall", true);
     for (module in modules) {
         shell.CurrentDirectory = tempDir;
         getSources(module)
