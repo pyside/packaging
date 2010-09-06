@@ -16,7 +16,7 @@ DEFAULT_PY=$(shell pyversions -v -d)
 #### CONFIGURE ####
 
 ## DBG: override_dh_auto_configure: $(PYVERSIONS:%=override_dh_auto_configure_dbg-%) $(PYVERSIONS:%=override_dh_auto_configure-%)
-override_dh_auto_configure: $(PYVERSIONS:%=override_dh_auto_configure-%)
+override_dh_auto_configure: $(PYVERSIONS:%=override_dh_auto_configure-%) $(PYVERSIONS:%=override_dh_auto_configure_dbg-%)
 
 override_dh_auto_configure_dbg-%:
 	mkdir -p build-$*-dbg
