@@ -1,0 +1,97 @@
+#!/usr/bin/make -f
+
+# Allow to find Qt 4.6 on Maemo
+PATH := /usr/bin/dh7:$(PATH)
+export PATH
+
+%:
+	dh --buildsystem=cmake --parallel $@
+
+LDFLAGS="-Wl,--reduce-memory-overheads"
+
+# Python versions
+PYVERSIONS=$(shell pyversions -v -r)
+DEFAULT_PY=$(shell pyversions -v -d)
+
+
+#### CONFIGURE ####
+
+override_dh_auto_configure: $(PYVERSIONS:%=override_dh_auto_configure_dbg-%) $(PYVERSIONS:%=override_dh_auto_configure-%)
+	
+override_dh_auto_configure_dbg-%:
+	mkdir -p build-$*-dbg
+	dh_auto_configure --builddirectory=build-$*-dbg -- \
+        -DCMAKE_BUILD_TYPE:STRING="Debug" \
+        -DCMAKE_SKIP_RPATH=true \
+        -DCMAKE_MODULE_PATH="$(shell pwd)/debian/cmake" \
+        -DCMAKE_PYTHON_VERSION="$*-dbg;$*" \
+        -DCMAKE_PYTHONLIB_VERSION="$*_d;$*" \
+        -DCMAKE_DEBUG_POSTFIX=_d \
+        -DLIBPYSIDE_POSTFIX=$(shell echo -py$* | sed -e 's/\.//g' -) \
+        -DSHIBOKEN_POSTFIX=$(shell echo -py$* | sed -e 's/\.//g' -)
+
+
+override_dh_auto_configure-%:
+	mkdir -p build-$*
+	dh_auto_configure --builddirectory=build-$* -- \
+	-DCMAKE_BUILD_TYPE:STRING="Release" \
+	-DCMAKE_SKIP_RPATH=true \
+	-DCMAKE_MODULE_PATH="$(shell pwd)/debian/cmake/" \
+	-DCMAKE_PYTHON_VERSION=$* \
+	-DCMAKE_PYTHONLIB_VERSION=$* \
+	-DLIBPYSIDE_POSTFIX=$(shell echo -py$* | sed -e 's/\.//g' -) \
+	-DSHIBOKEN_POSTFIX=$(shell echo -py$* | sed -e 's/\.//g' -)
+
+#### BUILD ####
+
+override_dh_auto_build: $(PYVERSIONS:%=override_dh_auto_build_dbg-%) $(PYVERSIONS:%=override_dh_auto_build-%)
+	
+override_dh_auto_build_dbg-%:
+	dh_auto_build --builddirectory=build-$*-dbg
+
+override_dh_auto_build-%:
+	        dh_auto_build --builddirectory=build-$*
+
+#### INSTALL ####
+
+override_dh_auto_install: $(PYVERSIONS:%=override_dh_auto_install_dbg-%) $(PYVERSIONS:%=override_dh_auto_install-%)
+	
+override_dh_auto_install_dbg-%:
+	dh_auto_install --builddirectory=build-$*-dbg --destdir=debian/tmp-dbg
+
+override_dh_auto_install-%:
+	        dh_auto_install --builddirectory=build-$*
+
+#### STRIP ####
+override_dh_strip:
+	dh_strip --dbg-package=python-meegotouch-dbg --exclude=_d.so
+		
+#### TEST ####
+
+override_dh_auto_test: $(PYVERSIONS:%=override_dh_auto_test_dbg-%) $(PYVERSIONS:%=override_dh_auto_test-%)
+	
+override_dh_auto_test_dbg-%:
+	- dh_auto_test --builddirectory=build-$*-dbg
+
+override_dh_auto_test-%:
+	- dh_auto_test --builddirectory=build-$*
+
+#### CLEAN ####
+
+override_dh_auto_clean:
+	rm -rf build-*
+	cd tests; rm -Rf *.pyc */*.pyc */*/*.pyc */*/*/*.pyc
+	rm -rf debian/tmp-dbg
+
+#### DEBIAN INSTALL ####
+
+override_dh_install: override_dh_install_real
+
+override_dh_install_first:
+	# Move the debug .so's right in place
+	$(shell rename 's/(debian\/tmp-dbg\/)(.*)\.so(.*)$$/debian\/tmp\/$$2.so$$3/'\
+       	debian/tmp-dbg/usr/lib/python*/*-packages/QtMobility/*.so)
+
+override_dh_install_real: override_dh_install_first
+	# Do the legacy install
+	dh_install --list-missing

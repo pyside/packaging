@@ -1,0 +1,36 @@
+Source: python-meegotouch
+Section: python
+Priority: optional
+Maintainer: Luciano Wolf <luciano.wolf@openbossa.org>
+Build-Depends: debhelper (>= 7.0), cmake (>= 2.6.0),
+               python-all-dev (>= 2.5), python-all-dbg (>= 2.5), python-support (>= 0.3.9),
+               libpyside-dev (>= @PYSIDE_VERSION), libmeegotouch-dev (>= @LIBMEEGOTOUCH_VERSION)
+Standards-Version: 3.8.4
+XS-Python-Version: >= 2.5
+
+Package: python-meegotouch
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends},
+	 libmeegotouch-core (>= @LIBMEEGOTOUCH_VERSION),
+Description: Python bindings for MeeGo Touch. 
+ MeeGo Touch is a cross-platform application and UI framework library built
+ on top of Qt.
+
+Package: python-meegotouch-dbg
+Architecture: any
+Priority: extra
+Section: debug
+Depends: ${shlibs:Depends}, ${misc:Depends},
+	 libmeegotouch-core (>= @LIBMEEGOTOUCH_VERSION),
+Description: Python bindings for MeeGo Touch (debug symbols)
+ MeeGo Touch is a cross-platform application and UI framework library built
+ on top of Qt.
+ .
+ This package contains the debugging symbols.
+
+Package: python-meegotouch-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, libmeegotouch-dev (>= @LIBMEEGOTOUCH_VERSION),
+Description: Python bindings for Qt 4 (development files)
+ Development headers for the pysidebase library.
