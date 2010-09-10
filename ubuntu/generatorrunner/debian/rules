@@ -3,5 +3,72 @@
 %:
 	dh --buildsystem=cmake --parallel $@
 
+#### CONFIGURE ####
+override_dh_auto_configure: override_dh_auto_configure_dbg override_dh_auto_configure_release
+
+override_dh_auto_configure_release:
+	mkdir -p build-release
+	dh_auto_configure  --builddirectory=build-release -- -DENABLE_VERSION_SUFFIX=On -DCMAKE_BUILD_TYPE=Release -DENABLE_GCC_OPTIMIZATION=On
+
+override_dh_auto_configure_dbg:
+	mkdir -p build-dbg
+	dh_auto_configure --builddirectory=build-dbg -- -DENABLE_VERSION_SUFFIX=On -DCMAKE_BUILD_TYPE=Debug
+
+
+#### BUILD ####
+
+override_dh_auto_build: override_dh_auto_build_release override_dh_auto_build_dbg
+
+override_dh_auto_build_release:
+	dh_auto_build --builddirectory=build-release
+
+override_dh_auto_build_dbg:
+	dh_auto_build --builddirectory=build-dbg
+
+
+#### INSTALL ####
+
+override_dh_auto_install: override_dh_auto_install_release override_dh_auto_install_dbg
+
+override_dh_auto_install_dbg:
+	dh_auto_install --builddirectory=build-dbg --destdir=debian/tmp-dbg
+
+override_dh_auto_install_release:
+	dh_auto_install --builddirectory=build-release
+
+
+#### STRIP ####
+
 override_dh_strip:
-	dh_strip --dbg-package=generatorrunner-dbg
+	dh_strip --dbg-package=generatorrunner-dbg --exclude=_d.so
+
+
+#### TEST ####
+
+override_dh_auto_test: override_dh_auto_test_dbg override_dh_auto_test_release
+	
+override_dh_auto_test_dbg:
+	dh_auto_test --builddirectory=build-dbg
+
+override_dh_auto_test_release:
+	dh_auto_test --builddirectory=build-release
+
+
+#### CLEAN ####
+
+override_dh_auto_clean:
+	rm -rf build-*
+	rm -rf debian/tmp-dbg
+
+
+#### INSTALL ####
+
+override_dh_install: override_dh_install_last
+
+override_dh_install_first:
+
+override_dh_install_real: override_dh_install_first
+	dh_install --list-missing
+
+override_dh_install_last: override_dh_install_real
+

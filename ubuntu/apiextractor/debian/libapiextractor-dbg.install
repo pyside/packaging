@@ -1,0 +1,1 @@
+debian/tmp-dbg/usr/lib/lib*.so usr/lib/debug/usr/lib/lib*.so
