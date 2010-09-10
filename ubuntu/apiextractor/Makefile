@@ -1,6 +1,7 @@
 MAJOR_VERSION=0
 MINOR_VERSION=8
 MICRO_VERSION=0
+LIB_SUFFIX=$(MAJOR_VERSION).$(MINOR_VERSION)
 VERSION=$(MAJOR_VERSION).$(MINOR_VERSION).$(MICRO_VERSION)
 PACKAGE_NAME='apiextractor'
 TARBALL=apiextractor-$(VERSION).tar.bz2
@@ -29,8 +30,11 @@ $(TARBALL):
 
 ./build/$(WORK_DIR)/debian/libapiextract$(MAJOR_VERSION).$(MINOR_VERSION).install:
 	cp -rf debian ./build/$(WORK_DIR)/
-	mv ./build/$(WORK_DIR)/debian/libapiextractor.install ./build/$(WORK_DIR)/debian/libapiextractor$(MAJOR_VERSION).$(MINOR_VERSION).install
-	sed 's/@VERSION/$(MAJOR_VERSION).$(MINOR_VERSION)/g' debian/control > ./build/$(WORK_DIR)/debian/control
+	mv ./build/$(WORK_DIR)/debian/libapiextractor.install ./build/$(WORK_DIR)/debian/libapiextractor$(LIB_SUFFIX).install
+	mv ./build/$(WORK_DIR)/debian/libapiextractor-dev.install ./build/$(WORK_DIR)/debian/libapiextractor$(LIB_SUFFIX)-dev.install
+	mv ./build/$(WORK_DIR)/debian/libapiextractor-dbg.install ./build/$(WORK_DIR)/debian/libapiextractor$(LIB_SUFFIX)-dbg.install
+	sed 's/@LIB_SUFFIX/$(MAJOR_VERSION).$(MINOR_VERSION)/g' debian/control > ./build/$(WORK_DIR)/debian/control
+	sed 's/@LIB_SUFFIX/$(MAJOR_VERSION).$(MINOR_VERSION)/g' debian/rules > ./build/$(WORK_DIR)/debian/rules
 
 dpkg_sources.stamp:
 	cd ./build/$(WORK_DIR)/ && dpkg-buildpackage -rfakeroot -S -I.git -i.git -k$(GPG_KEY)

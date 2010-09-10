@@ -1,4 +1,4 @@
 usr/include/*
 usr/lib/pkgconfig/*
 usr/lib/cmake/*
-usr/lib/libgenrunner.so
+usr/lib/libgenrunner*.so

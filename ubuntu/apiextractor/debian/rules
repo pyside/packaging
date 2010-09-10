@@ -40,7 +40,7 @@ override_dh_auto_install_release:
 #### STRIP ####
 
 override_dh_strip:
-	dh_strip --dbg-package=libapiextractor-dbg --exclude=_d.so
+	dh_strip --dbg-package=libapiextractor@LIB_SUFFIX-dbg
 
 
 #### TEST ####

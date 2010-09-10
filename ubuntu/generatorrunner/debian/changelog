@@ -1,3 +1,9 @@
+generatorrunner (0.6.1-1ubuntu0) lucid; urgency=low
+
+  * Release 0.6.1
+
+ -- renato araujo  <renato@renato.note>  Fri, 10 Sep 2010 18:08:35 -0300
+
 generatorrunner (0.6.0-1ubuntu0) lucid; urgency=low
 
   * Release 0.6.0

@@ -9,11 +9,11 @@ Vcs-Git: git://git.debian.org/collab-maint/apiextractor.git
 Vcs-Browser: http://git.debian.org/?p=collab-maint/apiextractor.git
 Homepage: http://www.pyside.org/home-binding/api-extractor/
 
-Package: libapiextractor-dbg
+Package: libapiextractor@LIB_SUFFIX-dbg
 Section: debug
 Architecture: any
 Priority: extra
-Depends: libapiextractor@VERSION (= ${binary:Version}), ${misc:Depends}
+Depends: libapiextractor@LIB_SUFFIX (= ${binary:Version}), ${misc:Depends}
 Description: Debugging symbols for the library headers parser
  The API Extractor library is used by the binding generator to parse headers of
  a given library and merge this data with information provided by typesystem
@@ -23,10 +23,10 @@ Description: Debugging symbols for the library headers parser
  .
  This package contains the debugging symbols.
 
-Package: libapiextractor-dev
+Package: libapiextractor@LIB_SUFFIX-dev
 Section: libdevel
 Architecture: any
-Depends: libapiextractor@VERSION (= ${binary:Version}), ${misc:Depends},
+Depends: libapiextractor@LIB_SUFFIX (= ${binary:Version}), ${misc:Depends},
  libqt4-dev
 Description: Development files for the library headers parser
  The API Extractor library is used by the binding generator to parse headers of
@@ -37,10 +37,9 @@ Description: Development files for the library headers parser
  .
  This package contains the development files.
 
-Package: libapiextractor@VERSION
+Package: libapiextractor@LIB_SUFFIX
 Architecture: any
-Conflicts: libapiextractor (<< @VERSION)
-Replaces: libapiextractor (<< @VERSION)
+Replaces: libapiextractor
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Library headers parser that creates an API abstract representation
  The API Extractor library is used by the binding generator to parse headers of
