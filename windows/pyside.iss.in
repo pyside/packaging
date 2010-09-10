@@ -26,18 +26,63 @@ SolidCompression=yes
 ; Required libraries
 Source: "@INSTALL_DIR@\bin\shiboken.dll"; DestDir: "{sys}"; Flags: confirmoverwrite sharedfile ignoreversion
 Source: "@INSTALL_DIR@\bin\pyside.dll"; DestDir: "{sys}"; Flags: confirmoverwrite sharedfile ignoreversion
-; Python modules
-Source: "@INSTALL_DIR@\lib\site-packages\PySide\*"; DestDir: "{reg:HKLM\Software\Python\PythonCore\@PYTHON_VERSION@\InstallPath,|Foo}Lib\site-packages\PySide"; Flags: confirmoverwrite ignoreversion
+Source: "@INSTALL_DIR@\lib\site-packages\PySide\*"; DestDir: "{code:getPythonPath}\Lib\site-packages\PySide"; Flags: confirmoverwrite ignoreversion
 
 [Code]
 var
   PythonPath : String;
+  PythonPathPage : TInputDirWizardPage;
 
-function InitializeSetup(): Boolean;
+{ Returns the Python Path }
+function getPythonPath(Param : String) : String;
 begin
-  Result := RegQueryStringValue(HKEY_LOCAL_MACHINE, 'Software\Python\PythonCore\@PYTHON_VERSION@\InstallPath', '', PythonPath);
-  if (not Result) then
-    MsgBox('PySide requires Python @PYTHON_VERSION@ and it was not found on your system.'#13#10'Install it and try again.', mbError, MB_OK);
+  Result := PythonPath;
+end;
+
+procedure InitializeWizard;
+var
+  Found : Boolean;
+begin
+  { Try to detect Python }
+  Found := RegQueryStringValue(HKEY_LOCAL_MACHINE, 'Software\Python\PythonCore\@PYTHON_VERSION@\InstallPath', '', PythonPath);
+  if not Found then
+    RegQueryStringValue(HKEY_CURRENT_USER, 'Software\Python\PythonCore\@PYTHON_VERSION@\InstallPath', '', PythonPath);
+  PythonPathPage := CreateInputDirPage(wpLicense,
+                                      'Select Python directory',
+                                      'Where Python @PYTHON_VERSION@ is installed in your computer?',
+                                      'This version of PySide requires Python @PYTHON_VERSION@, please inform where did you have it installed.',
+                                      False,
+                                      '');
+  PythonPathPage.Add('');
+  PythonPathPage.Values[0] := PythonPath;
+end;
+
+function NextButtonClick(CurPageID : Integer): Boolean;
+var
+  ProcResult : Integer;
+begin
+  if CurPageID = PythonPathPage.ID then
+  begin
+    {Check if the choosen Python path is valid}
+    ExecAsOriginalUser(PythonPathPage.Values[0] + '\python.exe',
+                       '-c "import sys;assert ' #39 '%d.%d' #39 ' % sys.version_info[:2] == ' #39 '@PYTHON_VERSION@' #39 '"',
+                       PythonPathPage.Values[0],
+                       SW_HIDE,
+                       ewWaitUntilTerminated,
+                       ProcResult);
+    if ProcResult <> 0 then
+    begin
+      MsgBox('Unable to find Python @PYTHON_VERSION@ in the specified directory.', mbError, MB_OK);
+      Result := False;
+    end
+    else
+    begin
+      PythonPath := PythonPathPage.Values[0];
+      Result := True;
+    end;
+  end
+  else
+    Result := True;
 end;
 
 function UpdateReadyMemo(Space, NewLine, MemoUserInfoInfo, MemoDirInfo, MemoTypeInfo,
@@ -45,18 +90,23 @@ function UpdateReadyMemo(Space, NewLine, MemoUserInfoInfo, MemoDirInfo, MemoType
 var
   S: String;
   sys : String;
-  pyDir : String;
 begin
   sys := ExpandConstant('{sys}');
-  RegQueryStringValue(HKEY_LOCAL_MACHINE, 'Software\Python\PythonCore\@PYTHON_VERSION@\InstallPath', '', pyDir);
   S := '';
   S := S + 'Python modules will be installed on::' + NewLine;
-  S := S + Space + pyDir + 'Lib\site-packages\PySide' + NewLine;
+  S := S + Space + PythonPath + '\Lib\site-packages\PySide' + NewLine;
   S := S + NewLine;
 
   S := S + 'The following support libraries will be installed on foo:' + NewLine;
   S := S + Space + sys + '\shiboken.dll' + NewLine;
   S := S + Space + sys + '\pyside.dll' + NewLine;
-
+  S := S + NewLine;
+  S := S + 'Note:' + NewLine;
+  S := S + Space + '>>>>>>>>>>> You need Qt >= @QT_VERSION@ to use PySide. <<<<<<<<<<<' + NewLine;
+  S := S + Space + 'Be sure to use the Qt library compiled for MSVC2008 and add it to your' + NewLine;
+  S := S + 'system PATH.' + NewLine;
+  S := S + NewLine;
+  S := S + Space + 'If you do not have Qt installed yet, you can find it at:' + NewLine;
+  S := S + Space + 'http://qt.nokia.com/downloads/windows-cpp-vs2008';
   Result := S;
 end;

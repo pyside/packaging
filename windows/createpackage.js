@@ -128,6 +128,7 @@ function createWindowsInstaller()
     var f = fso.OpenTextFile(tempDir + "\\pyside\\build\\CMakeCache.txt", ForReading, false);
     var pysideVersion = null;
     var pythonVersion = null;
+    var qtVersion = null;
     var pythonExe = null
     while (!f.AtEndOfStream || (pysideVersion != null && pythonVersion != null)) {
         var line = f.ReadLine();
@@ -140,6 +141,11 @@ function createWindowsInstaller()
             var result = line.match(/BINDING_API_VERSION:STRING=(.*)/);
             if (result != null)
                 pysideVersion = result[1];
+        }
+        if (qtVersion == null) {
+            var result = line.match(/PYSIDE_QT_VERSION:STRING=(.*)/);
+            if (result != null)
+                qtVersion = result[1];
         }
     }
     f.close();
@@ -165,6 +171,7 @@ function createWindowsInstaller()
 
     script = script.replace(/@PYTHON_VERSION@/g, pythonVersion);
     script = script.replace(/@PYSIDE_VERSION@/g, pysideVersion);
+    script = script.replace(/@QT_VERSION@/g, qtVersion);
     script = script.replace(/@SOURCE_DIR@/g, tempDir);
     script = script.replace(/@INSTALL_DIR@/g, tempDir + "\\PySideInstall");
     f = fso.CreateTextFile(tempDir + "\\pyside.iss");
