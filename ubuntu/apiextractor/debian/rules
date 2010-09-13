@@ -42,7 +42,6 @@ override_dh_auto_install_release:
 override_dh_strip:
 	dh_strip --dbg-package=libapiextractor@LIB_SUFFIX-dbg
 
-
 #### TEST ####
 
 override_dh_auto_test: override_dh_auto_test_dbg override_dh_auto_test_release
@@ -63,12 +62,12 @@ override_dh_auto_clean:
 
 #### INSTALL ####
 
-override_dh_install: override_dh_install_last
+override_dh_install: override_dh_install_relase override_dh_install_debug
 
-override_dh_install_first:
-
-override_dh_install_real: override_dh_install_first
+override_dh_install_release:
+	dh_install --builddirectory=build-release -plibapiextractor@LIB_SUFFIX
 	dh_install --list-missing
 
-override_dh_install_last: override_dh_install_real
-
+override_dh_install_debug:
+	dh_install --builddirectory=build-debug -plibapiextractor@LIB_SUFFIX-dbg
+	dh_install --list-missing
