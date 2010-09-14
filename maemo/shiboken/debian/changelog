@@ -1,3 +1,9 @@
+shiboken (0.5.0-1maemo1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Willer Moreira <willer.moreira@openbossa.org>  Mon, 13 Sep 2010 14:16:51 -0400
+
 shiboken (0.4.0-1maemo1) unstable; urgency=low
 
   * New upstream release.

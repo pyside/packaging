@@ -5,7 +5,7 @@ PATH := /usr/bin/dh7:$(PATH)
 export PATH
 
 %:
-	dh --buildsystem=cmake --parallel $@
+	dh --with quilt --buildsystem=cmake --parallel $@
 
 LDFLAGS="-Wl,--reduce-memory-overheads"
 
@@ -21,6 +21,7 @@ override_dh_auto_configure: $(PYVERSIONS:%=override_dh_auto_configure-%) $(PYVER
 override_dh_auto_configure_dbg-%:
 	mkdir -p build-$*-dbg
 	dh_auto_configure --builddirectory=build-$*-dbg -- \
+	-DENABLE_MAEMO=1 \
 	-DCMAKE_BUILD_TYPE:STRING="Debug" \
 	-DCMAKE_SKIP_RPATH=true \
 	-DCMAKE_MODULE_PATH="$(shell pwd)/debian/cmake" \
@@ -33,6 +34,7 @@ override_dh_auto_configure_dbg-%:
 override_dh_auto_configure-%:
 	mkdir -p build-$*
 	dh_auto_configure --builddirectory=build-$* -- \
+	-DENABLE_MAEMO=1 \
 	-DCMAKE_BUILD_TYPE:STRING="Release" \
 	-DCMAKE_SKIP_RPATH=true \
 	-DCMAKE_MODULE_PATH="$(shell pwd)/debian/cmake" \
