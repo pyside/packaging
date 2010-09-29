@@ -10,7 +10,7 @@ export PATH
 LDFLAGS="-Wl,--reduce-memory-overheads"
 
 # Python versions
-PYVERSIONS=$(shell pyversions -v -r)
+PYVERSIONS=$(shell pyversions -v -d)
 DEFAULT_PY=$(shell pyversions -v -d)
 
 
