@@ -10,7 +10,7 @@ Standards-Version: 3.8.4
 XS-Python-Version: >= 2.5
 
 Package: python-meegotouch
-Architecture: all
+Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends},
 	 libmeegotouch-core (>= @LIBMEEGOTOUCH_VERSION),
 Description: Python bindings for MeeGo Touch. 
