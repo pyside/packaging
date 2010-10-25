@@ -1,1 +1,3 @@
 add_enable_maemo.patch
+fix-uiloader-dependency.patch
+fix-maemo5-build.patch

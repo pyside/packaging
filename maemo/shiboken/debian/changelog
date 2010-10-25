@@ -1,3 +1,9 @@
+shiboken (0.5.1-1maemo1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Mon, 25 Oct 2010 15:35:55 -0300
+
 shiboken (0.5.0-1maemo1) unstable; urgency=low
 
   * New upstream release.

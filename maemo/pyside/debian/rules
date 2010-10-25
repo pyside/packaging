@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-# Allow to find Qt 4.6 on Maemo
+# Allow to find debhelper7 on Maemo
 PATH := /usr/bin/dh7:$(PATH)
 export PATH
 
@@ -67,11 +67,11 @@ override_dh_auto_install-%:
 
 #### STRIP ####
 override_dh_strip:
-	dh_strip --dbg-package=pyside-qt4-dbg --exclude=_d.so
+	dh_strip --dbg-package=python-pyside-dbg --exclude=_d.so
 
 #### Symbols ####
 override_dh_shlibdeps:
-	dh_shlibdeps -- -Ldebian/libpyside0/DEBIAN/shlibs -Ldebian/pyside-qt4-core/DEBIAN/shlibs -Ldebian/pyside-qt4-dbg/DEBIAN/shlibs
+	dh_shlibdeps -- -Ldebian/libpyside0/DEBIAN/shlibs -Ldebian/python-pyside.qtcore/DEBIAN/shlibs -Ldebian/python-pyside-dbg/DEBIAN/shlibs
 
 #### TEST ####
 ## DBG: override_dh_auto_test: $(PYVERSIONS:%=override_dh_auto_test_dbg-%) $(PYVERSIONS:%=override_dh_auto_test-%)
