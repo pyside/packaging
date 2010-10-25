@@ -36,10 +36,10 @@ Description: Development files for the library headers parser
  .
  This package contains the development files.
 
-Package: libapiextractor0.8
+Package: libapiextractor@VERSION
 Architecture: any
-Conflicts: libapiextractor (<< 0.8.0), libapiextractor0.7
-Replaces: libapiextractor (<< 0.8.0), libapiextractor0.7
+Conflicts: libapiextractor (<< $VERSION), libapiextractor0.7
+Replaces: libapiextractor (<< $VERSION), libapiextractor0.7
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Library headers parser that creates an API abstract representation
  The API Extractor library is used by the binding generator to parse headers of
