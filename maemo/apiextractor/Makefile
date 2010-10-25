@@ -5,13 +5,13 @@ VERSION=$(MAJOR_VERSION).$(MINOR_VERSION).$(MICRO_VERSION)
 TARBALL=apiextractor-$(VERSION).tar.bz2
 WORK_DIR=apiextractor-$(VERSION)
 DISTRO='unstable'
-VERSION_NAME='1maemo1'
+VERSION_NAME='1maemo2'
 
 all: new_release
 
 
-new_release: debian_version_new.stamp $(TARBALL) ./build/$(WORK_DIR)/debian/libapiextract$(MAJOR_VERSION).$(MINOR_VERSION).install dpkg_sources.stamp
-update_release: debian_version_update.stamp $(TARBALL) ./build/$(WORK_DIR)/debian/libapiextract$(MAJOR_VERSION).$(MINOR_VERSION).install dpkg_sources.stamp
+new_release: debian_version_new.stamp $(TARBALL) ./build/$(WORK_DIR)/debian/libapiextractor$(MAJOR_VERSION).$(MINOR_VERSION).install dpkg_sources.stamp
+update_release: debian_version_update.stamp $(TARBALL) ./build/$(WORK_DIR)/debian/libapiextractor$(MAJOR_VERSION).$(MINOR_VERSION).install dpkg_sources.stamp
 
 debian_version_update.stamp:
 	dch -i
@@ -26,9 +26,9 @@ $(TARBALL):
 	mkdir build
 	tar jxvf $(TARBALL) -C ./build
 
-./build/$(WORK_DIR)/debian/libapiextract$(MAJOR_VERSION).$(MINOR_VERSION).install:
+./build/$(WORK_DIR)/debian/libapiextractor$(MAJOR_VERSION).$(MINOR_VERSION).install:
 	cp -rf debian ./build/$(WORK_DIR)/
-	mv ./build/$(WORK_DIR)/debian/libapiextractor.install ./build/$(WORK_DIR)/debian/libapiextract$(MAJOR_VERSION).$(MINOR_VERSION).install
+	mv ./build/$(WORK_DIR)/debian/libapiextractor.install ./build/$(WORK_DIR)/debian/libapiextractor$(MAJOR_VERSION).$(MINOR_VERSION).install
 	sed 's/@VERSION/$(MAJOR_VERSION).$(MINOR_VERSION)/g' debian/control > ./build/$(WORK_DIR)/debian/control
 
 dpkg_sources.stamp:

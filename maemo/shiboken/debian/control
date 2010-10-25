@@ -5,7 +5,7 @@ Maintainer: PySide Team <pyside@openbossa.org>
 XSBC-Original-Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
 Build-Depends: debhelper7 (>= 7.3.12), cmake (>= 2.6.0),
 	libqt4-dev (>= 4.5.0), libapiextractor-dev (>= @LIB_APIEXTRACTOR_VERSION), generatorrunner (>= @GENERATORRUNNER_VERSION), libgenrunner-dev (>= @GENERATORRUNNER_VERSION),
-	python-all-dev, python-all-dbg
+	python-all-dev, python-all-dbg, quilt
 XS-Python-Version: >= 2.5
 Standards-Version: 3.8.4
 Vcs-Svn: svn://svn.debian.org/python-modules/packages/shiboken/trunk/

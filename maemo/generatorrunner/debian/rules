@@ -5,7 +5,7 @@ PATH := /usr/bin/dh7:$(PATH)
 export PATH
 
 %:
-	dh --buildsystem=cmake --parallel $@
+	dh --with quilt --buildsystem=cmake --parallel $@
 
 override_dh_strip:
 	dh_strip --dbg-package=generatorrunner-dbg

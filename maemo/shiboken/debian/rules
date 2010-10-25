@@ -1,11 +1,11 @@
 #!/usr/bin/make -f
 
-# Allow to find Qt 4.6 on Maemo
+# Allow to find debhelper7 on Maemo
 PATH := /usr/bin/dh7:$(PATH)
 export PATH
 
 %:
-	dh --buildsystem=cmake --parallel $@
+	dh --with quilt --buildsystem=cmake --parallel $@
 
 # Python versions (default is first)
 PYVERSIONS=$(shell pyversions -v -r)

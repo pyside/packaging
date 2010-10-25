@@ -3,7 +3,7 @@ Section: devel
 Priority: extra
 Maintainer: PySide Team <pyside@openbossa.org>
 XSBC-Original-Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
-Build-Depends: debhelper7 (>= 7.3.12), libapiextractor-dev (>= @LIB_APIEXTRACTOR_VERSION), libqt4-dev (>= 4.5), cmake (>= 2.6.0), libxslt1-dev
+Build-Depends: debhelper7 (>= 7.3.12), libapiextractor-dev (>= @LIB_APIEXTRACTOR_VERSION), libqt4-dev (>= 4.5), cmake (>= 2.6.0), libxslt1-dev, quilt
 Standards-Version: 3.8.3
 Vcs-Svn: svn://svn.debian.org/python-modules/packages/generatorrunner/trunk/
 Vcs-Browser: http://svn.debian.org/wsvn/python-modules/packages/generatorrunner/?op=log
