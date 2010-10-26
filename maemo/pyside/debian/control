@@ -203,7 +203,7 @@ Description: Qt 4 test module - Python bindings
 
 Package: python-pyside.qtwebkit
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui (>= ${binary:Version}), pyside-qt4-network (>= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui (>= ${binary:Version}), python-pyside.qtnetwork (>= ${binary:Version})
 Provides: ${python:Provides}
 Conflicts: pyside-qt4-webkit
 Replaces: pyside-qt4-webkit
