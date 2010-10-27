@@ -1,8 +1,0 @@
-pyside-mobility_0.1-0maemo1_all.deb python optional
-pyside-mobility-dbg_0.1-0maemo1_i386.deb debug extra
-pyside-mobility-contacts_0.1-0maemo1_i386.deb python optional
-pyside-mobility-location_0.1-0maemo1_i386.deb python optional
-pyside-mobility-sensors_0.1-0maemo1_i386.deb python optional
-pyside-mobility-serviceframework_0.1-0maemo1_i386.deb python optional
-pyside-mobility-systeminfo_0.1-0maemo1_i386.deb python optional
-pyside-mobility-versit_0.1-0maemo1_i386.deb python optional

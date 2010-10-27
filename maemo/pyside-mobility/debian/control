@@ -2,118 +2,125 @@ Source: pyside-mobility
 Section: python
 Priority: optional
 Maintainer: Marcelo Lira <marcelo.lira@openbossa.org>
-Build-Depends: debhelper7, cmake (>= 2.6.0), python-all-dev (>= 2.5.2-3), python-all-dbg (>= 2.5.2-3), python-support (>= 0.3.9), libqt4-dev (>= 4.6), libqtm-dev (>= 1.0.2), libqtm-sensors (>= 1.0.2), shiboken (>= 0.4.0), generatorrunner (>= 0.6.0), libshiboken-dev (>= 0.4.0), pyside-qt4 (>= 0.4.0), libpyside-dev (>= 0.4.0)
+Build-Depends: debhelper7, cmake (>= 2.6.0), python-all-dev (>= 2.5.2-3), python-all-dbg (>= 2.5.2-3), python-support (>= 0.3.9), libqt4-dev (>= 4.6), libqtm-dev (>= 1.0.2), libqtm-sensors (>= 1.0.2), shiboken (>= 0.5.1), generatorrunner (>= 0.6.0), libshiboken-dev (>= 0.5.1), python-pyside (>= 0.4.2), libpyside-dev (>= 0.4.0)
 Standards-Version: 3.8.4
 XS-Python-Version: >= 2.5
 Homepage: http://www.pyside.org/
 
-Package: pyside-mobility
+Package: python-qtmobility
+Replaces: pyside-mobility
 Architecture: all
 Depends: ${shlibs:Depends}, ${misc:Depends},
-	 pyside-mobility-bearer (>= ${binary:Version}),
-	 pyside-mobility-contacts (>= ${binary:Version}),
-	 pyside-mobility-location (>= ${binary:Version}),
-	 pyside-mobility-messaging (>= ${binary:Version}),
-	 pyside-mobility-publishsubscribe (>= ${binary:Version}),
-	 pyside-mobility-sensors (>= ${binary:Version}),
-	 pyside-mobility-serviceframework (>= ${binary:Version}),
-	 pyside-mobility-systeminfo (>= ${binary:Version}),
-	 pyside-mobility-versit (>= ${binary:Version})
+	 python-qtmobility.contacts (>= ${binary:Version}),
+	 python-qtmobility.location (>= ${binary:Version}),
+	 python-qtmobility.messaging (>= ${binary:Version}),
+	 python-qtmobility.publishsubscribe (>= ${binary:Version}),
+	 python-qtmobility.sensors (>= ${binary:Version}),
+	 python-qtmobility.serviceframework (>= ${binary:Version}),
+	 python-qtmobility.systeminfo (>= ${binary:Version}),
+	 python-qtmobility.versit (>= ${binary:Version})
 Description: Python bindings for Qt Mobility (big metapackage)
  Python bindings for Qt Mobility. This is a metapackage for all modules.
 
-Package: pyside-mobility-dbg
+Package: python-qtmobility-dbg
+Replaces: pyside-mobility-dbg
 Architecture: any
 Priority: extra
 Section: debug
 Depends: ${shlibs:Depends}, ${misc:Depends},
-	 pyside-mobility-bearer (>= ${binary:Version}),
-	 pyside-mobility-contacts (>= ${binary:Version}),
-	 pyside-mobility-location (>= ${binary:Version}),
-	 pyside-mobility-messaging (>= ${binary:Version}),
-	 pyside-mobility-publishsubscribe (>= ${binary:Version}),
-	 pyside-mobility-sensors (>= ${binary:Version}),
-	 pyside-mobility-serviceframework (>= ${binary:Version}),
-	 pyside-mobility-systeminfo (>= ${binary:Version}),
-	 pyside-mobility-versit (>= ${binary:Version})
+	 python-qtmobility.contacts (>= ${binary:Version}),
+	 python-qtmobility.location (>= ${binary:Version}),
+	 python-qtmobility.messaging (>= ${binary:Version}),
+	 python-qtmobility.publishsubscribe (>= ${binary:Version}),
+	 python-qtmobility.sensors (>= ${binary:Version}),
+	 python-qtmobility.serviceframework (>= ${binary:Version}),
+	 python-qtmobility.systeminfo (>= ${binary:Version}),
+	 python-qtmobility.versit (>= ${binary:Version})
 Description: Python bindings for Qt Mobility (debug symbols)
  Python bindings for Qt Mobility. This package contains the debug symbols.
 
-Package: pyside-mobility-bearer
+Package: python-qtmobility.contacts
+Replaces: pyside-mobility-contacts
+Provides:pyside-mobility-contacts
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-gui, pyside-qt4-network, pyside-qt4-xml
-Description: Qt Mobility Bearer Management module - Python bindings
- Qt Mobility Project delivers a set of new APIs to Qt with features that are
- well known from the mobile device world, in particular phones.
- .
- This package provides Python bindings for the Bearer Management module.
-
-Package: pyside-mobility-contacts
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-core, pyside-qt4-gui
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore, python-pyside.qtgui
 Description: Qt Mobility Contacts module - Python bindings
  Qt Mobility Project delivers a set of new APIs to Qt with features that are
  well known from the mobile device world, in particular phones.
  .
  This package provides Python bindings for the Contacts module.
 
-Package: pyside-mobility-location
+Package: python-qtmobility.location
+Replaces: pyside-mobility-location
+Provides:pyside-mobility-location
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-core
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore
 Description: Qt Mobility Location module - Python bindings
  Qt Mobility Project delivers a set of new APIs to Qt with features that are
  well known from the mobile device world, in particular phones.
  .
  This package provides Python bindings for the Location module.
 
-Package: pyside-mobility-messaging
+Package: python-qtmobility.messaging
+Replaces: pyside-mobility-messaging
+Provides:pyside-mobility-messaging
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-gui, pyside-qt4-xml
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui, python-pyside.qtxml
 Description: Qt Mobility Messaging module - Python bindings
  Qt Mobility Project delivers a set of new APIs to Qt with features that are
  well known from the mobile device world, in particular phones.
  .
  This package provides Python bindings for the Messaging module.
 
-Package: pyside-mobility-publishsubscribe
+Package: python-qtmobility.publishsubscribe
+Replaces: pyside-mobility-publishsubscribe
+Provides:pyside-mobility-publishsubscribe
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-network, pyside-qt4-xml
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtnetwork, python-pyside.qtxml
 Description: Qt Mobility Publish and Subscribe module - Python bindings
  Qt Mobility Project delivers a set of new APIs to Qt with features that are
  well known from the mobile device world, in particular phones.
  .
  This package provides Python bindings for the Publish and Subscribe module.
 
-Package: pyside-mobility-sensors
+Package: python-qtmobility.sensors
+Replaces: pyside-mobility-sensors
+Provides:pyside-mobility-sensors
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-core
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore
 Description: Qt Mobility Sensors module - Python bindings
  Qt Mobility Project delivers a set of new APIs to Qt with features that are
  well known from the mobile device world, in particular phones.
  .
  This package provides Python bindings for the Sensors module.
 
-Package: pyside-mobility-serviceframework
+Package: python-qtmobility.serviceframework
+Replaces: pyside-mobility-serviceframework
+Provides:pyside-mobility-serviceframework
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-core
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore
 Description: Qt Mobility Service Framework module - Python bindings
  Qt Mobility Project delivers a set of new APIs to Qt with features that are
  well known from the mobile device world, in particular phones.
  .
  This package provides Python bindings for the Service Framework module.
 
-Package: pyside-mobility-systeminfo
+Package: python-qtmobility.systeminfo
+Replaces: pyside-mobility-systeminfo
+Provides:pyside-mobility-systeminfo
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-core, pyside-qt4-network
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore, python-pyside.qtnetwork
 Description: Qt Mobility SystemInfo module - Python bindings
  Qt Mobility Project delivers a set of new APIs to Qt with features that are
  well known from the mobile device world, in particular phones.
  .
  This package provides Python bindings for the SystemInfo module.
 
-Package: pyside-mobility-versit
+Package: python-qtmobility.versit
+Replaces: pyside-mobility-versit
+Provides:pyside-mobility-versit
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, pyside-qt4-core, pyside-qt4-gui, pyside-mobility-contacts
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore, python-pyside.qtgui, python-qtmobility.contacts
 Description: Qt Mobility Versit module - Python bindings
  Qt Mobility Project delivers a set of new APIs to Qt with features that are
  well known from the mobile device world, in particular phones.
