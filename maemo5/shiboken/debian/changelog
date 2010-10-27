@@ -1,0 +1,98 @@
+shiboken (0.5.1-1maemo7) unstable; urgency=low
+
+  * Bump version.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Wed, 27 Oct 2010 14:29:16 -0300
+
+shiboken (0.5.1-1maemo6) unstable; urgency=low
+
+  * Bump version.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Wed, 27 Oct 2010 14:15:26 -0300
+
+shiboken (0.5.1-1maemo5) unstable; urgency=low
+
+  * Bump version.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Wed, 27 Oct 2010 14:00:04 -0300
+
+shiboken (0.5.1-1maemo4) unstable; urgency=low
+
+  * Bump version.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Wed, 27 Oct 2010 13:45:50 -0300
+
+shiboken (0.5.1-1maemo3) unstable; urgency=low
+
+  * Bump version.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Wed, 27 Oct 2010 13:15:31 -0300
+
+shiboken (0.5.1-1maemo1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Mon, 25 Oct 2010 15:35:55 -0300
+
+shiboken (0.5.0-1maemo1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Willer Moreira <willer.moreira@openbossa.org>  Mon, 13 Sep 2010 14:16:51 -0400
+
+shiboken (0.4.0-1maemo1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Lauro Moura <lauro.neto@openbossa.org>  Mon, 02 Aug 2010 16:16:51 -0300
+
+shiboken (0.3.2-1maemo1) unstable; urgency=low
+
+  * New release
+
+ -- Luciano Miguel Wolf <luciano.wolf@openbossa.org>  Fri, 04 Jun 2010 14:17:35 -0300
+
+shiboken (0.3.1-0maemo1) unstable; urgency=low
+
+  * Maemo 5 build.
+
+ -- Willer Moreira <willer.moreira@openbossa.org>  Tue, 04 May 2010 16:56:36 -0400
+
+shiboken (0.3.1-0) unstable; urgency=low
+
+  * Bump to 0.3.1 based on maemo 0.2.0 packaging.
+
+ -- Lauro Neto <lauro.neto@openbossa.org>  Tue, 04 May 2010 11:56:36 -0300
+
+shiboken (0.2.0-1maemo1) unstable; urgency=low
+
+  * Maemo 5 build.
+
+ -- Willer Moreira <willer.moreira@openbossa.org>  Fri, 26 Mar 2010 12:31:26 -0400
+
+shiboken (0.2.0-1pyside0~ppa1) karmic; urgency=low
+
+  * Reuse Debian packaging for Ubuntu (PPA) and Maemo builds.
+  * debian/source/format: downgrade to 1.0 format for karmic.
+  * Remove dpkg-dev and libsparsehash-dev build dependencies.
+  * Remove debian/libshiboken0.symbols (requires newer dpkg-dev)
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Fri, 26 Mar 2010 09:31:26 -0400
+
+shiboken (0.2.0-1) experimental; urgency=low
+
+  * Initial upload (Closes: #569173).
+
+  * Add symbols for libshiboken0 using (c++) filter.
+  * Build for multiple python versions.
+  * Update Build-Depends
+  * Enable the build-tests
+  * Add debian/watch file.
+  * Add help2man manpage for shiboken
+  * Patches
+    + use_original_sparsehash.patch:  Don't use embedded sparsehash.
+    + fix_tests.patch:                Work for different python versions.
+    + use_soname_from_version.patch:  Force a SONAME (MAJOR_version) to
+                                      libshiboken
+
+ -- Didier Raboud <didier@raboud.com>  Fri, 26 Mar 2010 12:56:52 +0000

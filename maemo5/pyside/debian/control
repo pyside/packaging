@@ -1,0 +1,260 @@
+Source: pyside
+Section: python
+Priority: optional
+Maintainer: PySide Team <pyside@openbossa.org>
+XSBC-Original-Maintainer: Debian Python Modules Team <python-modules-team@lists.alioth.debian.org>
+Build-Depends: debhelper7, cmake (>= 2.6.0), quilt,
+	python-all-dev (>= 2.3.5-11), python-all-dbg (>= 2.3.5-11), python-support (>= 0.3.9),
+	libqt4-dev (>= @QT_VERSION), libqt4-phonon (>= @QT_VERSION),
+	shiboken (>= @SHIBOKEN_VERSION), generatorrunner (>= @GENERATORRUNNER_VERSION), libshiboken-dev (>= @SHIBOKEN_VERSION), libgenrunner-dev (>= @GENERATORRUNNER_VERSION)
+Standards-Version: 3.8.4
+XS-Python-Version: >= 2.5
+Vcs-Svn: svn://svn.debian.org/python-modules/packages/pyside/trunk/
+Vcs-Browser: http://svn.debian.org/wsvn/python-modules/packages/pyside/?op=log
+Homepage: http://www.pyside.org/
+
+Package: python-pyside
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends},
+	 python-pyside.phonon (>= ${binary:Version}),
+	 python-pyside.qtcore (>= ${binary:Version}),
+	 python-pyside.qtgui (>= ${binary:Version}),
+	 python-pyside.qtmaemo5 (>= ${binary:Version}),
+	 python-pyside.qtmultimedia (>= ${binary:Version}),
+	 python-pyside.qtnetwork (>= ${binary:Version}),
+	 python-pyside.qtopengl (>= ${binary:Version}),
+	 python-pyside.qtscript (>= ${binary:Version}),
+	 python-pyside.qtsql (>= ${binary:Version}),
+	 python-pyside.qtsvg (>= ${binary:Version}),
+	 python-pyside.qtwebkit (>= ${binary:Version}),
+	 python-pyside.qtxml (>= ${binary:Version}),
+	 python-pyside.qtxmlpatterns (>= ${binary:Version})
+Description: Python bindings for Qt4 (big metapackage)
+ Python bindings for Qt4 framework. This is a metapackage for all modules.
+
+Package: python-pyside-dbg
+Architecture: any
+Priority: extra
+Section: debug
+Depends: ${shlibs:Depends}, ${misc:Depends},
+	 python-pyside.phonon (>= ${binary:Version}),
+	 python-pyside.qtcore (>= ${binary:Version}),
+	 python-pyside.qtgui (>= ${binary:Version}),
+	 python-pyside.qtmaemo5 (>= ${binary:Version}),
+	 python-pyside.qtnetwork (>= ${binary:Version}),
+	 python-pyside.qtopengl (>= ${binary:Version}),
+	 python-pyside.qtscript (>= ${binary:Version}),
+	 python-pyside.qtsql (>= ${binary:Version}),
+	 python-pyside.qtsvg (>= ${binary:Version}),
+	 python-pyside.qtwebkit (>= ${binary:Version}),
+	 python-pyside.qtxml (>= ${binary:Version}),
+	 python-pyside.qtxmlpatterns (>= ${binary:Version}),
+	 libpyside@VERSION (>= ${binary:Version})
+Description: Python bindings for Qt 4 (debug symbols)
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package contains the debugging symbols.
+
+Package: libpyside@VERSION
+Architecture: any
+Conflicts: libpyside0.3
+Replaces: libpyside0.3
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, libshiboken0.5 (>= @SHIBOKEN_VERSION)
+Description: Python bindings for Qt 4 (base files)
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package contains base files used by all modules.
+
+Package: libpyside-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt4-dev (>= @QT_VERSION)
+Description: Python bindings for Qt 4 (development files)
+ Development headers for the pysidebase library.
+
+Package: python-pyside.qtcore
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, libpyside@VERSION (>= @VERSION)
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-core
+Replaces: pyside-qt4-core
+Description: Qt 4 core module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtCore module.
+
+Package: python-pyside.qtgui
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-gui
+Replaces: pyside-qt4-gui
+Description: Qt 4 GUI module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtGui module.
+
+Package: python-pyside.qtdeclarative
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore (>= ${binary:Version})
+Provides: ${python:Provides}
+Description: Qt 4 Declarative module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtDeclarative module.
+
+Package: python-pyside.qtmultimedia
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-multimedia
+Replaces: pyside-qt4-multimedia
+Description: Qt 4 multimedia module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtMultimedia module.
+
+Package: python-pyside.qtnetwork
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-network
+Replaces: pyside-qt4-network
+Description: Qt 4 network module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtNetwork module.
+
+Package: python-pyside.qtopengl
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-opengl
+Replaces: pyside-qt4-opengl
+Description: Qt 4 OpenGL module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtOpenGL module.
+ .
+ OpenGL is a standard API for rendering 3D graphics. OpenGL only deals with 3D
+ rendering and provides little or no support for GUI programming issues.
+
+Package: python-pyside.phonon
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-phonon
+Replaces: pyside-qt4-phonon
+Description: Qt 4 Phonon module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the Phonon multimedia module.
+
+Package: python-pyside.qtscript
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-script
+Replaces: pyside-qt4-script
+Description: Qt 4 script module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtScript and QtScriptTools
+ modules.
+
+Package: python-pyside.qtsql
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-sql
+Replaces: pyside-qt4-sql
+Description: Qt 4 SQL module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtSql module.
+
+Package: python-pyside.qtsvg
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-svg
+Replaces: pyside-qt4-svg
+Description: Qt 4 SVG module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtSvg module.
+ .
+ Scalable Vector Graphics (SVG) is a language for describing two-dimensional
+ graphics and graphical applications in XML.
+
+Package: python-pyside.qttest
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-test
+Replaces: pyside-qt4-test
+Description: Qt 4 test module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtTest module.
+
+Package: python-pyside.qtwebkit
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui (>= ${binary:Version}), python-pyside.qtnetwork (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-webkit
+Replaces: pyside-qt4-webkit
+Description: Qt 4 WebKit module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtWebKit module.
+
+Package: python-pyside.qtxml
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-core
+Replaces: pyside-qt4-core
+Description: Qt 4 XML module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtXml module.
+
+Package: python-pyside.qtxmlpatterns
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-xmlpatterns
+Replaces: pyside-qt4-xmlpatterns
+Description: Qt 4 XML patterns module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtXmlPatterns module.
+
+Package: python-pyside.qtmaemo5
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtgui (>= ${binary:Version})
+Provides: ${python:Provides}
+Conflicts: pyside-qt4-maemo5
+Replaces: pyside-qt4-maemo5
+Description: Qt 4 Maemo5 module - Python bindings
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package provides Python bindings for the QtMaemo5 module.

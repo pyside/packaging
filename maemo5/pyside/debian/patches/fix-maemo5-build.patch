@@ -1,0 +1,41 @@
+From 2c085f6d67b5a42356ba6371d3719b33a4d374ef Mon Sep 17 00:00:00 2001
+From: Luciano Wolf <luciano.wolf@openbossa.org>
+Date: Fri, 22 Oct 2010 19:09:28 -0300
+Subject: [PATCH] Maemo5 updates.
+
+---
+ PySide/CMakeLists.txt          |    4 +++-
+ PySide/QtMaemo5/CMakeLists.txt |    2 +-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/PySide/CMakeLists.txt b/PySide/CMakeLists.txt
+index c4aaf64..cf3e939 100644
+--- a/PySide/CMakeLists.txt
++++ b/PySide/CMakeLists.txt
+@@ -23,7 +23,9 @@ HAS_QT_MODULE(QT_QTXML_FOUND QtXml)
+ HAS_QT_MODULE(QT_QTTEST_FOUND QtTest)
+ HAS_QT_MODULE(QT_QTOPENGL_FOUND QtOpenGL)
+ HAS_QT_MODULE(QT_QTSQL_FOUND QtSql)
+-HAS_QT_MODULE(QT_QTUITOOLS_FOUND QtUiTools)
++if(QT_QTDESIGNER_FOUND)
++    HAS_QT_MODULE(QT_QTUITOOLS_FOUND QtUiTools)
++endif()
+ HAS_QT_MODULE(QT_QTHELP_FOUND QtHelp)
+ HAS_QT_MODULE(QT_QTXMLPATTERNS_FOUND QtXmlPatterns)
+ HAS_QT_MODULE(QT_QTMAEMO5_FOUND QtMaemo5)
+diff --git a/PySide/QtMaemo5/CMakeLists.txt b/PySide/QtMaemo5/CMakeLists.txt
+index 1d4b296..7700eb4 100644
+--- a/PySide/QtMaemo5/CMakeLists.txt
++++ b/PySide/QtMaemo5/CMakeLists.txt
+@@ -11,7 +11,7 @@ ${CMAKE_CURRENT_BINARY_DIR}/${BINDING_NAME}/QtMaemo5/qmaemo5valuebutton_wrapper.
+ ${CMAKE_CURRENT_BINARY_DIR}/${BINDING_NAME}/QtMaemo5/qtmaemo5_module_wrapper.cpp
+ )
+ 
+-set(QtMaemo5_typesystem_path "${QtCore_SOURCE_DIR}${PATH_SEP}${QtGui_SOURCE_DIR}${PATH_SEP}${QtMaemo5_SOURCE_DIR}")
++set(QtMaemo5_typesystem_path "${QtCore_SOURCE_DIR}${PATH_SEP}${QtGui_SOURCE_DIR}${PATH_SEP}${QtGui_BINARY_DIR}${PATH_SEP}${QtMaemo5_SOURCE_DIR}")
+ 
+ # QT_QTMAEMO5_* variables are not defined by CMake
+ if(NOT QT_QTMAEMO5_INCLUDE_DIR)
+-- 
+1.6.1
+

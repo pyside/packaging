@@ -1,0 +1,3 @@
+usr/include/PySide/*
+usr/lib/libpyside*.so
+usr/share/PySide/typesystems/*

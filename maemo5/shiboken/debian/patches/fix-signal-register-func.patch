@@ -1,0 +1,57 @@
+From f9e97a0fd8c7e527ab1e5bc6a645001e1127b029 Mon Sep 17 00:00:00 2001
+From: renatofilho <renato.filho@openbossa.org>
+Date: Wed, 20 Oct 2010 11:44:09 -0300
+Subject: [PATCH] Fixed signal register function.
+
+Fixes bug #422.
+
+Reviewer: Luciano Wolf <luciano.wolf@openbossa.org>
+          Marcelo Lira <marcelo.lira@openbossa.org>
+---
+ generator/cppgenerator.cpp    |   12 +++---------
+ tests/libother/otherderived.h |    2 ++
+ 2 files changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/generator/cppgenerator.cpp b/generator/cppgenerator.cpp
+index 1ad7a2d..97e180e 100644
+--- a/generator/cppgenerator.cpp
++++ b/generator/cppgenerator.cpp
+@@ -3066,20 +3066,14 @@ void CppGenerator::writeSignalInitialization(QTextStream& s, const AbstractMetaC
+                         signature += ", ";
+                     AbstractMetaArgument *a = cppSignal->arguments().at(i);
+                     AbstractMetaType* type = a->type();
+-                    QString cppSignature = translateType(type, metaClass, Generator::ExcludeConst | Generator::ExcludeReference).trimmed();
+-                    QString originalSignature = translateType(type, metaClass, Generator::OriginalName | Generator::ExcludeConst | Generator::ExcludeReference).trimmed();
+-                    if (cppSignature.contains("*"))
+-                        cppSignature = cppSignature.replace("*", "").trimmed();
+-
+-                    if (originalSignature.contains("*"))
+-                        originalSignature = originalSignature.replace("*", "").trimmed();
+-
++                    QString cppSignature =  QMetaObject::normalizedType(qPrintable(type->cppSignature()));
++                    QString originalSignature = QMetaObject::normalizedType(qPrintable(type->originalTypeDescription()));
+ 
+                     if ((cppSignature != originalSignature) && !knowTypes.contains(originalSignature)) {
+                         knowTypes << originalSignature;
+                         s << INDENT << "Shiboken::TypeResolver::createValueTypeResolver<" 
+                           << cppSignature << " >"
+-                          << "(\"" << originalSignature << "\");\n";
++                          << "(\"" << originalSignature << "\"); // " << type->cppSignature() << "\n";
+                     }
+                     signature += type->originalTypeDescription();
+                 }
+diff --git a/tests/libother/otherderived.h b/tests/libother/otherderived.h
+index 16f2154..8685f8c 100644
+--- a/tests/libother/otherderived.h
++++ b/tests/libother/otherderived.h
+@@ -49,6 +49,8 @@ public:
+     // factory method
+     static Abstract* createObject();
+ 
++    void hideFunction(HideType*) {}
++
+ protected:
+     inline const char* getClassName() { return className(); }
+     virtual const char* className() { return "OtherDerived"; }
+-- 
+1.7.0.4

@@ -1,0 +1,13 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 5ba7022..d8df333 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -84,7 +84,7 @@ set(ENABLE_WIN "0")
+ set(ENABLE_SIMULATOR "0")
+ if(Q_WS_X11)
+     set(ENABLE_X11 "1")
+-    if(Q_WS_MAEMO_5)
++    if(ENABLE_MAEMO)
+         set(AUTO_OS "maemo")
+     else()
+         set(AUTO_OS "x11")
