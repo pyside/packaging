@@ -10,10 +10,10 @@ PACKAGE=pyside
 TARBALL=$(PACKAGE)-qt$(QT_VERSION)+$(VERSION).tar.bz2
 WORK_DIR=$(PACKAGE)-qt$(QT_VERSION)+$(VERSION)
 DISTRO='unstable'
-VERSION_NAME='1maemo6'
+VERSION_NAME='1maemo7'
 LIB_INSTALL_FILE=lib$(PACKAGE)$(MAJOR_VERSION).$(MINOR_VERSION).install
+CURRENT_VERSION=$(VERSION)-$(VERSION_NAME)
 REPLACED_VERSION=0.4.1-1maemo2
-
 
 all: new_release
 
@@ -38,9 +38,14 @@ $(TARBALL):
 	mv ./build/$(WORK_DIR)/debian/lib$(PACKAGE).install ./build/$(WORK_DIR)/debian/$(LIB_INSTALL_FILE)
 	sed 's/@VERSION/$(MAJOR_VERSION).$(MINOR_VERSION)/g' ./build/$(WORK_DIR)/debian/control > ./build/$(WORK_DIR)/debian/control.new
 	sed 's/@SHIBOKEN_VERSION/$(SHIBOKEN_VERSION)/g' ./build/$(WORK_DIR)/debian/control.new > ./build/$(WORK_DIR)/debian/control.new2
-	sed 's/@QT_VERSION/$(QT_VERSION)/g' ./build/$(WORK_DIR)/debian/control.new2 > ./build/$(WORK_DIR)/debian/control.new
-	sed 's/@GENERATORRUNNER_VERSION/$(GENERATORRUNNER_VERSION)/g' ./build/$(WORK_DIR)/debian/control.new > ./build/$(WORK_DIR)/debian/control
+	sed 's/@QT_VERSION/$(QT_VERSION)/g' ./build/$(WORK_DIR)/debian/control.new2 > ./build/$(WORK_DIR)/debian/control.new3
+	sed 's/@GENERATORRUNNER_VERSION/$(GENERATORRUNNER_VERSION)/g' ./build/$(WORK_DIR)/debian/control.new3 > ./build/$(WORK_DIR)/debian/control.new4
+	sed 's/@CURRENT_VERSION/$(CURRENT_VERSION)/g' ./build/$(WORK_DIR)/debian/control.new4 > ./build/$(WORK_DIR)/debian/control.new5
+	sed 's/@REPLACED_VERSION/$(REPLACED_VERSION)/g' ./build/$(WORK_DIR)/debian/control.new5 > ./build/$(WORK_DIR)/debian/control
 	rm ./build/$(WORK_DIR)/debian/control.new2
+	rm ./build/$(WORK_DIR)/debian/control.new3
+	rm ./build/$(WORK_DIR)/debian/control.new4
+	rm ./build/$(WORK_DIR)/debian/control.new5
 	rm ./build/$(WORK_DIR)/debian/control.new
 
 dpkg_sources.stamp:

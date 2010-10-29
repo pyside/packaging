@@ -1,3 +1,15 @@
+pyside (0.4.2-1maemo7) unstable; urgency=low
+
+  * Version bump. 
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Fri, 29 Oct 2010 09:58:05 -0300
+
+pyside (0.4.2-1maemo6) unstable; urgency=low
+
+  * Provide transitional package.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Thu, 28 Oct 2010 11:24:31 -0300
+
 pyside (0.4.2-1maemo5) unstable; urgency=low
 
   * Version bump. 
