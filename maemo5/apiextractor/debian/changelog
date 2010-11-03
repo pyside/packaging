@@ -1,0 +1,187 @@
+apiextractor (0.8.1-1maemo3) unstable; urgency=low
+
+  * New version based on Didier's packaging.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Tue, 26 Oct 2010 13:05:07 -0300
+
+apiextractor (0.8.1-1) unstable; urgency=low
+
+  * New 0.8.1 upstream release
+    - Bumping the SOVERSION to 0.8, add six symbols for 0.8.1.
+    - Update apiextractor-doc generation.
+  * Patches:
+    - Remove u_d13ce132_non_final_method_is_not_necessarily_polymorphic.patch
+      was from upstream.
+    - Remove 01_memory_alignment_fix.patch: incorporated upstream.
+
+  * Version the Build-Depends to ease future backports
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 14 Oct 2010 11:07:29 +0200
+
+apiextractor (0.7.0-1~exp2) experimental; urgency=low
+
+  * Patches:
+    + Add u_d13ce132_non_final_method_is_not_necessarily_polymorphic.patch
+      from upstream, to correct qtgui_qwidget test segfault in pyside.
+
+ -- Didier Raboud <didier@raboud.com>  Tue, 31 Aug 2010 11:35:19 +0200
+
+apiextractor (0.7.0-1~exp1) experimental; urgency=low
+
+  * Patches:
+    + Add 01_memory_alignment_fix.patch : Fixes various memory alignment
+      issues which cause generator to crash on alignment-sensitive
+      architectures (Closes: #590302)
+
+ -- Didier Raboud <didier@raboud.com>  Mon, 09 Aug 2010 13:41:10 +0200
+
+apiextractor (0.7.0-1~exp0) experimental; urgency=low
+
+  [ Didier Raboud ]
+  * New 0.7.0 upstream release
+    - Bump libapiextractor SONAME to 0.7
+  * Patches:
+    - Remove spellingErrors.patch, included upstream.
+  * Build docs in binary-indep target.
+  * Bump Standards to 3.9.1.0 without changes needed.
+
+  * Uploading to experimental as we are in transition freeze.
+
+  [ Piotr Ożarowski ]
+  * Set the DM-Upload-Allowed flag to yes
+
+ -- Didier Raboud <didier@raboud.com>  Fri, 06 Aug 2010 14:50:48 +0200
+
+apiextractor (0.6.0-1) unstable; urgency=low
+
+  * New 0.6.0 upstream release
+    - Bump libapiextractor SONAME to 0.6
+    - Update symbols
+    - Remove --version-script linker flag introduced in 0.4.0-2:
+      included upstream.
+
+  * Patches:
+    - Add spellingErrors.patch to fix some trivial spelling errors.
+
+  * Build -doc package with the sphinx-generated html docs, put it 
+    in section docs.
+
+ -- Didier Raboud <didier@raboud.com>  Sat, 05 Jun 2010 10:46:05 +0200
+
+apiextractor (0.5.1-1) unstable; urgency=low
+
+  * New 0.5.1 upstream release
+    - Bump libapiextractor SONAME to 0.5
+      (The soversion'ing changes with that release).
+
+ -- Didier Raboud <didier@raboud.com>  Tue, 04 May 2010 16:52:35 +0200
+
+apiextractor (0.4.0-3) unstable; urgency=low
+
+  * Upload to unstable
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 22 Apr 2010 17:14:23 +0200
+
+apiextractor (0.4.0-2) experimental; urgency=low
+
+  * Symbols update to fix the various FTBFSes.
+    - debian/libapiextractor0.symbols: Update to remove duplicate entries
+      and document libqt4-dev differences.
+    - debian/rules, debian/symbols.filter: Add a linker flag with
+      --version-script to discard junk std:: template instantiations.
+
+ -- Didier Raboud <didier@raboud.com>  Sun, 11 Apr 2010 13:22:16 +0200
+
+apiextractor (0.4.0-1) experimental; urgency=low
+
+  * New 0.4.0 upstream release
+
+  * Add symbols for libapiextractor0, with (c++) filter
+  * debian/rules
+    - dh_install now lists missing files.
+    - Allow parallel building.
+  * debian/control
+    - Bump Build-Depends on dpkg-dev (>= 1.15.6) for the (c++) symbols.
+    - Remove boost from Build-Depends. Great !
+  * debian/patches
+    - Drop use_cmake_config_no_find.patch: somehow merged upstream.
+  * Bump Standards to 3.8.4. No changes needed.
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 25 Mar 2010 16:09:36 +0100
+
+apiextractor (0.3.3-1) unstable; urgency=low
+
+  * New upstream release.
+    - Refresh patches.
+  * Use 3.0 (quilt) format.
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 14 Jan 2010 15:44:15 +0100
+
+apiextractor (0.3.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Add use_cmake_config_no_find.patch:
+    - Don't ship buggy FindApiExtractor.cmake (it is shipped in the wrong
+      directory and useless anyway).
+    - Ship instead a home-brewn ApiExtractorConfig.cmake and other cmake
+      specific configuration files
+    + Many thanks to Modestas Vainius for his time and skills in helping me
+      through this patch!
+    + This should Closes: #556822 generatorrunner: FTBFS
+
+ -- Didier Raboud <didier@raboud.com>  Wed, 09 Dec 2009 19:11:36 +0100
+
+apiextractor (0.3.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Remove patch fix_boostgraph_binary_lib_dependency.patch, incorporated
+    upstream.
+    - Get rid of quilt B-D.
+    - Dont use --with=quilt in the dh7 magic.
+  * Disable the build tests (they fail to show "bugs to-be-fixed").
+
+ -- Didier Raboud <didier@raboud.com>  Tue, 13 Oct 2009 15:23:02 +0200
+
+apiextractor (0.3-1) unstable; urgency=low
+
+  [ Didier Raboud ]
+  * Initial Debian release (Closes: #543642)
+    - Use the Ubuntu packaging as starting point.
+    - Convert to dh7.
+  * debian/watch: Add.
+  * debian/cmake.mk: Remove dirty workaround.
+  * debian/control:
+    - Update Depends to dh7
+    - Add myself to Maintainers
+    - Put under collab-maint git.
+    - Add Homepage and Vcs-* fields
+    - Update descriptions and Build-Depends.
+    - Include the symbols version in the binary package name.
+    - Adjust priority.
+  * debian/patches/fix_boostgraph_binary_lib_dependency.patch
+    - Add to avoid Build-Dependency on the binary libboost-graph.
+    - Adjust Build-Depends accordingly.
+    - Add README.source.
+  * debian/copyright: Update to include all copyright holders.
+  * Bump Standards to 3.8.3
+
+  [ Bernd Zeimetz ]
+  * debian/control, debian/rules:
+    - Add a -dbg package.
+  * debian/control:
+    - libapiextractor-dev needs to depend on libqt4-dev as pkg-config
+      requires it.
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 01 Oct 2009 13:19:57 +0200
+
+apiextractor (0.2-0ubuntu1) jaunty; urgency=low
+
+  * Build for Ubuntu 9.04.
+
+ -- Anderson Lizardo <anderson.lizardo@indt.org.br>  Tue, 18 Aug 2009 08:05:11 -0400
+
+apiextractor (0.2-0maemo1) unstable; urgency=low
+
+  * Initial release
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Thu, 16 Jul 2009 09:12:10 -0400

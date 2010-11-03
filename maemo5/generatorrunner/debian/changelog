@@ -1,0 +1,154 @@
+generatorrunner (0.6.2-1maemo3) unstable; urgency=low
+
+  * Bump version.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Tue, 26 Oct 2010 15:27:22 -0300
+
+generatorrunner (0.6.2-1maemo2) unstable; urgency=low
+
+  * New version based on Didier's packaging.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Tue, 26 Oct 2010 14:27:43 -0300
+
+generatorrunner (0.6.2-1) unstable; urgency=low
+
+  * New 0.6.2 upstream release
+    - Apply manpages location changes.
+    - Apply documentation build changes
+    - Bump libapiextractor B-D to 0.8.1
+
+ -- Didier Raboud <didier@raboud.com>  Fri, 15 Oct 2010 09:56:28 +0200
+
+generatorrunner (0.6.0-1~exp0) experimental; urgency=low
+
+  [ Didier Raboud ]
+  * New upstream 0.6.0 upstream release
+    - Bump libgenrunner SONAME to 0.6
+    - Update symbols and install files
+    - Bump libapiextractor-dev B-D to >= 0.7.0
+
+  * Build docs in binary-indep target.
+  * Bump Standards to 3.9.1.0 without changes needed.
+
+  * Uploading to experimental as we are in transition freeze.
+
+  [ Piotr Ożarowski ]
+  * Set DM-Upload-Allowed to yes
+
+ -- Didier Raboud <didier@raboud.com>  Sun, 08 Aug 2010 17:02:28 +0200
+
+generatorrunner (0.5.0-1) unstable; urgency=low
+
+  * New upstream 0.5.0 upstream release
+    - Bump libgenrunner SONAME to 0.5
+    - Bump libapiextractor-dev B-D to >= 0.6.0
+
+  * Build -doc package with the sphinx-generated html docs, put it
+    in section docs.
+
+ -- Didier Raboud <didier@raboud.com>  Sun, 06 Jun 2010 16:39:23 +0200
+
+generatorrunner (0.4.2-1) unstable; urgency=low
+
+  * New upstream 0.4.2 upstream release
+    - Bump libapiextractor-dev B-D to >= 0.5.1
+    - Bump libgenrunner SONAME to 0.4
+      (The soversion'ing changes with that release).
+
+  * -dbg packages are priority extra.
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 06 May 2010 09:17:47 +0200
+
+generatorrunner (0.4.0-2) unstable; urgency=low
+
+  * debian/control:
+    - Move to collab-maint' git: change Vcs-* and Maintainer fields.
+    - Priority is optional.
+    - Do some more polishing
+  * Release to unstable
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 22 Apr 2010 17:47:18 +0200
+
+generatorrunner (0.4.0-1) experimental; urgency=low
+
+  * New 0.4.0 upstream release
+
+  * Add symbols for libgenrunner0.4.0 with (c++) filter.
+  * debian/rules
+    - dh_install now lists missing files.
+    - Allow parallel building
+  * debian/control
+    - Bump libgenrunner SONAME to 0.4.0
+    - Drop boostpythongenerator references and recommends.
+    - Bump Build-Depends on dpkg-dev (>= 1.15.6) for the (c++) symbols.
+  * debian/patches
+    - Drop use_cmake_config_no_find.patch: somehow merged upstream.
+  * Bump Standards to 3.8.4 (no changes needed).
+
+ -- Didier Raboud <didier@raboud.com>  Sun, 11 Apr 2010 14:37:47 +0200
+
+generatorrunner (0.3.3-1) unstable; urgency=low
+
+  * New upstream release.
+    - Refresh patches.
+    - Bump libgenrunner SONAME to 0.3.3
+    - Bump apiextractor dependency to 0.3.3 (recommended by upstream).
+  * Use 3.0 (quilt) format.
+
+ -- Didier Raboud <didier@raboud.com>  Fri, 22 Jan 2010 16:56:56 +0100
+
+generatorrunner (0.3.2-1) unstable; urgency=low
+
+  * New upstream release.
+    - Split out boostpythongenerator.
+    - Remove fix_manpages.patch - Included upstream.
+    - Bump libgenrunner SONAME to 0.3.2
+    - Add libxslt-dev Build-Dependency
+  * Add use_cmake_config_no_find.patch:
+    - Don't ship buggy FindGeneratorRunner.cmake (it is shipped in the wrong
+      directory and useless anyway).
+    - Ship instead a home-brewn GeneratorRunnerConfig.cmake and other cmake
+      specific configuration files
+    + Many thanks to Modestas Vainius for his time and skills in helping me
+      through this patch!
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 10 Dec 2009 00:23:35 +0100
+
+generatorrunner (0.3.1-1) unstable; urgency=low
+
+  * Initial Debian release (Closes: #543719)
+    - Use the Ubuntu packaging as starting point.
+    - Convert to dh7.
+  * Follow upstream in renaming to generatorrunner.
+  * debian/watch: Add.
+  * debian/cmake.mk: Remove dirty workaround.
+  * debian/control:
+    - Update Depends to dh7
+    - Update Maintainer to Debian Python Modules Team
+    - Add myself to Uploaders
+    - Add Homepage and Vcs-* fields
+    - Update description
+    - Produce multiple binary packages with the various sub-parts.
+    - Let libgenrunner-dev depend on libapiextractor-dev (>= 0.3.1).
+  * debian/copyright: Update.
+  * debian/patches:
+    - Add fix_manpages.patch to solve the hyphens-as-minus lintian info
+    - Add quilt to Build-Depends.
+    - Add README.source
+  * Add a debugging package.
+  * Bump Standards to 3.8.3
+
+ -- Didier Raboud <didier@raboud.com>  Thu, 15 Oct 2009 11:38:29 +0200
+
+boostpythongenerator (0.2-0ubuntu2) jaunty; urgency=low
+
+  * Build for Ubuntu 9.04.
+  * Remove unused header from docgenerator.cpp.
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Tue, 18 Aug 2009 08:27:33 -0400
+
+boostpythongenerator (0.2-0maemo1) unstable; urgency=low
+
+  * Initial release.
+
+ -- Anderson Lizardo <anderson.lizardo@openbossa.org>  Thu, 16 Jul 2009 09:34:42 -0400

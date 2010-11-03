@@ -1,0 +1,69 @@
+Source: apiextractor
+Priority: optional
+Section: libs
+Maintainer: Didier Raboud <didier@raboud.com>
+Build-Depends: dpkg-dev (>= 1.14.25), debhelper7 (>= 7.0.50), cmake (>= 2.6.0),
+               libqt4-dev (>= 4.4.0), libqt4-xmlpatterns (>= 4.4.0),
+               libxml2-dev (>= 2.6.32), libxslt1-dev (>= 1.1.19), pkg-config
+Build-Depends-Indep: python-sphinxbase
+Standards-Version: 3.9.1.0
+Vcs-Git: git://git.debian.org/collab-maint/apiextractor.git
+Vcs-Browser: http://git.debian.org/?p=collab-maint/apiextractor.git
+Homepage: http://www.pyside.org/home-binding/api-extractor/
+DM-Upload-Allowed: yes
+
+Package: libapiextractor-dbg
+Section: debug
+Architecture: any
+Priority: extra
+Depends: libapiextractor0.8 (= ${binary:Version}), ${misc:Depends}
+Description: debugging symbols for the library headers parser
+ The API Extractor library is used by the binding generator to parse headers of
+ a given library and merge this data with information provided by typesystem
+ (XML) files, resulting in a representation of how the API should be exported
+ to the chosen target language. The generation of source code for the bindings
+ is performed by specific generators using the API Extractor library.
+ .
+ This package contains the debugging symbols.
+
+Package: libapiextractor-dev
+Section: libdevel
+Architecture: any
+Depends: libapiextractor0.8 (= ${binary:Version}), ${misc:Depends},
+ libqt4-dev (>= 4.4.0)
+Description: development files for the library headers parser
+ The API Extractor library is used by the binding generator to parse headers of
+ a given library and merge this data with information provided by typesystem
+ (XML) files, resulting in a representation of how the API should be exported
+ to the chosen target language. The generation of source code for the bindings
+ is performed by specific generators using the API Extractor library.
+ .
+ This package contains the development files.
+
+Package: libapiextractor0.8
+Architecture: any
+Conflicts: libapiextractor (<< 0.8), libapiextractor0.7
+Replaces: libapiextractor (<< 0.8), libapiextractor0.7
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: library headers parser that creates an API abstract representation
+ The API Extractor library is used by the binding generator to parse headers of
+ a given library and merge this data with information provided by typesystem
+ (XML) files, resulting in a representation of how the API should be exported
+ to the chosen target language. The generation of source code for the bindings
+ is performed by specific generators using the API Extractor library.
+ .
+ This package contains the runtime libraries.
+
+Package: apiextractor-doc
+Architecture: all
+Section: doc
+Depends: ${misc:Depends}, libjs-jquery
+Description: documentation for the library headers parser
+ The API Extractor library is used by the binding generator to parse headers of
+ a given library and merge this data with information provided by typesystem
+ (XML) files, resulting in a representation of how the API should be exported
+ to the chosen target language. The generation of source code for the bindings
+ is performed by specific generators using the API Extractor library.
+ .
+ This package contains the documentation for apiextractor.
+ 

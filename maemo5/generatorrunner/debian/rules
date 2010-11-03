@@ -1,0 +1,24 @@
+#!/usr/bin/make -f
+
+# Allow to find debhelper7 on Maemo
+# Install from Extras repository
+PATH := /usr/bin/dh7:$(PATH)
+export PATH
+
+%:
+	dh --with quilt --buildsystem=cmake --parallel $@
+
+override_dh_strip:
+	dh_strip --dbg-package=generatorrunner-dbg
+
+override_dh_install:
+	dh_install --list-missing \
+	  -Xusr/share/man/man1/docgenerator.1 \
+	  -Xusr/share/man/man1/generatorrunner.1
+
+binary: binary-arch binary-indep;
+
+binary-indep:
+	dh binary-indep --until dh_auto_build
+	dh_auto_build -i -- doc
+	dh binary-indep --after dh_auto_build

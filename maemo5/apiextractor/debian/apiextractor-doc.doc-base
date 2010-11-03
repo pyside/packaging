@@ -1,0 +1,10 @@
+Document: apiextractor-documentation
+Title: ApiExtractor Documentation
+Author:  PySide team <contact@pyside.org>
+Abstract: This manual describes the apiextractor API and internals
+Section: Programming
+
+Format: HTML
+Index: /usr/share/doc/apiextractor-doc/html/index.html
+Files: /usr/share/doc/apiextractor-doc/html/*.html
+

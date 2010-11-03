@@ -1,0 +1,63 @@
+This package was debianized by Lauro Moura <lauro.neto@indt.org.br> on
+Mon, 02 Feb 2009 11:36:23 -0300.
+
+Upstream Authors:
+
+    PySide team <contact@pyside.org>
+
+Copyright:
+
+    Copyright (C) 2009 Nokia Corporation and/or its subsidiary(ies)
+      All source files.
+
+    Copyright (C) 2002-2005 Roberto Raggi <roberto@kdevelop.org>
+      The following files under parser/ :
+
+        ast.cpp ast.h binder.cpp binder.h class_compiler.cpp class_compiler.h
+        codemodel.cpp codemodel_finder.cpp codemodel_finder.h codemodel_fwd.h
+        codemodel.h codemodel_pointer.h compiler_utils.cpp compiler_utils.h
+        control.cpp control.h declarator_compiler.cpp declarator_compiler.h
+        default_visitor.cpp default_visitor.h dumptree.cpp dumptree.h
+        lexer.cpp lexer.h list.cpp list.h name_compiler.cpp name_compiler.h
+        parser.cpp parser.h rxx_allocator.h smallobject.cpp smallobject.h
+        symbol.h tokens.cpp tokens.h type_compiler.cpp type_compiler.h
+        visitor.cpp visitor.h 
+
+      The following files under parser/rpp/ :
+
+        builtin-macros.cpp pp-cctype.h pp-engine-bits.h pp-engine.h
+        pp-environment.h pp-fwd.h pp.h pp-internal.h pp-iterator.h
+        pp-macro-expander.h pp-macro.h pp-main.cpp pp-scanner.h pp-string.h
+        pp-symbol.h
+
+    Copyright (C) 2005 Harald Fernengel <harry@kdevelop.org>
+      The following files in parser/rpp/ :
+
+        preprocessor.h preprocessor.cpp
+
+License:
+
+    This package is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This package is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this package; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+
+    On Debian systems, the complete text of the GNU General Public License
+    can be found in `/usr/share/common-licenses/GPL-2'.
+
+It was downloaded from http://www.pyside.org/downloads/ and repacked to GZipped Tar.
+
+The Debian packaging is
+    Copyright (C) 2009, Nokia Corporation
+    Copyright (C) 2009, Didier Raboud <didier@raboud.com>
+
+is licensed under the GPL, see `/usr/share/common-licenses/GPL-2'.

@@ -1,0 +1,96 @@
+Source: generatorrunner
+Section: devel
+Priority: optional
+Maintainer: Didier Raboud <didier@raboud.com>
+Build-Depends: dpkg-dev (>= 1.14.25), debhelper7 (>= 7.0.50),
+               libapiextractor-dev (>= 0.8.1-1maemo3), libqt4-dev (>= 4.5),
+               cmake (>= 2.6.0), libxslt1-dev, quilt
+Build-Depends-Indep: python-sphinxbase
+Standards-Version: 3.9.1.0
+Vcs-Git: git://git.debian.org/collab-maint/generatorrunner.git
+Vcs-Browser: http://git.debian.org/?p=collab-maint/generatorrunner.git
+Homepage: http://www.pyside.org/home-binding/binding-generator/
+DM-Upload-Allowed: yes
+
+Package: libgenrunner0.6
+Architecture: any
+Section: libs
+Conflicts: libgenrunner0 (<< 0.6.2), libgenrunner0.5
+Replaces: libgenrunner0 (<< 0.6.2), libgenrunner0.5
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: generatorrunner (=${binary:Version}) 
+Description: generatorrunner dedicated library
+ Generatorrunner is a plugin-based application to run apiextractor-based
+ generators.
+ .
+ This package contains its dedicated library.
+
+Package: libgenrunner-dev
+Architecture: any
+Section: libdevel
+Depends: libgenrunner0.6 (= ${binary:Version}), libapiextractor-dev (>= 0.8.1-1maemo3), ${shlibs:Depends}, ${misc:Depends}
+Description: generatorrunner dedicated library headers
+ Generatorrunner is a plugin-based application to run apiextractor-based
+ generators.
+ .
+ This package contains its dedicated library headers
+
+Package: generatorrunner
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: docgenerator
+Description: plugin-based application to run apiextractor-based generators
+ Runs generator plugins, such as docgenerator.
+ .
+ The Binding Generator is a utility that parses the headers for a given C/C++
+ library and modifies this data with the information and guides from XML files
+ (called typesystem files) containing complementar semantic information,
+ modifications, renamings, etc, in order to generate binding source code (or 
+ documentation, or anything you want) for the target language for which it was
+ written.
+
+Package: docgenerator
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+         generatorrunner (= ${binary:Version})
+Description: generator plugin for python bindings documentation
+ Generates documentation for C++ library bindings using sphinx.
+ .
+ The Binding Generator is a utility that parses the headers for a given C/C++
+ library and modifies this data with the information and guides from XML files
+ (called typesystem files) containing complementar semantic information,
+ modifications, renamings, etc, in order to generate binding source code (or 
+ documentation, or anything you want) for the target language for which it was
+ written.
+
+Package: generatorrunner-dbg
+Priority: extra
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, generatorrunner (>= ${binary:Version}), docgenerator (>= ${binary:Version}), libgenrunner0.6 (>= ${binary:Version})
+Section: debug
+Description: debugging symbols for generatorrunner, and its brothers
+ The Binding Generator is a utility that parses the headers for a given C/C++
+ library and modifies this data with the information and guides from XML files
+ (called typesystem files) containing complementar semantic information,
+ modifications, renamings, etc, in order to generate binding source code (or 
+ documentation, or anything you want) for the target language for which it was
+ written.
+ .
+ This package contains the debugging symbols for generatorrunner, docgenerator
+ and libgenrunner.
+
+Package: generatorrunner-doc
+Priority: extra
+Architecture: all
+Depends: ${shlibs:Depends}, ${misc:Depends}, libjs-jquery
+Section: doc
+Description: documentation for generatorrunner, and its brothers
+ The Binding Generator is a utility that parses the headers for a given C/C++
+ library and modifies this data with the information and guides from XML files
+ (called typesystem files) containing complementar semantic information,
+ modifications, renamings, etc, in order to generate binding source code (or 
+ documentation, or anything you want) for the target language for which it was
+ written.
+ .
+ This package contains the documentation for generatorrunner, docgenerator
+ and libgenrunner.

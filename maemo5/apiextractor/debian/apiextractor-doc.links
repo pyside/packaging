@@ -1,0 +1,2 @@
+# Don't embed python-sphinx's jquery
+usr/share/javascript/jquery/jquery.js usr/share/doc/apiextractor-doc/html/_static/jquery.js
