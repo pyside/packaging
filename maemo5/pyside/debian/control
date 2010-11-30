@@ -70,15 +70,15 @@ Description: Python bindings for Qt 4 (debug symbols)
 
 Package: pyside-qt4-dbg
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside-dbg (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside-dbg (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside-dbg
  This is a transitional package for python-pyside-dbg.
 
 Package: libpyside@VERSION
 Architecture: any
-Conflicts: libpyside0.3
-Replaces: libpyside0.3
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, libshiboken0.5 (>= @SHIBOKEN_VERSION)
+Conflicts: libpyside0.4
+Replaces: libpyside0.4
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, libshiboken1.0 (>= @SHIBOKEN_VERSION)
 Description: Python bindings for Qt 4 (base files)
  Qt is a cross-platform C++ application framework. Qt's primary feature
  is its rich set of widgets that provide standard GUI functionality.
@@ -97,7 +97,7 @@ Architecture: any
 Provides: pyside-qt4-core
 Replaces: pyside-qt4-core (<< @REPLACED_VERSION)
 Conflicts: pyside-qt4-core (<< @REPLACED_VERSION)
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, libpyside@VERSION (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, libpyside@VERSION (>= @CURRENT_VERSION)
 Description: Qt 4 core module - Python bindings
  Qt is a cross-platform C++ application framework. Qt's primary feature
  is its rich set of widgets that provide standard GUI functionality.
@@ -106,7 +106,7 @@ Description: Qt 4 core module - Python bindings
 
 Package: pyside-qt4-core
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtcore (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtcore (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtcore
  This is a transitional package for python-pyside.qtcore.
 
@@ -124,7 +124,7 @@ Description: Qt 4 GUI module - Python bindings
 
 Package: pyside-qt4-gui
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtgui (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtgui (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtgui
  This is a transitional package for python-pyside.qtgui.
 
@@ -151,7 +151,7 @@ Description: Qt 4 multimedia module - Python bindings
 
 Package: pyside-qt4-multimedia
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtmultimedia (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtmultimedia (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtmultimedia
  This is a transitional package for python-pyside.qtmultimedia.
 
@@ -169,7 +169,7 @@ Description: Qt 4 network module - Python bindings
 
 Package: pyside-qt4-network
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtnetwork (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtnetwork (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtnetwork
  This is a transitional package for python-pyside.qtnetwork.
 
@@ -190,7 +190,7 @@ Description: Qt 4 OpenGL module - Python bindings
 
 Package: pyside-qt4-opengl
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtopengl (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtopengl (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtopengl
  This is a transitional package for python-pyside.qtopengl.
 
@@ -208,7 +208,7 @@ Description: Qt 4 Phonon module - Python bindings
 
 Package: pyside-qt4-phonon
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.phonon (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.phonon (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.phonon
  This is a transitional package for python-pyside.phonon.
 
@@ -227,7 +227,7 @@ Description: Qt 4 script module - Python bindings
 
 Package: pyside-qt4-script
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtscript (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtscript (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtscript
  This is a transitional package for python-pyside.qtscript.
 
@@ -245,7 +245,7 @@ Description: Qt 4 SQL module - Python bindings
 
 Package: pyside-qt4-sql
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtsql (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtsql (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtsql
  This is a transitional package for python-pyside.qtsql.
 
@@ -266,7 +266,7 @@ Description: Qt 4 SVG module - Python bindings
 
 Package: pyside-qt4-svg
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtsvg (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtsvg (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtsvg
  This is a transitional package for python-pyside.qtsvg.
 
@@ -284,7 +284,7 @@ Description: Qt 4 test module - Python bindings
 
 Package: pyside-qt4-test
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qttest (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qttest (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qttest
  This is a transitional package for python-pyside.qttest.
 
@@ -302,7 +302,7 @@ Description: Qt 4 WebKit module - Python bindings
 
 Package: pyside-qt4-webkit
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtwebkit (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtwebkit (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtwebkit
  This is a transitional package for python-pyside.qtwebkit.
 
@@ -320,7 +320,7 @@ Description: Qt 4 XML module - Python bindings
 
 Package: pyside-qt4-xml
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtxml (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtxml (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtxml
  This is a transitional package for python-pyside.qtxml.
 
@@ -338,7 +338,7 @@ Description: Qt 4 XML patterns module - Python bindings
 
 Package: pyside-qt4-xmlpatterns
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtxmlpatterns (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtxmlpatterns (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtxmlpatterns
  This is a transitional package for python-pyside.qtxmlpatterns.
 
@@ -356,6 +356,6 @@ Description: Qt 4 Maemo5 module - Python bindings
 
 Package: pyside-qt4-maemo5
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtmaemo5 (>= @VERSION-@VERSION_NAME)
+Depends: ${shlibs:Depends}, ${misc:Depends}, python-pyside.qtmaemo5 (>= @CURRENT_VERSION)
 Description: Transitional package for python-pyside.qtmaemo5
  This is a transitional package for python-pyside.qtmaemo5.

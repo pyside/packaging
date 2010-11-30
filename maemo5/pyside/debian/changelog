@@ -1,3 +1,9 @@
+pyside (1.0.0-1maemo1~beta1) unstable; urgency=low
+
+  * New upstream release.
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Mon, 29 Nov 2010 13:33:09 -0300
+
 pyside (0.4.2-1maemo8) unstable; urgency=low
 
   * Version bump. 

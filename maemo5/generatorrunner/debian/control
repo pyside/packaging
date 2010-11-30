@@ -3,7 +3,7 @@ Section: devel
 Priority: optional
 Maintainer: Didier Raboud <didier@raboud.com>
 Build-Depends: dpkg-dev (>= 1.14.25), debhelper7 (>= 7.0.50),
-               libapiextractor-dev (>= 0.8.1-1maemo3), libqt4-dev (>= 4.5),
+               libapiextractor-dev (>= 0.9.0-1maemo1), libqt4-dev (>= 4.5),
                cmake (>= 2.6.0), libxslt1-dev, quilt
 Build-Depends-Indep: python-sphinxbase
 Standards-Version: 3.9.1.0
@@ -15,8 +15,8 @@ DM-Upload-Allowed: yes
 Package: libgenrunner0.6
 Architecture: any
 Section: libs
-Conflicts: libgenrunner0 (<< 0.6.2), libgenrunner0.5
-Replaces: libgenrunner0 (<< 0.6.2), libgenrunner0.5
+Conflicts: libgenrunner0 (<< 0.6.3), libgenrunner0.5
+Replaces: libgenrunner0 (<< 0.6.3), libgenrunner0.5
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Recommends: generatorrunner (=${binary:Version}) 
 Description: generatorrunner dedicated library
@@ -28,7 +28,7 @@ Description: generatorrunner dedicated library
 Package: libgenrunner-dev
 Architecture: any
 Section: libdevel
-Depends: libgenrunner0.6 (= ${binary:Version}), libapiextractor-dev (>= 0.8.1-1maemo3), ${shlibs:Depends}, ${misc:Depends}
+Depends: libgenrunner0.6 (= ${binary:Version}), libapiextractor-dev (>= 0.9.0-1maemo1), ${shlibs:Depends}, ${misc:Depends}
 Description: generatorrunner dedicated library headers
  Generatorrunner is a plugin-based application to run apiextractor-based
  generators.

@@ -1,3 +1,9 @@
+generatorrunner (0.6.3-1maemo1) unstable; urgency=low
+
+  * New version. 
+
+ -- Luciano Wolf <luciano.wolf@openbossa.org>  Fri, 26 Nov 2010 17:47:32 -0300
+
 generatorrunner (0.6.2-1maemo3) unstable; urgency=low
 
   * Bump version.
