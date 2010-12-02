@@ -10,9 +10,9 @@ PACKAGE=pyside
 TARBALL=$(PACKAGE)-qt$(QT_VERSION)+$(VERSION)'~beta1'.tar.bz2
 WORK_DIR=$(PACKAGE)-qt$(QT_VERSION)+$(VERSION)'~beta1'
 DISTRO='unstable'
-VERSION_NAME='1maemo1~beta1'
+VERSION_NAME='~beta1-1maemo2'
 LIB_INSTALL_FILE=lib$(PACKAGE)$(MAJOR_VERSION).$(MINOR_VERSION).install
-CURRENT_VERSION=$(VERSION)-$(VERSION_NAME)
+CURRENT_VERSION=$(VERSION)$(VERSION_NAME)
 REPLACED_VERSION=0.4.2-1maemo8
 
 all: new_release
@@ -25,7 +25,7 @@ debian_version_update.stamp:
 	touch debian_version_update.stamp
 
 debian_version_new.stamp:
-	dch --newversion='$(VERSION)-$(VERSION_NAME)' --distribution=$(DISTRO)
+	dch --newversion=$(CURRENT_VERSION) --distribution=$(DISTRO)
 	touch debian_version_new.stamp
 
 $(TARBALL):

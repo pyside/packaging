@@ -1,0 +1,456 @@
+Index: pyside/CMakeLists.txt
+===================================================================
+--- pyside.orig/CMakeLists.txt	2010-11-30 21:00:03.041109979 -0300
++++ pyside/CMakeLists.txt	2010-11-30 21:03:24.153614353 -0300
+@@ -4,10 +4,13 @@
+ 
+ cmake_minimum_required(VERSION 2.6)
+ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Macros/
++                      ${CMAKE_SOURCE_DIR}/cmake/Modules/
+                       ${CMAKE_MODULE_PATH})
+ find_package(GeneratorRunner 0.6.3 REQUIRED)
+ find_package(Shiboken 1.0.0 REQUIRED)
+ find_package(Qt4 4.5.0 REQUIRED)
++find_package(PythonLibs)
++find_package(PythonInterpWithDebug REQUIRED)
+ include(FindQt4Extra)
+ 
+ set(XVFB_EXEC "")
+@@ -16,7 +19,7 @@
+     find_program(XVFB_RUN NAMES xvfb-run)
+     if (NOT ${XVFB_RUN} MATCHES "XVFB_RUN-NOTFOUND")
+         set(XVFB_EXEC ${XVFB_RUN})
+-        message(STATUS "Using xvfb-run to perform QtGui tests.")
++        message("Using xvfb-run to perform QtGui tests.")
+     endif()
+ endif()
+ 
+@@ -58,6 +61,12 @@
+     set(CMAKE_BUILD_TYPE Release)
+ endif()
+ 
++option(AVOID_PROTECTED_HACK "Avoid protected hack on generated bindings." FALSE)
++if(AVOID_PROTECTED_HACK OR WIN32)
++    add_definitions(-DAVOID_PROTECTED_HACK)
++    message(STATUS "Avoiding protected hack!")
++endif()
++
+ set(BINDING_NAME PySide)
+ set(BINDING_API_MAJOR_VERSION "1")
+ set(BINDING_API_MINOR_VERSION "0")
+@@ -134,7 +143,7 @@
+ 
+ if (NOT SITE_PACKAGE)
+     execute_process(
+-        COMMAND ${SHIBOKEN_PYTHON_INTERPRETER} -c "from distutils import sysconfig; \\
++        COMMAND ${PYTHON_EXECUTABLE} -c "from distutils import sysconfig; \\
+             print sysconfig.get_python_lib(1,0,prefix='${CMAKE_INSTALL_PREFIX}')"
+         OUTPUT_VARIABLE SITE_PACKAGE
+         OUTPUT_STRIP_TRAILING_WHITESPACE)
+Index: pyside/PySide/QtCore/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtCore/CMakeLists.txt	2010-11-30 21:00:00.883618164 -0300
++++ pyside/PySide/QtCore/CMakeLists.txt	2010-11-30 21:00:03.061110382 -0300
+@@ -143,9 +143,9 @@
+                         ${QT_INCLUDE_DIR}
+                         ${SHIBOKEN_INCLUDE_DIR}
+                         ${libpyside_SOURCE_DIR}
+-                        ${SHIBOKEN_PYTHON_INCLUDE_DIR})
++                        ${PYTHON_INCLUDE_PATH})
+ set(QtCore_libraries  pyside
+-                      ${SHIBOKEN_PYTHON_LIBRARIES}
++                      ${PYSIDE_PYTHON_LIBRARIES}
+                       ${SHIBOKEN_LIBRARY}
+                       ${QT_QTCORE_LIBRARY})
+ 
+Index: pyside/PySide/QtDeclarative/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtDeclarative/CMakeLists.txt	2010-11-30 21:00:00.933617214 -0300
++++ pyside/PySide/QtDeclarative/CMakeLists.txt	2010-11-30 21:00:03.061110382 -0300
+@@ -28,7 +28,7 @@
+                             ${QT_QTGUI_INCLUDE_DIR}
+                             ${QT_QTNETWORK_INCLUDE_DIR}
+                             ${QT_QTDECLARATIVE_INCLUDE_DIR}
+-                            ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                            ${PYTHON_INCLUDE_PATH}
+                             ${SHIBOKEN_INCLUDE_DIR}
+                             ${libpyside_SOURCE_DIR}
+                             ${QtGui_BINARY_DIR}/PySide/QtGui/
+@@ -37,7 +37,7 @@
+                             ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtDeclarative)
+ 
+ set(QtDeclarative_libraries   pyside
+-                              ${SHIBOKEN_PYTHON_LIBRARIES}
++                              ${PYSIDE_PYTHON_LIBRARIES}
+                               ${QT_QTCORE_LIBRARY}
+                               ${QT_QTGUI_LIBRARY}
+                               ${QT_QTNETWORK_LIBRARY}
+Index: pyside/PySide/QtGui/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtGui/CMakeLists.txt	2010-11-30 21:00:01.133619288 -0300
++++ pyside/PySide/QtGui/CMakeLists.txt	2010-11-30 21:00:03.061110382 -0300
+@@ -407,10 +407,10 @@
+                         ${QT_INCLUDE_DIR}
+                         ${SHIBOKEN_INCLUDE_DIR}
+                         ${libpyside_SOURCE_DIR}
+-                        ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                        ${PYTHON_INCLUDE_PATH}
+                         ${QtCore_BINARY_DIR}/PySide/QtCore/)
+ set(QtGui_libraries   pyside
+-                      ${SHIBOKEN_PYTHON_LIBRARIES}
++                      ${PYSIDE_PYTHON_LIBRARIES}
+                       ${SHIBOKEN_LIBRARY}
+                       ${QT_QTGUI_LIBRARY})
+ set(QtGui_deps "QtCore")
+Index: pyside/PySide/QtHelp/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtHelp/CMakeLists.txt	2010-11-30 21:00:01.053609436 -0300
++++ pyside/PySide/QtHelp/CMakeLists.txt	2010-11-30 21:00:03.061110382 -0300
+@@ -20,14 +20,14 @@
+                         ${QT_QTCORE_INCLUDE_DIR}
+                         ${QT_QTGUI_INCLUDE_DIR}
+                         ${QT_QTHELP_INCLUDE_DIR}
+-                        ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                        ${PYTHON_INCLUDE_PATH}
+                         ${SHIBOKEN_INCLUDE_DIR}
+                         ${libpyside_SOURCE_DIR}
+                         ${QtGui_BINARY_DIR}/PySide/QtGui/
+                         ${QtCore_BINARY_DIR}/PySide/QtCore/
+                         ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtHelp)
+ set(QtHelp_libraries  pyside
+-                      ${SHIBOKEN_PYTHON_LIBRARIES}
++                      ${PYSIDE_PYTHON_LIBRARIES}
+                       ${QT_QTCORE_LIBRARY}
+                       ${QT_QTGUI_LIBRARY}
+                       ${QT_QTHELP_LIBRARY})
+Index: pyside/PySide/QtMaemo5/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtMaemo5/CMakeLists.txt	2010-11-30 21:00:00.983609664 -0300
++++ pyside/PySide/QtMaemo5/CMakeLists.txt	2010-11-30 21:00:03.061110382 -0300
+@@ -27,14 +27,14 @@
+                         ${QT_QTCORE_INCLUDE_DIR}
+                         ${QT_QTGUI_INCLUDE_DIR}
+                         ${QT_QTMAEMO5_INCLUDE_DIR}
+-                        ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                        ${PYTHON_INCLUDE_PATH}
+                         ${SHIBOKEN_INCLUDE_DIR}
+                         ${libpyside_SOURCE_DIR}
+                         ${QtCore_BINARY_DIR}/${BINDING_NAME}/QtCore/
+                         ${QtGui_BINARY_DIR}/${BINDING_NAME}/QtGui/
+                         ${CMAKE_CURRENT_BINARY_DIR}/${BINDING_NAME}/QtMaemo5)
+ set(QtMaemo5_libraries  pyside
+-                      ${SHIBOKEN_PYTHON_LIBRARIES}
++                      ${PYSIDE_PYTHON_LIBRARIES}
+                       ${QT_QTCORE_LIBRARY}
+                       ${QT_QTGUI_LIBRARY}
+                       ${QT_QTMAEMO5_LIBRARY})
+Index: pyside/PySide/QtMultimedia/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtMultimedia/CMakeLists.txt	2010-11-30 21:00:01.013609389 -0300
++++ pyside/PySide/QtMultimedia/CMakeLists.txt	2010-11-30 21:00:03.061110382 -0300
+@@ -27,12 +27,12 @@
+                                 ${QT_QTMULTIMEDIA_INCLUDE_DIR}
+                                 ${SHIBOKEN_INCLUDE_DIR}
+                                 ${libpyside_SOURCE_DIR}
+-                                ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                                ${PYTHON_INCLUDE_PATH}
+                                 ${QtCore_BINARY_DIR}/PySide/QtCore/
+                                 ${QtGui_BINARY_DIR}/PySide/QtGui/)
+ 
+ set(QtMultimedia_libraries  pyside
+-                            ${SHIBOKEN_PYTHON_LIBRARIES}
++                            ${PYSIDE_PYTHON_LIBRARIES}
+                             ${SHIBOKEN_LIBRARY}
+                             ${QT_QTMULTIMEDIA_LIBRARY}
+                             ${QT_QTGUI_LIBRARY})
+Index: pyside/PySide/QtNetwork/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtNetwork/CMakeLists.txt	2010-11-30 21:00:01.203610217 -0300
++++ pyside/PySide/QtNetwork/CMakeLists.txt	2010-11-30 21:00:03.061110382 -0300
+@@ -57,10 +57,10 @@
+                             ${QT_QTNETWORK_INCLUDE_DIR}
+                             ${SHIBOKEN_INCLUDE_DIR}
+                             ${libpyside_SOURCE_DIR}
+-                            ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                            ${PYTHON_INCLUDE_PATH}
+                             ${QtCore_BINARY_DIR}/PySide/QtCore/)
+ set(QtNetwork_libraries pyside
+-                        ${SHIBOKEN_PYTHON_LIBRARIES}
++                        ${PYSIDE_PYTHON_LIBRARIES}
+                         ${SHIBOKEN_LIBRARY}
+                         ${QT_QTNETWORK_LIBRARY})
+ 
+Index: pyside/PySide/QtOpenGL/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtOpenGL/CMakeLists.txt	2010-11-30 21:00:01.033609792 -0300
++++ pyside/PySide/QtOpenGL/CMakeLists.txt	2010-11-30 21:00:03.061110382 -0300
+@@ -37,14 +37,14 @@
+                             ${QT_QTCORE_INCLUDE_DIR}
+                             ${QT_QTGUI_INCLUDE_DIR}
+                             ${QT_QTOPENGL_INCLUDE_DIR}
+-                            ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                            ${PYTHON_INCLUDE_PATH}
+                             ${SHIBOKEN_INCLUDE_DIR}
+                             ${libpyside_SOURCE_DIR}
+                             ${QtGui_BINARY_DIR}/PySide/QtGui/
+                             ${QtCore_BINARY_DIR}/PySide/QtCore/
+                             ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtOpenGL)
+ set(QtOpenGL_libraries      pyside
+-                            ${SHIBOKEN_PYTHON_LIBRARIES}
++                            ${PYSIDE_PYTHON_LIBRARIES}
+                             ${QT_QTCORE_LIBRARY}
+                             ${QT_QTGUI_LIBRARY}
+                             ${QT_QTOPENGL_LIBRARY})
+Index: pyside/PySide/QtScript/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtScript/CMakeLists.txt	2010-11-30 21:00:01.103609284 -0300
++++ pyside/PySide/QtScript/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -32,10 +32,10 @@
+                             ${QT_QTSCRIPT_INCLUDE_DIR}
+                             ${SHIBOKEN_INCLUDE_DIR}
+                             ${libpyside_SOURCE_DIR}
+-                            ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                            ${PYTHON_INCLUDE_PATH}
+                             ${QtCore_BINARY_DIR}/PySide/QtCore )
+ set(QtScript_libraries      pyside
+-                            ${SHIBOKEN_PYTHON_LIBRARIES}
++                            ${PYSIDE_PYTHON_LIBRARIES}
+                             ${SHIBOKEN_LIBRARY}
+                             ${QT_QTCORE_LIBRARY}
+                             ${QT_QTSCRIPT_LIBRARY})
+Index: pyside/PySide/QtScriptTools/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtScriptTools/CMakeLists.txt	2010-11-30 21:00:01.273610384 -0300
++++ pyside/PySide/QtScriptTools/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -12,7 +12,7 @@
+                                 ${QT_GUI_INCLUDE_DIR}
+                                 ${QT_QTSCRIPT_INCLUDE_DIR}
+                                 ${QT_QTSCRIPTTOOLS_INCLUDE_DIR}
+-                                ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                                ${PYTHON_INCLUDE_PATH}
+                                 ${SHIBOKEN_INCLUDE_DIR}
+                                 ${libpyside_SOURCE_DIR}
+                                 ${QtCore_BINARY_DIR}/PySide/QtCore/
+@@ -21,7 +21,7 @@
+                                 ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtScriptTools)
+ 
+ set(QtScriptTools_libraries     pyside
+-                                ${SHIBOKEN_PYTHON_LIBRARIES}
++                                ${PYSIDE_PYTHON_LIBRARIES}
+                                 ${QT_QTCORE_LIBRARY}
+                                 ${QT_GUI_LIBRARY}
+                                 ${QT_QTSCRIPT_LIBRARY}
+Index: pyside/PySide/QtSql/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtSql/CMakeLists.txt	2010-11-30 21:00:01.083609721 -0300
++++ pyside/PySide/QtSql/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -26,14 +26,14 @@
+                         ${QT_QTCORE_INCLUDE_DIR}
+                         ${QT_QTGUI_INCLUDE_DIR}
+                         ${QT_QTSQL_INCLUDE_DIR}
+-                        ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                        ${PYTHON_INCLUDE_PATH}
+                         ${SHIBOKEN_INCLUDE_DIR}
+                         ${libpyside_SOURCE_DIR}
+                         ${QtCore_BINARY_DIR}/PySide/QtCore/
+                         ${QtGui_BINARY_DIR}/PySide/QtGui/
+                         ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtSql/)
+ set(QtSql_libraries     pyside
+-                        ${SHIBOKEN_PYTHON_LIBRARIES}
++                        ${PYSIDE_PYTHON_LIBRARIES}
+                         ${QT_QTCORE_LIBRARY}
+                         ${QT_QTGUI_LIBRARY}
+                         ${QT_QTSQL_LIBRARY})
+Index: pyside/PySide/QtSvg/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtSvg/CMakeLists.txt	2010-11-30 21:00:00.963610980 -0300
++++ pyside/PySide/QtSvg/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -17,11 +17,11 @@
+                         ${QT_QTSVG_INCLUDE_DIR}
+                         ${SHIBOKEN_INCLUDE_DIR}
+                         ${libpyside_SOURCE_DIR}
+-                        ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                        ${PYTHON_INCLUDE_PATH}
+                         ${QtCore_BINARY_DIR}/PySide/QtCore/
+                         ${QtGui_BINARY_DIR}/PySide/QtGui/)
+ set(QtSvg_libraries     pyside
+-                        ${SHIBOKEN_PYTHON_LIBRARIES}
++                        ${PYSIDE_PYTHON_LIBRARIES}
+                         ${SHIBOKEN_LIBRARY}
+                         ${QT_QTSVG_LIBRARY}
+                         ${QT_QTGUI_LIBRARY})
+Index: pyside/PySide/QtTest/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtTest/CMakeLists.txt	2010-11-30 21:00:01.233611981 -0300
++++ pyside/PySide/QtTest/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -14,11 +14,11 @@
+                         ${QT_QTTEST_INCLUDE_DIR}
+                         ${SHIBOKEN_INCLUDE_DIR}
+                         ${libpyside_SOURCE_DIR}
+-                        ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                        ${PYTHON_INCLUDE_PATH}
+                         ${QtCore_BINARY_DIR}/PySide/QtCore/
+                         ${QtGui_BINARY_DIR}/PySide/QtGui/)
+ set(QtTest_libraries    pyside
+-                        ${SHIBOKEN_PYTHON_LIBRARIES}
++                        ${PYSIDE_PYTHON_LIBRARIES}
+                         ${SHIBOKEN_LIBRARY}
+                         ${QT_QTTEST_LIBRARY}
+                         ${QT_QTGUI_LIBRARY}
+Index: pyside/PySide/QtUiTools/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtUiTools/CMakeLists.txt	2010-11-30 21:00:01.153609131 -0300
++++ pyside/PySide/QtUiTools/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -12,7 +12,7 @@
+                             ${QT_QTXML_INCLUDE_DIR}
+                             ${QT_QTDESIGNER_INCLUDE_DIR}
+                             ${QT_QTUITOOLS_INCLUDE_DIR}
+-                            ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                            ${PYTHON_INCLUDE_PATH}
+                             ${SHIBOKEN_INCLUDE_DIR}
+                             ${libpyside_SOURCE_DIR}
+                             ${plugins_SOURCE_DIR}
+@@ -22,7 +22,7 @@
+                             ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtUiTools)
+ set(QtUiTools_libraries     pyside
+                             uiplugin
+-                            ${SHIBOKEN_PYTHON_LIBRARIES}
++                            ${PYSIDE_PYTHON_LIBRARIES}
+                             ${QT_QTCORE_LIBRARY}
+                             ${QT_QTGUI_LIBRARY}
+                             ${QT_QTDESIGNER_LIBRARY}
+Index: pyside/PySide/QtWebKit/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtWebKit/CMakeLists.txt	2010-11-30 21:00:01.173611653 -0300
++++ pyside/PySide/QtWebKit/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -41,12 +41,12 @@
+                             ${QT_QTWEBKIT_INCLUDE_DIR}
+                             ${SHIBOKEN_INCLUDE_DIR}
+                             ${libpyside_SOURCE_DIR}
+-                            ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                            ${PYTHON_INCLUDE_PATH}
+                             ${QtCore_BINARY_DIR}/PySide/QtCore/
+                             ${QtGui_BINARY_DIR}/PySide/QtGui/
+                             ${QtNetwork_BINARY_DIR}/PySide/QtNetwork/ )
+ set(QtWebKit_libraries      pyside
+-                            ${SHIBOKEN_PYTHON_LIBRARIES}
++                            ${PYSIDE_PYTHON_LIBRARIES}
+                             ${SHIBOKEN_LIBRARY}
+                             ${QT_QTWEBKIT_LIBRARY}
+                             ${QT_QTNETWORK_LIBRARY}
+Index: pyside/PySide/QtXml/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtXml/CMakeLists.txt	2010-11-30 21:00:01.253609663 -0300
++++ pyside/PySide/QtXml/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -44,10 +44,10 @@
+                             ${QT_QTXML_INCLUDE_DIR}
+                             ${SHIBOKEN_INCLUDE_DIR}
+                             ${libpyside_SOURCE_DIR}
+-                            ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                            ${PYTHON_INCLUDE_PATH}
+                             ${QtCore_BINARY_DIR}/PySide/QtCore)
+ set(QtXml_libraries         pyside
+-                            ${SHIBOKEN_PYTHON_LIBRARIES}
++                            ${PYSIDE_PYTHON_LIBRARIES}
+                             ${SHIBOKEN_LIBRARY}
+                             ${QT_QTXML_LIBRARY})
+ set(QtXml_deps QtCore)
+Index: pyside/PySide/QtXmlPatterns/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/QtXmlPatterns/CMakeLists.txt	2010-11-30 21:00:00.853610483 -0300
++++ pyside/PySide/QtXmlPatterns/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -30,13 +30,13 @@
+ set(QtXmlPatterns_include_dirs  ${CMAKE_CURRENT_SOURCE_DIR}
+                                 ${QT_QTCORE_INCLUDE_DIR}
+                                 ${QT_QTXMLPATTERNS_INCLUDE_DIR}
+-                                ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                                ${PYTHON_INCLUDE_PATH}
+                                 ${SHIBOKEN_INCLUDE_DIR}
+                                 ${libpyside_SOURCE_DIR}
+                                 ${QtCore_BINARY_DIR}/PySide/QtCore/
+                                 ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtXmlPatterns)
+ set(QtXmlPatterns_libraries     pyside
+-                                ${SHIBOKEN_PYTHON_LIBRARIES}
++                                ${PYSIDE_PYTHON_LIBRARIES}
+                                 ${QT_QTCORE_LIBRARY}
+                                 ${QT_QTXMLPATTERNS_LIBRARY})
+ set(QtXmlPatterns_deps QtCore)
+Index: pyside/PySide/phonon/CMakeLists.txt
+===================================================================
+--- pyside.orig/PySide/phonon/CMakeLists.txt	2010-11-30 21:00:00.913617890 -0300
++++ pyside/PySide/phonon/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -51,14 +51,14 @@
+                         ${QT_QTCORE_INCLUDE_DIR}
+                         ${QT_QTGUI_INCLUDE_DIR}
+                         ${QT_PHONON_INCLUDE_DIR}
+-                        ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                        ${PYTHON_INCLUDE_PATH}
+                         ${SHIBOKEN_INCLUDE_DIR}
+                         ${libpyside_SOURCE_DIR}
+                         ${QtGui_BINARY_DIR}/PySide/QtGui/
+                         ${QtCore_BINARY_DIR}/PySide/QtCore/
+                         ${CMAKE_CURRENT_BINARY_DIR}/PySide/phonon)
+ set(phonon_libraries  pyside
+-                      ${SHIBOKEN_PYTHON_LIBRARIES}
++                      ${PYSIDE_PYTHON_LIBRARIES}
+                       ${QT_QTCORE_LIBRARY}
+                       ${QT_QTGUI_LIBRARY}
+                       ${QT_PHONON_LIBRARY})
+Index: pyside/cmake/Modules/FindPythonInterpWithDebug.cmake
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ pyside/cmake/Modules/FindPythonInterpWithDebug.cmake	2010-11-30 21:00:03.071118664 -0300
+@@ -0,0 +1,21 @@
++INCLUDE(FindPythonInterp)
++
++find_package(PythonInterp REQUIRED)
++
++#Fix missing variable on UNIX env
++if(NOT PYTHON_DEBUG_LIBRARIES AND UNIX)
++    set(PYTHON_DEBUG_LIBRARIES "${PYTHON_LIBRARIES}")
++endif()
++
++if(PYTHONINTERP_FOUND AND UNIX AND CMAKE_BUILD_TYPE STREQUAL "Debug")
++    # This is for Debian
++    set(PYTHON_EXECUTABLE_TMP "${PYTHON_EXECUTABLE}-dbg")
++
++    # Fall back to the standard interpreter.
++    if(NOT EXISTS "${PYTHON_EXECUTABLE_TMP}")
++        set(PYTHON_EXECUTABLE_TMP "${PYTHON_EXECUTABLE}")
++    endif()
++
++    set(PYTHON_EXECUTABLE "${PYTHON_EXECUTABLE_TMP}")
++endif()
++
+Index: pyside/libpyside/CMakeLists.txt
+===================================================================
+--- pyside.orig/libpyside/CMakeLists.txt	2010-11-30 21:00:03.021109655 -0300
++++ pyside/libpyside/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -18,11 +18,12 @@
+ 
+ include_directories(${CMAKE_CURRENT_SOURCE_DIR}
+                     ${SHIBOKEN_INCLUDE_DIR}
+-                    ${SHIBOKEN_PYTHON_INCLUDE_DIR}
++                    ${PYTHON_INCLUDE_PATH}
+                     ${QT_QTCORE_INCLUDE_DIR})
++
+ add_library(pyside SHARED ${libpyside_SRC})
+ target_link_libraries(pyside
+-                      ${SHIBOKEN_PYTHON_LIBRARIES}
++                      ${PYSIDE_PYTHON_LIBRARIES}
+                       ${SHIBOKEN_LIBRARY}
+                       ${QT_QTCORE_LIBRARY})
+ 
+Index: pyside/tests/CMakeLists.txt
+===================================================================
+--- pyside.orig/tests/CMakeLists.txt	2010-11-30 21:00:00.803616403 -0300
++++ pyside/tests/CMakeLists.txt	2010-11-30 21:00:03.071118664 -0300
+@@ -37,7 +37,7 @@
+         else()
+             message(WARNING "Invalid call of macro PYSIDE_TEST")
+         endif()
+-        set(TEST_CMD ${XVFB_EXEC} ${SHIBOKEN_PYTHON_INTERPRETER} "${CMAKE_CURRENT_SOURCE_DIR}/${ARGV0}")
++        set(TEST_CMD ${XVFB_EXEC} ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/${ARGV0}")
+         add_test(${TEST_NAME} ${TEST_CMD})
+         set_tests_properties(${TEST_NAME} PROPERTIES
+                              TIMEOUT ${CTEST_TESTING_TIMEOUT}
