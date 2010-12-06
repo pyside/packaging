@@ -85,6 +85,11 @@ for (var i in requiredPrograms) {
     }
 }
 
+function runShellCommand(command)
+{
+    return shell.Run("cmd /c " + command + " || (echo FAILED && pause && exit /b 1)", 5, true);
+}
+
 function getSources(module)
 {
     if (fso.FolderExists(module))
@@ -93,7 +98,7 @@ function getSources(module)
     var repo = modules[module][1];
 
     WScript.Echo("Downloading " + module + " sources at " + repo);
-    if (shell.Run("git clone " + repo, 5, true))
+    if (runShellCommand("git clone " + repo))
         throw "Error cloning " + repo;
 }
 
@@ -105,20 +110,20 @@ function compile(module)
     shell.CurrentDirectory = tempDir + "\\" + module + "\\build";
 
     var branch = modules[module][0];
-    if (shell.Run("git checkout " + branch, 5, true))
+    if (runShellCommand("git checkout " + branch))
         throw "Error changing to branch " + branch + " in " + module;
 
     WScript.Echo("Configuring " + module + "...");
-    if (shell.Run("cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=" + tempDir +"\\PySideInstall ..", 5, true))
+    if (runShellCommand("cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=" + tempDir +"\\PySideInstall .."))
         throw "Error configuring " + module;
     WScript.Echo("Compiling " + module + "...");
-    if (shell.Run("nmake", 5, true))
+    if (runShellCommand("nmake"))
         throw "Error compiling " + module;
     WScript.Echo("Testing " + module + "...");
-    if (shell.Run("ctest", 5, true))
+    if (runShellCommand("ctest"))
         WScript.Echo("Some " + module + " tests failed!");
     WScript.Echo("Installing " + module + "...");
-    if (shell.Run("nmake install/fast", 5, true))
+    if (runShellCommand("nmake install/fast"))
         throw "Error pseudo installing " + module;
 }
 
@@ -178,7 +183,7 @@ function createWindowsInstaller()
     f.Write(script);
     f.close();
 
-    if (shell.Run("iscc " + tempDir + "\\pyside.iss", 5, true))
+    if (runShellCommand("iscc " + tempDir + "\\pyside.iss"))
         throw "Error compiling install script.";
     WScript.Echo("All done, check the folder: " + tempDir + "\\Output");
 }
