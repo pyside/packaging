@@ -130,7 +130,7 @@ Description: Transitional package for python-pyside.qtgui
 
 Package: python-pyside.qtdeclarative
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore (>= ${binary:Version})
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${python:Depends}, python-pyside.qtcore (>= ${binary:Version}), python-pyside.qtgui (>= ${binary:Version}), python-pyside.qtnetwork (>= ${binary:Version})
 Description: Qt 4 Declarative module - Python bindings
  Qt is a cross-platform C++ application framework. Qt's primary feature
  is its rich set of widgets that provide standard GUI functionality.
