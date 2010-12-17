@@ -1,0 +1,26 @@
+Index: apiextractor-0.9.0/CMakeLists.txt
+===================================================================
+--- apiextractor-0.9.0.orig/CMakeLists.txt	2010-12-14 16:50:10.281110144 -0300
++++ apiextractor-0.9.0/CMakeLists.txt	2010-12-14 16:50:11.111110678 -0300
+@@ -10,6 +10,7 @@
+ 
+ option(DISABLE_DOCSTRINGS "Disable documentation extraction." FALSE)
+ option(BUILD_TESTS "Build tests." TRUE)
++option(INSTALL_TESTS "Install tests" FALSE)
+ option(ENABLE_VERSION_SUFFIX "Used to use current version in suffix to generated files. This is used to allow multiples versions installed simultaneous." FALSE)
+ 
+ if (NOT DISABLE_DOCSTRINGS)
+Index: apiextractor-0.9.0/tests/CMakeLists.txt
+===================================================================
+--- apiextractor-0.9.0.orig/tests/CMakeLists.txt	2010-12-14 16:50:10.241109753 -0300
++++ apiextractor-0.9.0/tests/CMakeLists.txt	2010-12-14 17:09:45.621121068 -0300
+@@ -5,6 +5,9 @@
+     include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${apiextractor_SOURCE_DIR})
+     target_link_libraries(${testname} ${QT_QTTEST_LIBRARY} ${QT_QTCORE_LIBRARY} ${QT_QTGUI_LIBRARY} apiextractor)
+     add_test(${testname} ${testname})
++    if (INSTALL_TESTS)
++        install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/${testname} DESTINATION share/apiextractor-tests/)
++    endif()
+ endmacro(declare_test testname)
+ 
+ declare_test(testabstractmetaclass)

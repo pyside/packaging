@@ -4,7 +4,7 @@ Section: libs
 Maintainer: Didier Raboud <didier@raboud.com>
 Build-Depends: dpkg-dev (>= 1.14.25), debhelper7 (>= 7.0.50), cmake (>= 2.6.0),
                libqt4-dev (>= 4.4.0), libqt4-xmlpatterns (>= 4.4.0),
-               libxml2-dev (>= 2.6.32), libxslt1-dev (>= 1.1.19), pkg-config
+               libxml2-dev (>= 2.6.32), libxslt1-dev (>= 1.1.19), pkg-config, quilt
 Build-Depends-Indep: python-sphinxbase
 Standards-Version: 3.9.1.0
 Vcs-Git: git://git.debian.org/collab-maint/apiextractor.git
@@ -67,3 +67,17 @@ Description: documentation for the library headers parser
  .
  This package contains the documentation for apiextractor.
  
+
+Package: apiextractor-tests
+Architecture: all
+Section: devel
+Depends: ${misc:Depends}, ${shlibs:Depends}, libapiextractor0.9 (= ${binary:Version}),
+         testrunner-lite, libqt4-test, libqt4-gui, libqt4-dbus, libqt4-network
+Description: Package with the runtime tests
+ The API Extractor library is used by the binding generator to parse headers of
+ a given library and merge this data with information provided by typesystem
+ (XML) files, resulting in a representation of how the API should be exported
+ to the chosen target language. The generation of source code for the bindings
+ is performed by specific generators using the API Extractor library.
+ .
+ This package contains the runtime tests for apiextractor.

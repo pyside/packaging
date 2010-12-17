@@ -1,0 +1,230 @@
+<testdefinition version="1.0">
+    <suite domain="Programming" name="mysuite">
+        <set feature="Working" name="myset">
+            <case level="Product" name="testabstractmetaclass" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testabstractmetaclass
+                </step>
+            </case>
+            <case level="Product" name="testabstractmetatype" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testabstractmetatype
+                </step>
+            </case>
+            <case level="Product" name="testaddfunction" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testaddfunction
+                </step>
+            </case>
+            <case level="Product" name="testarrayargument" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testarrayargument
+                </step>
+            </case>
+            <case level="Product" name="testcodeinjection" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testcodeinjection
+                </step>
+            </case>
+            <case level="Product" name="testcontainer" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testcontainer
+                </step>
+            </case>
+            <case level="Product" name="testconversionoperator" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testconversionoperator
+                </step>
+            </case>
+            <case level="Product" name="testconversionruletag" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testconversionruletag
+                </step>
+            </case>
+            <case level="Product" name="testctorinformation" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testctorinformation
+                </step>
+            </case>
+            <case level="Product" name="testdtorinformation" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testdtorinformation
+                </step>
+            </case>
+            <case level="Product" name="testenum" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testenum
+                </step>
+            </case>
+            <case level="Product" name="testfunctiontag" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testfunctiontag
+                </step>
+            </case>
+            <case level="Product" name="testimplicitconversions" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testimplicitconversions
+                </step>
+            </case>
+            <case level="Product" name="testmodifydocumentation" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testmodifydocumentation
+                </step>
+            </case>
+            <case level="Product" name="testmodifyfunction" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testmodifyfunction
+                </step>
+            </case>
+            <case level="Product" name="testmultipleinheritance" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testmultipleinheritance
+                </step>
+            </case>
+            <case level="Product" name="testnamespace" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testnamespace
+                </step>
+            </case>
+            <case level="Product" name="testnestedtypes" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testnestedtypes
+                </step>
+            </case>
+            <case level="Product" name="testprimitivetypetag" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testprimitivetypetag
+                </step>
+            </case>
+            <case level="Product" name="testrefcounttag" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testrefcounttag
+                </step>
+            </case>
+            <case level="Product" name="testreferencetopointer" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testreferencetopointer
+                </step>
+            </case>
+            <case level="Product" name="testremovefield" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testremovefield
+                </step>
+            </case>
+            <case level="Product" name="testremoveimplconv" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testremoveimplconv
+                </step>
+            </case>
+            <case level="Product" name="testresolvetype" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testresolvetype
+                </step>
+            </case>
+            <case level="Product" name="testreverseoperators" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testreverseoperators
+                </step>
+            </case>
+            <case level="Product" name="testtemplates" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testtemplates
+                </step>
+            </case>
+            <case level="Product" name="testtoposort" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testtoposort
+                </step>
+            </case>
+            <case level="Product" name="testvoidarg" type="Functional">
+                <description>
+                    Sample description
+                </description>
+                <step>
+                    /usr/share/apiextractor-tests/testvoidarg
+                </step>
+            </case>
+        </set>
+    </suite>
+</testdefinition>

@@ -6,12 +6,16 @@ PATH := /usr/bin/dh7:$(PATH)
 export PATH
 
 %:
-	dh --buildsystem=cmake --parallel $@
+	dh --buildsystem=cmake --parallel --with quilt $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- -DINSTALL_TESTS=True
 
 override_dh_strip:
 	dh_strip --dbg-package=libapiextractor-dbg
 
 override_dh_install:
+	cp debian/tests.xml debian/tmp/usr/share/apiextractor-tests/
 	dh_install --list-missing
 
 override_dh_auto_test:
