@@ -1,0 +1,4 @@
+include *.pyd *.dll *.exe
+recursive-include src/PySide/plugins **
+recursive-include src/PySide/examples **
+recursive-include src/pysideuic/widget-plugins **

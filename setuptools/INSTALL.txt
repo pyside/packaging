@@ -1,0 +1,52 @@
+
+Windows
+=======
+
+Prerequisities
+--------------
+
+1. MS Visual Studio Express 2008: http://www.microsoft.com/express/Downloads/
+  Visual Studio Express 2010 is not supported, unless You build also the Qt library
+
+2. CMake: http://www.cmake.org/files/v2.8/cmake-2.8.2-win32-x86.exe
+
+3. Git: http://code.google.com/p/msysgit/downloads/detail?name=Git-1.7.3.1-preview20101002.exe&can=2&q=
+  Only needed if You want to download latest sources from git repostitories
+
+4. Python 2.5, 2.6 or 2.7: http://www.python.org/ftp/python/2.7/python-2.7.msi
+
+Build
+-----
+
+1. Open "Visual Studio Command Prompt":
+
+  [Start Menu]->Programs->Microsoft Visual C++ 2008 Express Edition->Visual Studio Tools
+
+2. From "Visual Studio Command Prompt" run the create_package.py script:
+
+ For example, to build the binaries from stable sources for Python 2.7 and Qt 4.7.2, run the script with parameters:
+ c:\Python27\python.exe create_package.py --qmake=c:\Qt\4.7.2\bin\qmake.exe
+
+ To build the binaries from git:
+ c:\Python27\python.exe create_package.py --qmake=c:\Qt\4.7.2\bin\qmake.exe --download
+
+ To check the environment:
+ c:\Python27\python.exe create_package.py --qmake=c:\Qt\4.7.2\bin\qmake.exe --check-environ
+
+ To show help on all parameters:
+ c:\Python27\python.exe create_package.py --help
+
+Result
+------
+
+After the successfull build, the final binary distribution can be found in subfolder "dist".
+
+Linux
+=====
+
+TODO
+
+MacOS X
+=======
+
+TODO
