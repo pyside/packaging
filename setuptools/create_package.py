@@ -176,21 +176,21 @@ def main():
         
         global qtinfo
         qtinfo = QtInfo(options.qmake_path)
-        if not qtinfo.qmake_path or not os.path.exists(qinfo.qmake_path):
+        if not qtinfo.qmake_path or not os.path.exists(qtinfo.qmake_path):
             print "Failed to find qmake. Please specify the path to qmake with --qmake parameter."
             sys.exit(1)
         
         # Add path to this version of Qt to environment if it's not there.
         # Otherwise the "generatorrunner" will not find the Qt libraries
         paths = os.environ['PATH'].lower().split(os.pathsep)
-        qt_dir = os.path.dirname(qmake_path)
+        qt_dir = os.path.dirname(qtinfo.qmake_path)
         if not qt_dir.lower() in paths:
             print "Adding path \"%s\" to environment" % qt_dir
             paths.append(qt_dir)
         os.environ['PATH'] = os.pathsep.join(paths)
         
-        if not qtinfo.qt_version:
-            print "Failed to query the Qt version with qmake %s" % qmake_path
+        if not qtinfo.version:
+            print "Failed to query the Qt version with qmake %s" % qtinfo.qmake_path
             sys.exit(1)
                
         global clean_output
@@ -200,7 +200,7 @@ def main():
         download = options.download
         
         global output_dir
-        output_dir = os.path.join(modules_dir, "output-py%s-qt%s") % (py_version, qt_version)
+        output_dir = os.path.join(modules_dir, "output-py%s-qt%s") % (py_version, qtinfo.version)
         
         print "------------------------------------------"
         print "Python executable: %s" % sys.executable
