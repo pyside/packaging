@@ -2,6 +2,7 @@ import os
 import sys
 import subprocess
 import shutil
+import datetime
 
 from qtinfo import QtInfo
 
