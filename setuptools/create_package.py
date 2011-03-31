@@ -11,7 +11,8 @@ import subprocess
 import optparse
 import traceback
 import distutils.sysconfig
-from package import create_package
+from package import create_package, run_process
+from qtinfo import QtInfo, find_executable
 
 
 # Constants
@@ -38,11 +39,6 @@ modules_dir = None
 output_dir = None
 clean_output = False
 download = False
-qmake_path = None
-qt_version = None
-qt_bins_dir = None
-qt_plugins_dir = None
-
 
 # Change the cwd to our source dir
 try:
@@ -52,126 +48,6 @@ except NameError:
 this_file = os.path.abspath(this_file)
 if os.path.dirname(this_file):
     os.chdir(os.path.dirname(this_file))
-
-
-try:
-    from shutil import ignore_patterns, copytree
-    # Running Python > 2.5
-except ImportError:
-    # Running Python <= 2.5
-    # Imported from Python 2.7 module shutil
-    import fnmatch
-    def ignore_patterns(*patterns):
-        def _ignore_patterns(path, names):
-            ignored_names = []
-            for pattern in patterns:
-                ignored_names.extend(fnmatch.filter(names, pattern))
-            return set(ignored_names)
-        return _ignore_patterns
-    def copytree(src, dst, symlinks=False, ignore=None):
-        names = os.listdir(src)
-        if ignore is not None:
-            ignored_names = ignore(src, names)
-        else:
-            ignored_names = set()
-
-        os.makedirs(dst)
-        errors = []
-        for name in names:
-            if name in ignored_names:
-                continue
-            srcname = os.path.join(src, name)
-            dstname = os.path.join(dst, name)
-            try:
-                if symlinks and os.path.islink(srcname):
-                    linkto = os.readlink(srcname)
-                    os.symlink(linkto, dstname)
-                elif os.path.isdir(srcname):
-                    copytree(srcname, dstname, symlinks, ignore)
-                else:
-                    # Will raise a SpecialFileError for unsupported file types
-                    shutil.copy2(srcname, dstname)
-            # catch the Error from the recursive copytree so that we can
-            # continue with other files
-            except shutil.Error, err:
-                errors.extend(err.args[0])
-            except EnvironmentError, why:
-                errors.append((srcname, dstname, str(why)))
-        try:
-            shutil.copystat(src, dst)
-        except OSError, why:
-            if WindowsError is not None and isinstance(why, WindowsError):
-                # Copying file access times may fail on Windows
-                pass
-            else:
-                errors.extend((src, dst, str(why)))
-        if errors:
-            raise Error, errors
-
-
-def run_process(*args):
-    shell = False
-    if sys.platform == "win32":
-        shell = True
-    p = subprocess.Popen(args, shell=shell)
-    p.communicate()
-    return p.returncode
-
-
-def get_qt_property(prop_name):
-    p = subprocess.Popen([qmake_path, "-query", prop_name], shell=False, stdout=subprocess.PIPE)
-    prop = p.communicate()[0]
-    if p.returncode != 0:
-        return None
-    return prop.strip()
-
-
-def replace_in_file(src, dst, vars):
-    f = open(src, "rt")
-    content =  f.read()
-    f.close()
-    for k in vars:
-        content = content.replace(k, vars[k])
-    f = open(dst, "wt")
-    f.write(content)
-    f.close()
-
-
-# LINKS:
-#   http://snippets.dzone.com/posts/show/6313
-def find_executable(executable, path=None):
-    """Try to find 'executable' in the directories listed in 'path' (a
-    string listing directories separated by 'os.pathsep'; defaults to
-    os.environ['PATH']).  Returns the complete filename or None if not
-    found
-    """
-    if path is None:
-        path = os.environ['PATH']
-    paths = path.split(os.pathsep)
-    extlist = ['']
-    if os.name == 'os2':
-        (base, ext) = os.path.splitext(executable)
-        # executable files on OS/2 can have an arbitrary extension, but
-        # .exe is automatically appended if no dot is present in the name
-        if not ext:
-            executable = executable + ".exe"
-    elif sys.platform == 'win32':
-        pathext = os.environ['PATHEXT'].lower().split(os.pathsep)
-        (base, ext) = os.path.splitext(executable)
-        if ext.lower() not in pathext:
-            extlist = pathext
-    for ext in extlist:
-        execname = executable + ext
-        if os.path.isfile(execname):
-            return execname
-        else:
-            for p in paths:
-                f = os.path.join(p, execname)
-                if os.path.isfile(f):
-                    return f
-    else:
-        return None
-
 
 def check_env():
     # Check if the required programs are on system path.
@@ -298,10 +174,9 @@ def main():
         if not os.path.exists("modules"):
             os.mkdir(modules_dir)
         
-        global qmake_path
-        installed_qmake_path = find_executable("qmake")
-        qmake_path = options.qmake_path or installed_qmake_path
-        if not qmake_path or not os.path.exists(qmake_path):
+        global qtinfo
+        qtinfo = QtInfo(options.qmake_path)
+        if not qtinfo.qmake_path or not os.path.exists(qinfo.qmake_path):
             print "Failed to find qmake. Please specify the path to qmake with --qmake parameter."
             sys.exit(1)
         
@@ -314,18 +189,10 @@ def main():
             paths.append(qt_dir)
         os.environ['PATH'] = os.pathsep.join(paths)
         
-        global qt_version
-        qt_version = get_qt_property("QT_VERSION")
-        if not qt_version:
+        if not qtinfo.qt_version:
             print "Failed to query the Qt version with qmake %s" % qmake_path
             sys.exit(1)
-        
-        global qt_bins_dir
-        qt_bins_dir = get_qt_property("QT_INSTALL_BINS")
-        
-        global qt_plugins_dir
-        qt_plugins_dir = get_qt_property("QT_INSTALL_PLUGINS")
-        
+               
         global clean_output
         clean_output = options.clean
         
@@ -343,10 +210,10 @@ def main():
         print "Modules directory: %s" % modules_dir or "<git repository>"
         print "Output directory: %s" % output_dir
         print "Python version: %s" % py_version
-        print "qmake path: %s" % qmake_path
-        print "Qt version: %s" % qt_version
-        print "Qt bins: %s" % qt_bins_dir
-        print "Qt plugins: %s" % qt_plugins_dir
+        print "qmake path: %s" % qtinfo.qmake_path
+        print "Qt version: %s" % qtinfo.version
+        print "Qt bins: %s" % qtinfo.bins_dir
+        print "Qt plugins: %s" % qtinfo.plugins_dir
         print "------------------------------------------"
         
         # Check environment
@@ -365,7 +232,7 @@ def main():
             compile_module(module)
         
         # Create python distribution package
-        create_package(script_dir, pkgsrc_dir, build_dir, output_dir, py_version)
+        create_package(PKG_VERSION, script_dir, output_dir, py_version, qtinfo, True)
     
     except Exception, e:
         print traceback.print_exception(*sys.exc_info())
