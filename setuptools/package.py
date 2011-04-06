@@ -90,6 +90,11 @@ def create_package(pkg_version, script_dir, output_dir, py_version, qtinfo, clea
         shutil.rmtree(pkgsrc_dir, False)
     os.mkdir(pkgsrc_dir)
 
+    dist_dir = os.path.join(script_dir, "dist")
+    if os.path.exists(dist_dir):
+        print "Deleting old packages in %s..." % dist_dir
+        shutil.rmtree(dist_dir)
+
     build_dir = os.path.join(script_dir, "build")
     if cleanup and os.path.exists(build_dir):
         print "Deleting folder %s..." % build_dir
