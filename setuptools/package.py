@@ -165,6 +165,11 @@ def create_package(pkg_version, script_dir, output_dir, py_version, qtinfo, clea
     print "Copying Qt plugins from %s" % (src)
     copytree(src, os.path.join(pkgsrc_dir, "PySide/plugins"), ignore=ignore_patterns('*.lib', '*d4.dll'))
 
+    # <qt>/imports/* -> src/PySide/imports
+    src = qtinfo.imports_dir
+    print "Copying QML imports from %s" % (src)
+    copytree(src, os.path.join(pkgsrc_dir, "PySide/imports"), ignore=ignore_patterns('*.lib', '*d4.dll'))
+
     # <modules>/examples/* -> src/PySide/examples
     src = os.path.join(modules_dir, "examples")
     if os.path.exists(src):
