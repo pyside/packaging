@@ -58,7 +58,7 @@ class QtInfo(object):
         return self.getProperty("QT_INSTALL_PLUGINS")
 
     def getImportsPath(self):
-        return self.getPropery("QT_INSTALL_IMPORTS")
+        return self.getProperty("QT_INSTALL_IMPORTS")
 
     def getProperty(self, prop_name):
         p = subprocess.Popen([self._qmake_path, "-query", prop_name], shell=False, stdout=subprocess.PIPE)
