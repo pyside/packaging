@@ -121,7 +121,7 @@ def create_package(pkg_version, script_dir, output_dir, py_version, qtinfo, clea
     f.write("# Package")
     f.close()
     dst = os.path.join(dst, "uic.py")
-    if os.path.exists(dst):
+    if os.path.exists(src):
         print "Copying pyside-uic script from %s to %s" % (src, dst)
         shutil.copy(src, dst)
     else:

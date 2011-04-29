@@ -16,7 +16,7 @@ from qtinfo import QtInfo, find_executable
 
 
 # Constants
-PKG_VERSION = "1.0.0"
+PKG_VERSION = "1.0.1"
 
 
 # Modules
@@ -84,7 +84,7 @@ def get_module(module):
         raise Exception("Error cloning " + repo)
 
 
-def compile_module(module):
+def compile_module(module, qtinfo):
     os.chdir(modules_dir + "/" + module[0])
     if os.path.exists("build") and clean_output:
         print "Deleting build folder..."
@@ -94,8 +94,8 @@ def compile_module(module):
     os.chdir(modules_dir + "/" + module[0] + "/build")
 
     if modules_dir is None:
-        print "Changing to branch " + branch + " in " + module[0]
         branch = module[1]
+        print "Changing to branch " + branch + " in " + module[0]
         if run_process("git", "checkout", branch) != 0:
             raise Exception("Error changing to branch " + branch + " in " + module[0])
     
@@ -110,7 +110,7 @@ def compile_module(module):
     args = [
         "cmake",
         "-G", cmake_generator,
-        "-DQT_QMAKE_EXECUTABLE=%s" % qmake_path,
+        "-DQT_QMAKE_EXECUTABLE=%s" % qtinfo.qmake_path,
         "-DBUILD_TESTS=False",
         "-DPYTHON_EXECUTABLE=%s" % sys.executable,
         "-DPYTHON_INCLUDE_DIR=%s" % py_include_dir,
@@ -229,7 +229,7 @@ def main():
         # Get and build modules
         for module in modules:
             get_module(module)
-            compile_module(module)
+            compile_module(module, qtinfo)
         
         # Create python distribution package
         create_package(PKG_VERSION, script_dir, output_dir, py_version, qtinfo, True)

@@ -37,6 +37,8 @@ def install():
         file_created(qtconf_path)
         pyside_path = os.path.dirname(QtCore.__file__)
         pyside_path = pyside_path.replace("\\", "/")
+        pyside_path = pyside_path.replace("lib/site-packages", "Lib/site-packages")
+        print "PySide installed in %s..." % pyside_path
         f.write("""[Paths]
 Prefix = %s
 Binaries = .
