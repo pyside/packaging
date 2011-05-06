@@ -6,14 +6,14 @@ Prerequisities
 --------------
 
 1. MS Visual Studio Express 2008: http://www.microsoft.com/express/Downloads/
-  Visual Studio Express 2010 is not supported, unless You build also the Qt library
+  
+  NOTE: Visual Studio Express 2010 is not supported
 
-2. CMake: http://www.cmake.org/files/v2.8/cmake-2.8.2-win32-x86.exe
+2. CMake: http://www.cmake.org/cmake/resources/software.html
 
-3. Git: http://code.google.com/p/msysgit/downloads/detail?name=Git-1.7.3.1-preview20101002.exe&can=2&q=
-  Only needed if You want to download latest sources from git repostitories
+3. Git: http://code.google.com/p/msysgit/downloads/list
 
-4. Python 2.5, 2.6 or 2.7: http://www.python.org/ftp/python/2.7/python-2.7.msi
+4. Python 2.5, 2.6 or 2.7: http://www.python.org/download/
 
 Build
 -----
@@ -22,31 +22,25 @@ Build
 
   [Start Menu]->Programs->Microsoft Visual C++ 2008 Express Edition->Visual Studio Tools
 
-2. From "Visual Studio Command Prompt" run the create_package.py script:
+2. Get build scripts from repository http://qt.gitorious.org/pyside/packaging
+    and go to "c:\repositories\packaging\setuptools" subfolder
 
- For example, to build the binaries from stable sources for Python 2.7 and Qt 4.7.2, run the script with parameters:
- c:\Python27\python.exe create_package.py --qmake=c:\Qt\4.7.2\bin\qmake.exe
+3. Run the build.py script (it must be run from "Visual Studio Command Prompt"):
 
- To build the binaries from git:
- c:\Python27\python.exe create_package.py --qmake=c:\Qt\4.7.2\bin\qmake.exe --download
+  To build the latest binaries from git repository for Python 2.7 and Qt 4.7.3, run the script with parameters:
+  
+  c:\repositories\packaging\setuptools>c:\Python27\python.exe build.py -p 1.0.2 -d -q c:\Qt\4.7.3\bin\qmake.exe
+ 
+  All build.py parameters:
+   -p <package_version> Specify package version
+   -d                   Download latest sources from git repository
+   -q <qmake_path>      Locate qmake
+   -e                   Check the environment
 
- To check the environment:
- c:\Python27\python.exe create_package.py --qmake=c:\Qt\4.7.2\bin\qmake.exe --check-environ
-
- To show help on all parameters:
- c:\Python27\python.exe create_package.py --help
-
-Result
-------
-
-After the successfull build, the final binary distribution can be found in subfolder "dist".
+4. After the successfull build, the final binary distribution can be found in subfolder "dist":
+  c:\repositories\packaging\setuptools\dist\PySide-1.0.3qt473.win32-py2.7.exe
 
 Linux
 =====
-
-TODO
-
-MacOS X
-=======
 
 TODO
