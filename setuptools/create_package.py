@@ -1,44 +1,33 @@
-#
-# create_package.py
-#
-# Author: Roman Lacko, backup.rlacko@gmail.com
-#
-
 import sys
 import os
+import stat
+import errno
 import shutil
 import subprocess
 import optparse
 import traceback
 import distutils.sysconfig
-from package import create_package, run_process
-from qtinfo import QtInfo, find_executable
 
-
-# Constants
-PKG_VERSION = "1.0.1"
+from utils import *
+from package import package
+from qtinfo import QtInfo
 
 
 # Modules
 modules = [
-    ["apiextractor", "master", "git://gitorious.org/pyside/apiextractor.git"],
-    ["generatorrunner", "master", "git://gitorious.org/pyside/generatorrunner.git"],
-    ["shiboken", "master", "git://gitorious.org/pyside/shiboken.git"],
-    ["pyside", "master", "git://gitorious.org/pyside/pyside.git"],
-    ["pyside-tools", "master", "git://gitorious.org/pyside/pyside-tools.git"],
+    ["apiextractor", "master", "http://git.gitorious.org/pyside/apiextractor.git"],
+    ["generatorrunner", "master", "http://git.gitorious.org/pyside/generatorrunner.git"],
+    ["shiboken", "master", "http://git.gitorious.org/pyside/shiboken.git"],
+    ["pyside", "master", "http://git.gitorious.org/pyside/pyside.git"],
+    ["pyside-tools", "master", "http://git.gitorious.org/pyside/pyside-tools.git"],
 ]
 
 
 # Globals
-script_version = "PySide package creator version %s" % PKG_VERSION
 py_version = "%s.%s" % (sys.version_info[0], sys.version_info[1])
 py_include_dir = None
 py_library = None
-script_dir = None
-modules_dir = None
-output_dir = None
-clean_output = False
-download = False
+
 
 # Change the cwd to our source dir
 try:
@@ -49,7 +38,8 @@ this_file = os.path.abspath(this_file)
 if os.path.dirname(this_file):
     os.chdir(os.path.dirname(this_file))
 
-def check_env():
+
+def check_env(download):
     # Check if the required programs are on system path.
     requiredPrograms = [ "cmake" ];
     if download:
@@ -69,36 +59,52 @@ def check_env():
             print 'Found %s' % f
 
 
-def get_module(module):
-    # Clone sources from git repository
-    os.chdir(modules_dir)
-    if os.path.exists(module[0]):
-        if download:
-            print "Deleting folder %s..." % module[0]
-            shutil.rmtree(module[0], False)
-        else:
-            return
-    repo = module[2]
-    print "Downloading " + module[0] + " sources at " + repo
-    if run_process("git", "clone", repo) != 0:
-        raise Exception("Error cloning " + repo)
-
-
-def compile_module(module, qtinfo):
-    os.chdir(modules_dir + "/" + module[0])
-    if os.path.exists("build") and clean_output:
-        print "Deleting build folder..."
-        shutil.rmtree("build", False)
-    if not os.path.exists("build"):
-        os.mkdir("build")
-    os.chdir(modules_dir + "/" + module[0] + "/build")
-
-    if modules_dir is None:
-        branch = module[1]
-        print "Changing to branch " + branch + " in " + module[0]
-        if run_process("git", "checkout", branch) != 0:
-            raise Exception("Error changing to branch " + branch + " in " + module[0])
+def process_modules(download, modules, modules_dir, install_dir, qtinfo):
+    if os.path.exists(install_dir):
+        print "Deleting install folder %s..." % install_dir
+        rmtree(install_dir)
+    print "Creating install folder %s..." % install_dir
+    os.mkdir(install_dir)
     
+    for module in modules:
+        process_module(download, module, modules_dir, install_dir, qtinfo)
+
+
+def process_module(download, module, modules_dir, install_dir, qtinfo):
+    module_name = module[0]
+    print "Processing module %s..." % module_name
+    
+    if not os.path.exists(modules_dir):
+        os.mkdir(modules_dir)
+    os.chdir(modules_dir)
+    
+    if download:
+        if os.path.exists(module_name):
+            print "Deleting module folder %s..." % module_name
+            rmtree(module_name)
+        
+        # Clone sources from git repository
+        repo = module[2]
+        print "Downloading " + module_name + " sources at " + repo
+        if run_process("git", "clone", repo) != 0:
+            raise Exception("Error cloning " + repo)
+        os.chdir(modules_dir + "/" + module_name)
+    
+        # Checkout branch
+        branch = module[1]
+        print "Changing to branch " + branch + " in " + module_name
+        if run_process("git", "checkout", branch) != 0:
+            raise Exception("Error changing to branch " + branch + " in " + module_name)
+    
+    build_dir = os.path.join(os.path.join(modules_dir, module_name),  "build")
+    if os.path.exists(build_dir):
+        print "Deleting build folder %s..." % build_dir
+        rmtree(build_dir)
+    print "Creating build folder %s..." % build_dir
+    os.mkdir(build_dir)
+    os.chdir(build_dir)
+    
+    # Compile
     if sys.platform == "win32":
         cmake_generator = "NMake Makefiles"
         make_cmd = "nmake"
@@ -106,7 +112,7 @@ def compile_module(module, qtinfo):
         cmake_generator = "Unix Makefiles"
         make_cmd = "make"
     
-    print "Configuring " + module[0] + " in " + os.getcwd() + "..."
+    print "Configuring " + module_name + " in " + os.getcwd() + "..."
     args = [
         "cmake",
         "-G", cmake_generator,
@@ -116,43 +122,40 @@ def compile_module(module, qtinfo):
         "-DPYTHON_INCLUDE_DIR=%s" % py_include_dir,
         "-DPYTHON_LIBRARY=%s" % py_library,
         "-DCMAKE_BUILD_TYPE=Release",
-        "-DCMAKE_INSTALL_PREFIX=%s" % output_dir,
+        "-DCMAKE_INSTALL_PREFIX=%s" % install_dir,
         ".."
     ]
-    if module[0] == "generatorrunner":
+    if module_name == "generatorrunner":
         args.append("-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=yes")
     if run_process(*args) != 0:
-        raise Exception("Error configuring " + module[0])
+        raise Exception("Error configuring " + module_name)
     
-    print "Compiling " + module[0] + "..."
+    print "Compiling " + module_name + "..."
     if run_process(make_cmd) != 0:
-        raise Exception("Error compiling " + module[0])
+        raise Exception("Error compiling " + module_name)
     
-    print "Testing " + module[0] + "..."
+    print "Testing " + module_name + "..."
     if run_process("ctest") != 0:
-        print "Some " + module[0] + " tests failed!"
+        print "Some " + module_name + " tests failed!"
     
-    print "Installing " + module[0] + "..."
+    print "Installing " + module_name + "..."
     if run_process(make_cmd, "install/fast") != 0:
-        raise Exception("Error pseudo installing " + module[0])
-
-
+        raise Exception("Error pseudo installing " + module_name)
 
 
 def main():
-    optparser = optparse.OptionParser(usage="create_package [options]", version=script_version)
-    optparser.add_option("-e", "--check-environ", dest="check_environ",                         
-                         action="store_true", default=False, help="Check the environment")
-    optparser.add_option("-q", "--qmake", dest="qmake_path",                         
-                         default=None, help="Locate qmake")
-    optparser.add_option("-c", "--clean", dest="clean",
-                         action="store_true", default=False, help="Clean build output")
-    optparser.add_option("-d", "--download", dest="download",
-                         action="store_true", default=False, help="Download latest sources from git repository")
-
-    options, args = optparser.parse_args(sys.argv)
-
     try:
+        optparser = optparse.OptionParser(usage="create_package [options]", version="PySide package creator")
+        optparser.add_option("-e", "--check-environ", dest="check_environ",                         
+                             action="store_true", default=False, help="Check the environment")
+        optparser.add_option("-q", "--qmake", dest="qmake_path",                         
+                             default=None, help="Locate qmake")
+        optparser.add_option("-d", "--download", dest="download",
+                             action="store_true", default=False, help="Download latest sources from git repository")
+        optparser.add_option("-p", "--package-version", dest="package_version",
+                             help="Specify package version")
+        options, args = optparser.parse_args(sys.argv)
+        
         # Setup globals
         global py_include_dir
         py_include_dir = distutils.sysconfig.get_config_var("INCLUDEPY")
@@ -166,15 +169,10 @@ def main():
         if not os.path.exists(py_library):
             print "Failed to locate the Python library %s" % py_library
         
-        global script_dir
         script_dir = os.getcwd()
         
-        global modules_dir
         modules_dir = os.path.join(script_dir, "modules")
-        if not os.path.exists("modules"):
-            os.mkdir(modules_dir)
         
-        global qtinfo
         qtinfo = QtInfo(options.qmake_path)
         if not qtinfo.qmake_path or not os.path.exists(qtinfo.qmake_path):
             print "Failed to find qmake. Please specify the path to qmake with --qmake parameter."
@@ -192,23 +190,17 @@ def main():
         if not qtinfo.version:
             print "Failed to query the Qt version with qmake %s" % qtinfo.qmake_path
             sys.exit(1)
-               
-        global clean_output
-        clean_output = options.clean
         
-        global download
-        download = options.download
-        
-        global output_dir
-        output_dir = os.path.join(modules_dir, "output-py%s-qt%s") % (py_version, qtinfo.version)
+        install_dir = os.path.join(script_dir, "install-py%s-qt%s") % (py_version, qtinfo.version)
         
         print "------------------------------------------"
+        print "Package version: %s" % options.package_version
         print "Python executable: %s" % sys.executable
         print "Python includes: %s" % py_include_dir
         print "Python library: %s" % py_library
         print "Script directory: %s" % script_dir
-        print "Modules directory: %s" % modules_dir or "<git repository>"
-        print "Output directory: %s" % output_dir
+        print "Modules directory: %s" % modules_dir
+        print "Install directory: %s" % install_dir
         print "Python version: %s" % py_version
         print "qmake path: %s" % qtinfo.qmake_path
         print "Qt version: %s" % qtinfo.version
@@ -216,23 +208,14 @@ def main():
         print "Qt plugins: %s" % qtinfo.plugins_dir
         print "------------------------------------------"
         
-        # Check environment
-        check_env()
-        
+        check_env(options.download)
         if options.check_environ:
             return
         
-        if os.path.exists(output_dir) and clean_output:
-            print "Deleting output folder..."
-            shutil.rmtree(output_dir, False)
+        process_modules(options.download, modules, modules_dir, install_dir, qtinfo)
         
-        # Get and build modules
-        for module in modules:
-            get_module(module)
-            compile_module(module, qtinfo)
-        
-        # Create python distribution package
-        create_package(PKG_VERSION, script_dir, output_dir, py_version, qtinfo, True)
+        if options.package_version is not None:
+            create_package(options.package_version, script_dir, modules_dir, install_dir, py_version, qtinfo)
     
     except Exception, e:
         print traceback.print_exception(*sys.exc_info())

@@ -4,117 +4,46 @@ import subprocess
 import shutil
 import datetime
 
+from utils import *
 from qtinfo import QtInfo
 
-try:
-    from shutil import ignore_patterns, copytree
-    # Running Python > 2.5
-except ImportError:
-    # Running Python <= 2.5
-    # Imported from Python 2.7 module shutil
-    import fnmatch
-    def ignore_patterns(*patterns):
-        def _ignore_patterns(path, names):
-            ignored_names = []
-            for pattern in patterns:
-                ignored_names.extend(fnmatch.filter(names, pattern))
-            return set(ignored_names)
-        return _ignore_patterns
-    def copytree(src, dst, symlinks=False, ignore=None):
-        names = os.listdir(src)
-        if ignore is not None:
-            ignored_names = ignore(src, names)
-        else:
-            ignored_names = set()
 
-        os.makedirs(dst)
-        errors = []
-        for name in names:
-            if name in ignored_names:
-                continue
-            srcname = os.path.join(src, name)
-            dstname = os.path.join(dst, name)
-            try:
-                if symlinks and os.path.islink(srcname):
-                    linkto = os.readlink(srcname)
-                    os.symlink(linkto, dstname)
-                elif os.path.isdir(srcname):
-                    copytree(srcname, dstname, symlinks, ignore)
-                else:
-                    # Will raise a SpecialFileError for unsupported file types
-                    shutil.copy2(srcname, dstname)
-            # catch the Error from the recursive copytree so that we can
-            # continue with other files
-            except shutil.Error, err:
-                errors.extend(err.args[0])
-            except EnvironmentError, why:
-                errors.append((srcname, dstname, str(why)))
-        try:
-            shutil.copystat(src, dst)
-        except OSError, why:
-            if WindowsError is not None and isinstance(why, WindowsError):
-                # Copying file access times may fail on Windows
-                pass
-            else:
-                errors.extend((src, dst, str(why)))
-        if errors:
-            raise Error, errors
-
-def replace_in_file(src, dst, vars):
-    f = open(src, "rt")
-    content =  f.read()
-    f.close()
-    for k in vars:
-        content = content.replace(k, vars[k])
-    f = open(dst, "wt")
-    f.write(content)
-    f.close()
-
-def run_process(*args):
-    shell = False
-    if sys.platform == "win32":
-        shell = True
-    p = subprocess.Popen(args, shell=shell)
-    p.communicate()
-    return p.returncode
-
-def create_package(pkg_version, script_dir, output_dir, py_version, qtinfo, cleanup):
+def package(pkg_version, script_dir, modules_dir, install_dir, py_version, qtinfo):
     print "Generating python distribution package..."
 
     os.chdir(script_dir)
-    modules_dir = os.path.join(script_dir, "modules")
 
     pkgsrc_dir = os.path.join(script_dir, "src")
     if os.path.exists(pkgsrc_dir):
         print "Deleting folder %s..." % pkgsrc_dir
-        shutil.rmtree(pkgsrc_dir, False)
+        rmtree(pkgsrc_dir)
     os.mkdir(pkgsrc_dir)
 
     dist_dir = os.path.join(script_dir, "dist")
     if os.path.exists(dist_dir):
         print "Deleting old packages in %s..." % dist_dir
-        shutil.rmtree(dist_dir)
+        rmtree(dist_dir)
 
     build_dir = os.path.join(script_dir, "build")
-    if cleanup and os.path.exists(build_dir):
+    if os.path.exists(build_dir):
         print "Deleting folder %s..." % build_dir
-        shutil.rmtree(build_dir, False)
+        rmtree(build_dir)
 
-    # <output>/lib/site-packages/PySide/* -> src/PySide
-    src = os.path.join(output_dir, "lib/site-packages/PySide")
+    # <install>/lib/site-packages/PySide/* -> src/PySide
+    src = os.path.join(install_dir, "lib/site-packages/PySide")
     print "Copying PySide sources from %s" % (src)
     copytree(src, os.path.join(pkgsrc_dir, "PySide"))
 
-    # <output>/lib/site-packages/pysideuic/* -> src/pysideuic
-    src = os.path.join(output_dir, "lib/site-packages/pysideuic")
+    # <install>/lib/site-packages/pysideuic/* -> src/pysideuic
+    src = os.path.join(install_dir, "lib/site-packages/pysideuic")
     if os.path.exists(src):
         print "Copying pysideuic sources from %s" % (src)
         copytree(src, os.path.join(pkgsrc_dir, "pysideuic"))
     else:
         print "Skiping pysideuic."
 
-    # <output>/bin/pyside-uic -> src/PySide/scripts/uic.py
-    src = os.path.join(output_dir, "bin/pyside-uic")
+    # <install>/bin/pyside-uic -> src/PySide/scripts/uic.py
+    src = os.path.join(install_dir, "bin/pyside-uic")
     dst = os.path.join(pkgsrc_dir, "PySide/scripts")
     os.mkdir(dst)
     f = open(os.path.join(dst, "__init__.py"), "wt")
@@ -128,23 +57,23 @@ def create_package(pkg_version, script_dir, output_dir, py_version, qtinfo, clea
         print "Skip uic file"
 
     def cpbin(name):
-        src = os.path.join(output_dir, "bin/%s" % name)
+        src = os.path.join(install_dir, "bin/%s" % name)
         if os.path.exists(src):
             print "Copying %s from %s" % (name, src)
             shutil.copy(src, os.path.join(pkgsrc_dir, "PySide/%s" % name))
         else:
             print "Skiping %s..." % src
 
-    # <output>/bin/pyside-lupdate.exe -> src/PySide/pyside-lupdate.exe
+    # <install>/bin/pyside-lupdate.exe -> src/PySide/pyside-lupdate.exe
     cpbin("pyside-lupdate.exe")
 
-    # <output>/bin/pyside-rcc.exe -> src/PySide/pyside-rcc.exe
+    # <install>/bin/pyside-rcc.exe -> src/PySide/pyside-rcc.exe
     cpbin("pyside-rcc.exe")
 
-    # <output>/bin/pyside.dll -> src/PySide/pyside.dll
+    # <install>/bin/pyside.dll -> src/PySide/pyside.dll
     cpbin("pyside-python%s.dll" % py_version)
 
-    # <output>/bin/shiboken.dll -> src/PySide/shiboken.dll
+    # <install>/bin/shiboken.dll -> src/PySide/shiboken.dll
     cpbin("shiboken-python%s.dll" % py_version)
 
     # <qt>/bin/* -> src/PySide
@@ -186,16 +115,25 @@ def create_package(pkg_version, script_dir, output_dir, py_version, qtinfo, clea
     if run_process(sys.executable, "setup.py", "bdist_wininst", "--target-version=%s" % py_version) != 0:
         raise Exception("Error building distribution package ")
 
-if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print "Usage: package.py <package_version> <build_dir> <install_dir>"
-        sys.exit(2)
 
-    qinfo = QtInfo()
+if __name__ == "__main__":
+    if len(sys.argv) < 4 or len(sys.argv) > 5:
+        print "Usage: package.py <package_version> <build_dir> <install_dir> [<qmake_path>]"
+        sys.exit(2)
+    
     py_version = "%s.%s" % (sys.version_info[0], sys.version_info[1])
-    create_package("%s.%s" % (sys.argv[1], datetime.date.today().strftime('%Y%m%d')),
-                   sys.argv[2],
-                   sys.argv[3],
-                   py_version,
-                   qinfo,
-                   False)
+    pkg_version = "%s.%s" % (sys.argv[1], datetime.date.today().strftime('%Y%m%d'))
+    script_dir = sys.argv[2]
+    modules_dir = os.path.join(script_dir, "modules")
+    install_dir = sys.argv[3]
+    if len(sys.argv[4]) >= 5:
+        qinfo = QtInfo(sys.argv[4])
+    else:
+        qinfo = QtInfo()
+    
+    package(pkg_version,
+            script_dir,
+            modules_dir,
+            install_dir,
+            py_version,
+            qinfo)
