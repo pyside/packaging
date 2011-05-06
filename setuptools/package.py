@@ -8,7 +8,7 @@ from utils import *
 from qtinfo import QtInfo
 
 
-def package(pkg_version, script_dir, modules_dir, install_dir, py_version, qtinfo):
+def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version, qtinfo):
     print "Generating python distribution package..."
 
     os.chdir(script_dir)
@@ -131,9 +131,9 @@ if __name__ == "__main__":
     else:
         qinfo = QtInfo()
     
-    package(pkg_version,
-            script_dir,
-            modules_dir,
-            install_dir,
-            py_version,
-            qinfo)
+    make_package(pkg_version,
+                 script_dir,
+                 modules_dir,
+                 install_dir,
+                 py_version,
+                 qinfo)
