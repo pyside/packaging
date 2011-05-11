@@ -120,17 +120,17 @@ if __name__ == "__main__":
     if len(sys.argv) < 4 or len(sys.argv) > 5:
         print "Usage: package.py <package_version> <build_dir> <install_dir> [<qmake_path>]"
         sys.exit(2)
-    
+
     py_version = "%s.%s" % (sys.version_info[0], sys.version_info[1])
     pkg_version = "%s.%s" % (sys.argv[1], datetime.date.today().strftime('%Y%m%d'))
     script_dir = sys.argv[2]
     modules_dir = os.path.join(script_dir, "modules")
     install_dir = sys.argv[3]
-    if len(sys.argv[4]) >= 5:
+    if len(sys.argv) >= 5:
         qinfo = QtInfo(sys.argv[4])
     else:
         qinfo = QtInfo()
-    
+
     make_package(pkg_version,
                  script_dir,
                  modules_dir,
