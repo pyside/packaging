@@ -12,14 +12,26 @@ from utils import *
 from qtinfo import QtInfo
 
 
+PYSIDE_VERSION = "1.0.3"
+
+
 # Modules
-modules = [
-    ["apiextractor", "master", "http://git.gitorious.org/pyside/apiextractor.git"],
-    ["generatorrunner", "master", "http://git.gitorious.org/pyside/generatorrunner.git"],
-    ["shiboken", "master", "http://git.gitorious.org/pyside/shiboken.git"],
-    ["pyside", "master", "http://git.gitorious.org/pyside/pyside.git"],
-    ["pyside-tools", "master", "http://git.gitorious.org/pyside/pyside-tools.git"],
-]
+modules = {
+    'dev': [
+        ["apiextractor", "master", "http://git.gitorious.org/pyside/apiextractor.git"],
+        ["generatorrunner", "master", "http://git.gitorious.org/pyside/generatorrunner.git"],
+        ["shiboken", "master", "http://git.gitorious.org/pyside/shiboken.git"],
+        ["pyside", "master", "http://git.gitorious.org/pyside/pyside.git"],
+        ["pyside-tools", "master", "http://git.gitorious.org/pyside/pyside-tools.git"],
+    ],
+    'stable': [
+        ["apiextractor", "0.10.3", "http://git.gitorious.org/pyside/apiextractor.git"],
+        ["generatorrunner", "0.6.10", "http://git.gitorious.org/pyside/generatorrunner.git"],
+        ["shiboken", "1.0.3", "http://git.gitorious.org/pyside/shiboken.git"],
+        ["pyside", "1.0.3", "http://git.gitorious.org/pyside/pyside.git"],
+        ["pyside-tools", "0.2.9", "http://git.gitorious.org/pyside/pyside-tools.git"],
+    ],
+}
 
 
 # Change the cwd to our source dir
@@ -144,12 +156,13 @@ def main():
         optparser.add_option("-q", "--qmake", dest="qmake_path",                         
                              default=None, help="Locate qmake")
         optparser.add_option("-d", "--download", dest="download",
-                             action="store_true", default=False, help="Download latest sources from git repository")
+                             action="store_true", default=False, help="Download sources from git repository")
+        optparser.add_option("-m", "--pyside-version", dest="pyside_version",
+                             default="stable", help="Specify what version of modules to download from git repository: 'dev' or 'stable'. Default is 'stable'.")
         optparser.add_option("-p", "--package-version", dest="package_version",
-                             help="Specify package version")
+                             default=PYSIDE_VERSION, help="Specify package version. Default is %s" % PYSIDE_VERSION)
         options, args = optparser.parse_args(sys.argv)
         
-        # Setup globals
         py_version = "%s.%s" % (sys.version_info[0], sys.version_info[1])
         
         py_include_dir = distutils.sysconfig.get_config_var("INCLUDEPY")
@@ -161,6 +174,11 @@ def main():
             py_library = os.path.join(py_prefix, "lib/libpython%s.so" % py_version)
         if not os.path.exists(py_library):
             print "Failed to locate the Python library %s" % py_library
+        
+        if not modules.has_key(options.pyside_version):
+            print "Invalid pyside version specified [%s]. Available options: [%s]" % \
+                (options.pyside_version, ', '.join(modules.keys()))
+            sys.exit(1)
         
         script_dir = os.getcwd()
         
@@ -187,14 +205,16 @@ def main():
         install_dir = os.path.join(script_dir, "install-py%s-qt%s") % (py_version, qtinfo.version)
         
         print "------------------------------------------"
-        print "Package version: %s" % options.package_version
+        print "Generate package version: %s" % options.package_version
+        if options.download:
+            print "Download modules version: %s" % options.pyside_version
+        print "Python version: %s" % py_version
         print "Python executable: %s" % sys.executable
         print "Python includes: %s" % py_include_dir
         print "Python library: %s" % py_library
         print "Script directory: %s" % script_dir
         print "Modules directory: %s" % modules_dir
         print "Install directory: %s" % install_dir
-        print "Python version: %s" % py_version
         print "qmake path: %s" % qtinfo.qmake_path
         print "Qt version: %s" % qtinfo.version
         print "Qt bins: %s" % qtinfo.bins_dir
@@ -205,7 +225,7 @@ def main():
         if options.check_environ:
             return
         
-        process_modules(options.download, modules, modules_dir, install_dir, qtinfo, py_include_dir, py_library)
+        process_modules(options.download, modules[options.pyside_version], modules_dir, install_dir, qtinfo, py_include_dir, py_library)
         
         if options.package_version is not None:
             from package import make_package

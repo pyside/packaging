@@ -27,13 +27,18 @@ Build
 
 3. Run the build.py script (it must be run from "Visual Studio Command Prompt"):
 
-  To build the latest binaries from git repository for Python 2.7 and Qt 4.7.3, run the script with parameters:
+  To build the latest stable binaries from git repository for Python 2.7 and Qt 4.7.3, run the script with parameters:
   
-  c:\repositories\packaging\setuptools>c:\Python27\python.exe build.py -p 1.0.2 -d -q c:\Qt\4.7.3\bin\qmake.exe
+  c:\repositories\packaging\setuptools>c:\Python27\python.exe build.py -d -q c:\Qt\4.7.3\bin\qmake.exe
+  
+  To build the latest devel binaries from git repository:
+  
+  c:\repositories\packaging\setuptools>c:\Python27\python.exe build.py -d -m dev -q c:\Qt\4.7.3\bin\qmake.exe
  
   All build.py parameters:
    -p <package_version> Specify package version
    -d                   Download latest sources from git repository
+   -m <pyside_version>  Specify what version of modules to download from git repository: 'dev' or 'stable'. Default is 'stable'.
    -q <qmake_path>      Locate qmake
    -e                   Check the environment
 
