@@ -43,7 +43,7 @@ def install():
 Prefix = %s
 Binaries = .
 Plugins = plugins
-Translation = translation
+Translations = translations
             """ % (pyside_path))
         print "The PySide extensions were successfully installed."
     except ImportError:

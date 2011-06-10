@@ -76,28 +76,49 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version, 
     # <install>/bin/shiboken.dll -> src/PySide/shiboken.dll
     cpbin("shiboken-python%s.dll" % py_version)
 
-    # <qt>/bin/* -> src/PySide
+    # <qt>/bin/*.dll -> src/PySide
+    def cp_qt_bin(name):
+        src = os.path.join(qtinfo.bins_dir, name)
+        print "Copying %s from %s" % (name, src)
+        shutil.copy(src, os.path.join(pkgsrc_dir, "PySide/%s" % name))
     src = qtinfo.bins_dir
     dst = os.path.join(pkgsrc_dir, "PySide")
     print "Copying Qt binaries from %s" % (src)
-    names = os.listdir(qtinfo.bins_dir)
-    for name in names:
-        # Ignore debug dlls and QtDesigner*.dll files
-        if name.endswith(".dll") and not name.endswith("d4.dll") and not name.startswith("QtDesigner"):
+    for name in os.listdir(src):
+        # Ignore debug dlls
+        if name.endswith(".dll") and not name.endswith("d4.dll"):
             srcname = os.path.join(src, name)
             dstname = os.path.join(dst, name)
             print "Copying \"%s\"" % (srcname)
             shutil.copy(srcname, dstname)
-
+    cp_qt_bin("designer.exe")
+    cp_qt_bin("linguist.exe")
+    cp_qt_bin("lrelease.exe")
+    cp_qt_bin("lupdate.exe")
+    cp_qt_bin("lconvert.exe")
+    
     # <qt>/plugins/* -> src/PySide/plugins
     src = qtinfo.plugins_dir
     print "Copying Qt plugins from %s" % (src)
-    copytree(src, os.path.join(pkgsrc_dir, "PySide/plugins"), ignore=ignore_patterns('*.lib', '*d4.dll'))
+    copytree(src, os.path.join(pkgsrc_dir, "PySide/plugins"), ignore=ignore_patterns('*.pdb', '*.exp', '*.ilk', '*.lib', '*d4.dll'))
 
     # <qt>/imports/* -> src/PySide/imports
     src = qtinfo.imports_dir
     print "Copying QML imports from %s" % (src)
-    copytree(src, os.path.join(pkgsrc_dir, "PySide/imports"), ignore=ignore_patterns('*.lib', '*d4.dll'))
+    copytree(src, os.path.join(pkgsrc_dir, "PySide/imports"), ignore=ignore_patterns('*.pdb', '*.exp', '*.ilk', '*.lib', '*d4.dll'))
+
+    # <qt>/translations/* -> src/PySide/translations
+    src = qtinfo.translations_dir
+    print "Copying Qt translations from %s" % (src)
+    dst = os.path.join(pkgsrc_dir, "PySide/translations")
+    if not os.path.exists(dst):
+        os.mkdir(dst)
+    for name in os.listdir(src):
+        if name.endswith(".qm"):
+            srcname = os.path.join(src, name)
+            dstname = os.path.join(dst, name)
+            print "Copying \"%s\"" % (srcname)
+            shutil.copy(srcname, dstname)
 
     # <modules>/examples/* -> src/PySide/examples
     src = os.path.join(modules_dir, "examples")

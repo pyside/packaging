@@ -27,6 +27,9 @@ class QtInfo(object):
     def getImportsPath(self):
         return self.getProperty("QT_INSTALL_IMPORTS")
 
+    def getTranslationsPath(self):
+        return self.getProperty("QT_INSTALL_TRANSLATIONS")
+
     def getProperty(self, prop_name):
         p = subprocess.Popen([self._qmake_path, "-query", prop_name], shell=False, stdout=subprocess.PIPE)
         prop = p.communicate()[0]
@@ -39,3 +42,4 @@ class QtInfo(object):
     plugins_dir = property(getPluginsPath)
     qmake_path = property(getQMakePath)
     imports_dir = property(getImportsPath)
+    translations_dir = property(getTranslationsPath)
