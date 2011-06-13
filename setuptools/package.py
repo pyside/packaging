@@ -114,7 +114,7 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version, 
     if not os.path.exists(dst):
         os.mkdir(dst)
     for name in os.listdir(src):
-        if name.endswith(".qm"):
+        if name.endswith(".ts"):
             srcname = os.path.join(src, name)
             dstname = os.path.join(dst, name)
             print "Copying \"%s\"" % (srcname)
