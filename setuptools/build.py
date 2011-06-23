@@ -18,18 +18,18 @@ PYSIDE_VERSION = "1.0.4"
 # Modules
 modules = {
     'dev': [
-        ["apiextractor", "master", "http://git.gitorious.org/pyside/apiextractor.git"],
-        ["generatorrunner", "master", "http://git.gitorious.org/pyside/generatorrunner.git"],
-        ["shiboken", "master", "http://git.gitorious.org/pyside/shiboken.git"],
-        ["pyside", "master", "http://git.gitorious.org/pyside/pyside.git"],
-        ["pyside-tools", "master", "http://git.gitorious.org/pyside/pyside-tools.git"],
+        ["apiextractor", "master", "https://github.com/PySide/Apiextractor.git"],
+        ["generatorrunner", "master", "https://github.com/PySide/Generatorrunner.git"],
+        ["shiboken", "master", "https://github.com/PySide/Shiboken.git"],
+        ["pyside", "master", "https://github.com/PySide/PySide.git"],
+        ["pyside-tools", "master", "https://github.com/PySide/Tools.git"],
     ],
     'stable': [
-        ["apiextractor", "0.10.4", "http://git.gitorious.org/pyside/apiextractor.git"],
-        ["generatorrunner", "0.6.11", "http://git.gitorious.org/pyside/generatorrunner.git"],
-        ["shiboken", "1.0.4", "http://git.gitorious.org/pyside/shiboken.git"],
-        ["pyside", "1.0.4", "http://git.gitorious.org/pyside/pyside.git"],
-        ["pyside-tools", "0.2.10", "http://git.gitorious.org/pyside/pyside-tools.git"],
+        ["apiextractor", "0.10.4", "https://github.com/PySide/Apiextractor.git"],
+        ["generatorrunner", "0.6.11", "https://github.com/PySide/Generatorrunner.git"],
+        ["shiboken", "1.0.4", "https://github.com/PySide/Shiboken.git"],
+        ["pyside", "1.0.4", "https://github.com/PySide/PySide.git"],
+        ["pyside-tools", "0.2.10", "https://github.com/PySide/Tools.git"],
     ],
 }
 
