@@ -12,7 +12,7 @@ from utils import *
 from qtinfo import QtInfo
 
 
-PYSIDE_VERSION = "1.0.4"
+PYSIDE_VERSION = "1.0.5"
 
 
 # Modules
@@ -25,11 +25,11 @@ modules = {
         ["Tools", "master", "https://github.com/PySide/Tools.git"],
     ],
     'stable': [
-        ["Apiextractor", "0.10.4", "https://github.com/PySide/Apiextractor.git"],
+        ["Apiextractor", "0.10.5", "https://github.com/PySide/Apiextractor.git"],
         ["Generatorrunner", "0.6.11", "https://github.com/PySide/Generatorrunner.git"],
-        ["Shiboken", "1.0.4", "https://github.com/PySide/Shiboken.git"],
-        ["PySide", "1.0.4", "https://github.com/PySide/PySide.git"],
-        ["Tools", "0.2.10", "https://github.com/PySide/Tools.git"],
+        ["Shiboken", "1.0.5", "https://github.com/PySide/Shiboken.git"],
+        ["PySide", "1.0.5", "https://github.com/PySide/PySide.git"],
+        ["Tools", "0.2.12", "https://github.com/PySide/Tools.git"],
     ],
 }
 
