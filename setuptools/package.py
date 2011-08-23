@@ -64,16 +64,14 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version, 
         else:
             print "Skiping %s..." % src
 
-    # <install>/bin/pyside-lupdate.exe -> src/PySide/pyside-lupdate.exe
+    # <install>/bin/* -> src/PySide/*
+    cpbin("apiextractor.dll")
+    cpbin("generatorrunner.exe")
+    cpbin("genrunner.dll")
     cpbin("pyside-lupdate.exe")
-
-    # <install>/bin/pyside-rcc.exe -> src/PySide/pyside-rcc.exe
     cpbin("pyside-rcc.exe")
-
-    # <install>/bin/pyside.dll -> src/PySide/pyside.dll
     cpbin("pyside-python%s.dll" % py_version)
-
-    # <install>/bin/shiboken.dll -> src/PySide/shiboken.dll
+    cpbin("shiboken.exe")
     cpbin("shiboken-python%s.dll" % py_version)
 
     # <qt>/bin/*.dll -> src/PySide
