@@ -57,22 +57,24 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version, 
         print "Skip uic file"
 
     def cpbin(name):
-        src = os.path.join(install_dir, "bin/%s" % name)
+        src = os.path.join(install_dir, "%s" % name)
         if os.path.exists(src):
-            print "Copying %s from %s" % (name, src)
-            shutil.copy(src, os.path.join(pkgsrc_dir, "PySide/%s" % name))
+            file_name = os.path.basename(name)
+            print "Copying %s from %s" % (file_name, src)
+            shutil.copy(src, os.path.join(pkgsrc_dir, "PySide/%s" % file_name))
         else:
             print "Skiping %s..." % src
 
-    # <install>/bin/* -> src/PySide/*
-    cpbin("apiextractor.dll")
-    cpbin("generatorrunner.exe")
-    cpbin("genrunner.dll")
-    cpbin("pyside-lupdate.exe")
-    cpbin("pyside-rcc.exe")
-    cpbin("pyside-python%s.dll" % py_version)
-    cpbin("shiboken.exe")
-    cpbin("shiboken-python%s.dll" % py_version)
+    # <install>/... -> src/PySide/
+    cpbin("bin/apiextractor.dll")
+    cpbin("bin/generatorrunner.exe")
+    cpbin("bin/genrunner.dll")
+    cpbin("bin/pyside-lupdate.exe")
+    cpbin("bin/pyside-rcc.exe")
+    cpbin("bin/pyside-python%s.dll" % py_version)
+    cpbin("bin/shiboken.exe")
+    cpbin("bin/shiboken-python%s.dll" % py_version)
+    cpbin("lib/generatorrunner/shiboken_generator.dll")
 
     # <qt>/bin/*.dll -> src/PySide
     def cp_qt_bin(name):
