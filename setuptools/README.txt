@@ -1,3 +1,7 @@
+============
+About PySide
+============
+
 PySide is the Nokia-sponsored Python Qt bindings project, providing access to
 not only the complete Qt 4.7 framework but also Qt Mobility, as well as to
 generator tools for rapidly generating bindings for any C++ libraries.
