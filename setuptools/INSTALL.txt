@@ -41,6 +41,8 @@ Build
    -m <pyside_version>  Specify what version of modules to download from git repository: 'dev' or 'stable'. Default is 'stable'.
    -q <qmake_path>      Locate qmake
    -e                   Check the environment
+   -b                   Specify what module to build
+   -o                   Create a distribution package only using existing binaries
 
 4. After the successfull build, the final binary distribution can be found in subfolder "dist":
   c:\repositories\packaging\setuptools\dist\PySide-1.0.3qt473.win32-py2.7.exe

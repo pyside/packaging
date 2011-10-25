@@ -35,7 +35,10 @@ class QtInfo(object):
         prop = p.communicate()[0]
         if p.returncode != 0:
             return None
-        return prop.strip()
+        if sys.version_info[0] > 2:
+            return str(prop.strip(), 'utf-8')
+        else:
+            return prop.strip()
 
     version = property(getVersion)
     bins_dir = property(getBinsPath)

@@ -32,26 +32,26 @@ def install():
             # Run manually
             exec_prefix = os.path.dirname(sys.executable)
         qtconf_path = os.path.join(exec_prefix, "qt.conf")
-        print "Generating file %s..." % qtconf_path
+        print("Generating file %s..." % qtconf_path)
         f = open(qtconf_path, 'wt')
         file_created(qtconf_path)
         pyside_path = os.path.dirname(QtCore.__file__)
         pyside_path = pyside_path.replace("\\", "/")
         pyside_path = pyside_path.replace("lib/site-packages", "Lib/site-packages")
-        print "PySide installed in %s..." % pyside_path
+        print("PySide installed in %s..." % pyside_path)
         f.write("""[Paths]
 Prefix = %s
 Binaries = .
 Plugins = plugins
 Translations = translations
             """ % (pyside_path))
-        print "The PySide extensions were successfully installed."
+        print("The PySide extensions were successfully installed.")
     except ImportError:
-        print "The PySide extensions were not installed!"
+        print("The PySide extensions were not installed!")
 
 
 def uninstall():
-    print "The PySide extensions were successfully uninstalled."
+    print("The PySide extensions were successfully uninstalled.")
 
 
 def usage():
@@ -62,7 +62,7 @@ This should be run automatically after installation, but if it fails you
 can run it again with a '-install' parameter, to ensure the environment
 is setup correctly.
 """
-    print msg.strip() % os.path.basename(sys.argv[0])
+    print(msg.strip() % os.path.basename(sys.argv[0]))
 
 
 # NOTE: If this script is run from inside the bdist_wininst created

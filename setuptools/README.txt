@@ -15,8 +15,25 @@ any contribution without requiring a transfer of copyright.
 Changes
 =======
 
-1.0.7 (released 21.09.2011)
-===========================
+1.0.8 (2011-10-21)
+==================
+
+Major changes
+-------------
+
+- Experimental Python3.2 support
+- Qt4.8 beta support
+- Bug Fixes
+
+Bug fixes
+---------
+
+- 1022 RuntimeError: maximum recursion depth exceeded while getting the str of an object
+- 1019 Overriding QWidget.show or QWidget.hide do not work
+- 944 Segfault on QIcon(None).pixmap()
+
+1.0.7 (2011-09-21)
+==================
 
 Bug fixes
 ---------
@@ -42,8 +59,8 @@ Bug fixes
 - 991 The __repr__ of various types is broken
 - 988 The type supplied with currentChanged signal in QTabWidget has changed in 1.0.6
 
-1.0.6 (released 22.08.2011)
-===========================
+1.0.6 (2011-08-22)
+==================
 
 Major changes
 -------------
@@ -81,8 +98,8 @@ Bug fixes
 - 873 Deprecated methods could emit DeprecationWarning
 - 831 PySide docs would have a “Inherited by” list for each class
 
-1.0.5 (released 22.07.2011)
-===========================
+1.0.5 (2011-07-22)
+==================
 
 Major changes
 -------------
