@@ -15,6 +15,31 @@ any contribution without requiring a transfer of copyright.
 Changes
 =======
 
+1.0.9 (2011-11-29)
+==================
+
+Bug fixes
+---------
+
+- 1058 Strange code in PySide/QtUiTools/glue/plugins.h
+- 1057 valgrind detected “Conditional jump or move depends on uninitialised value”
+- 1052 PySideConfig.cmake contains an infinite loop due to missing default for SHIBOKEN_PYTHON_SUFFIX
+- 1048 QGridLayout.itemAtPosition() crashes when it should return None
+- 1037 shiboken fails to build against python 3.2 (both normal and -dbg) on i386 (and others)
+- 1036 Qt.KeyboardModifiers always evaluates to zero
+- 1033 QDialog.DialogCode instances and return value from QDialog.exec_ hash to different values
+- 1031 QState.parentState() or QState.machine() causes python crash at exit
+- 1029 qmlRegisterType Fails to Increase the Ref Count
+- 1028 QWidget winId missing
+- 1016 Calling of Q_INVOKABLE method returning not QVariant is impossible…
+- 1013 connect to QSqlTableModel.primeInsert() causes crash
+- 1012 FTBFS with hardening flags enabled
+- 1011 PySide Cygwin patch
+- 1010 Shiboken Cygwin patch
+- 1009 GeneratorRunner Cygwin patch
+- 1008 ApiExtractor Cygwin patch
+- 891 ApiExtractor doesn’t support doxygen as backend to doc generation.
+
 1.0.8 (2011-10-21)
 ==================
 
