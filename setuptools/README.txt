@@ -15,6 +15,35 @@ any contribution without requiring a transfer of copyright.
 Changes
 =======
 
+1.1.0 (2012-01-02)
+==================
+
+Major changes
+-------------
+
+- New type converter scheme
+
+Bug fixes
+---------
+
+- 1010 Shiboken Cygwin patch
+- 1034 Error compiling PySide with Python 3.2.2 32bit on Windows
+- 1040 pyside-uic overwriting attributes before they are being used
+- 1053 pyside-lupdate used with .pro files can't handle Windows paths that contain spaces
+- 1060 Subclassing of QUiLoader leads to "Internal C++ object already deleted" exception
+- 1063 Bug writing to files using "QTextStream + QFile + QTextEdit" on Linux
+- 1069 QtCore.QDataStream silently fails on writing Python string
+- 1077 Application exit crash when call QSyntaxHighlighter.document()
+- 1082 OSX binary links are broken
+- 1083 winId returns a PyCObject making it impossible to compare two winIds
+- 1084 Crash (segfault) when writing unicode string on socket
+- 1091 PixmapFragment and drawPixmapFragments are not bound
+- 1095 No examples for shiboken tutorial
+- 1097 QtGui.QShortcut.setKey requires QKeySequence
+- 1101 Report invalid function signatures in typesystem
+- 902 Expose Shiboken functionality through a Python module
+- 969 viewOptions of QAbstractItemView error
+
 1.0.9 (2011-11-29)
 ==================
 
