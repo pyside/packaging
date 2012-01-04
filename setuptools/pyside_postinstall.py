@@ -91,7 +91,7 @@ if __name__ == '__main__':
             if not is_bdist_wininst:
                 uninstall()
         else:
-            print "Unknown option:", arg
+            print("Unknown option: %s" % arg)
             usage()
             sys.exit(0)
         arg_index += 1
