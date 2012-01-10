@@ -4,7 +4,7 @@
 #
 # This file is based on pywin32_postinstall.py file from pywin32 project
 
-import os, sys
+import os, sys, traceback
 
 
 try:
@@ -47,7 +47,7 @@ Translations = translations
             """ % (pyside_path))
         print("The PySide extensions were successfully installed.")
     except ImportError:
-        print("The PySide extensions were not installed!")
+        print("The PySide extensions were not installed: %s" % traceback.print_exception(*sys.exc_info()))
 
 
 def uninstall():

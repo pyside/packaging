@@ -71,8 +71,10 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version, 
     cpbin("bin/genrunner.dll")
     cpbin("bin/pyside-lupdate.exe")
     cpbin("bin/pyside-rcc.exe")
+    cpbin("bin/pyside.dll")
     cpbin("bin/pyside-python%s.dll" % py_version)
     cpbin("bin/shiboken.exe")
+    cpbin("bin/shiboken.dll")
     cpbin("bin/shiboken-python%s.dll" % py_version)
     cpbin("lib/generatorrunner/shiboken_generator.dll")
 
