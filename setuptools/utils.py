@@ -2,8 +2,10 @@ import sys
 import os
 import stat
 import errno
+import time
 import shutil
 import subprocess
+import popenasync
 
 
 try:
@@ -72,13 +74,45 @@ def replace_in_file(src, dst, vars):
     f.close()
 
 
-def run_process(*args):
+def run_process(args, logger=None):
+    def log(buffer, checkNewLine):
+        endsWithNewLine = False
+        if buffer.endswith('\n'):
+            endsWithNewLine = True
+        if checkNewLine and buffer.find('\n') == -1:
+            return buffer
+        lines = buffer.splitlines()
+        buffer = ''
+        if checkNewLine and not endsWithNewLine:
+            buffer = lines[-1]
+            lines = lines[:-1]
+        for line in lines:
+            if not logger is None:
+                logger.info(line.rstrip('\r'))
+            else:
+                print(line.rstrip('\r'))
+        return buffer
+    
     shell = False
     if sys.platform == "win32":
         shell = True
-    p = subprocess.Popen(args, shell=shell)
-    p.communicate()
-    return p.returncode
+    
+    proc = popenasync.Popen(args,
+        stdin = subprocess.PIPE,
+        stdout = subprocess.PIPE, 
+        stderr = subprocess.STDOUT,
+        universal_newlines = 1,
+        shell = shell,
+        env = os.environ)
+    
+    log_buffer = None;
+    while proc.poll() is None:
+        log_buffer = log(proc.read_async(wait=0.1, e=0), False)
+    if log_buffer:
+        log(log_buffer, False)
+    
+    proc.wait()
+    return proc.returncode
 
 
 # LINKS:

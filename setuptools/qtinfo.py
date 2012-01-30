@@ -1,8 +1,9 @@
-import subprocess
 import os
 import sys
+import subprocess
 
-from utils import *
+import popenasync
+from utils import find_executable
 
 
 class QtInfo(object):
@@ -31,14 +32,20 @@ class QtInfo(object):
         return self.getProperty("QT_INSTALL_TRANSLATIONS")
 
     def getProperty(self, prop_name):
-        p = subprocess.Popen([self._qmake_path, "-query", prop_name], shell=False, stdout=subprocess.PIPE)
-        prop = p.communicate()[0]
-        if p.returncode != 0:
+        cmd = [self._qmake_path, "-query", prop_name]
+        proc = popenasync.Popen(cmd,
+            stdin = subprocess.PIPE,
+            stdout = subprocess.PIPE, 
+            stderr = subprocess.STDOUT,
+            universal_newlines = 1,
+            shell=False)
+        prop = ''
+        while proc.poll() is None:
+            prop += proc.read_async(wait=0.1, e=0)
+        proc.wait()
+        if proc.returncode != 0:
             return None
-        if sys.version_info[0] > 2:
-            return str(prop.strip(), 'utf-8')
-        else:
-            return prop.strip()
+        return prop.strip()
 
     version = property(getVersion)
     bins_dir = property(getBinsPath)
