@@ -2,9 +2,8 @@
 About PySide
 ============
 
-PySide is the Nokia-sponsored Python Qt bindings project, providing access to
-not only the complete Qt 4.7 framework but also Qt Mobility, as well as to
-generator tools for rapidly generating bindings for any C++ libraries.
+PySide is the Python Qt bindings project, providing access the complete Qt 4.8 framework
+as well as to generator tools for rapidly generating bindings for any C++ libraries.
 
 The PySide project is developed in the open, with all facilities you’d expect
 from any modern OSS project such as all code in a git repository [1], an open
@@ -14,6 +13,36 @@ any contribution without requiring a transfer of copyright.
 =======
 Changes
 =======
+
+1.1.1 (2012-04-19)
+==================
+
+Major changes
+-------------
+
+- Unified toolchain! No more GeneratorRunner and ApiExtractor, now you just need Shiboken to compile PySide.
+
+Bug fixes
+---------
+
+- 1105 Spyder fails with HEAD
+- 1126 Segfault when exception is raised in signalInstanceDisconnect
+- 1135 SIGSEGV when loading custom widget using QUiLoader when overriding createWidget()
+- 1041 QAbstractItemModel has wrong ownership policy for selectionModel()
+- 1086 generatorrunner segfault processing #include
+- 1110 Concurrency error causes GC heap corruption
+- 1113 Instantiating QObject in user-defined QML element’s constructor crashes if instantiated from QML
+- 1129 Segmentation fault on close by QStandardItem/QStandardItemModel
+- 1104 QSettings has problems with long integers
+- 1108 tests/QtGui/pyside_reload_test.py fails when bytecode writing is disabled
+- 1138 Subclassing of QUiLoader leads to “Internal C++ object already deleted” exception (again)
+- 1124 QPainter.drawPixmapFragments should take a list as first argument
+- 1065 Invalid example in QFileDialog documentation
+- 1092 shiboken names itself a ‘generator’
+- 1094 shiboken doesn’t complain about invalid options
+- 1044 Incorrect call to parent constructor in example
+- 1139 Crash at exit due to thread state (tstate) being NULL
+- PYSIDE-41 QModelIndex unhashable
 
 1.1.0 (2012-01-02)
 ==================
