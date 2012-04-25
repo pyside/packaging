@@ -13,27 +13,25 @@ from utils import *
 from qtinfo import QtInfo
 
 
-PYSIDE_VERSION = "1.1.0"
+PYSIDE_VERSION = "1.1.1"
 
 
 logger = logging.getLogger('setuptools')
 
 
+giturl = "https://git.gitorious.org/pyside"
+
 # Modules
 modules = {
     'dev': [
-        ["Apiextractor", "master", "https://github.com/PySide/Apiextractor.git"],
-        ["Generatorrunner", "master", "https://github.com/PySide/Generatorrunner.git"],
-        ["Shiboken", "master", "https://github.com/PySide/Shiboken.git"],
-        ["PySide", "master", "https://github.com/PySide/PySide.git"],
-        ["Tools", "master", "https://github.com/PySide/Tools.git"],
+        ["Shiboken", "master", giturl + "/shiboken.git"],
+        ["PySide", "master", giturl + "/pyside.git"],
+        ["Tools", "master", giturl + "/pyside-tools.git"],
     ],
     'stable': [
-        ["Apiextractor", "0.10.10", "https://github.com/PySide/Apiextractor.git"],
-        ["Generatorrunner", "0.6.16", "https://github.com/PySide/Generatorrunner.git"],
-        ["Shiboken", "1.1.0", "https://github.com/PySide/Shiboken.git"],
-        ["PySide", "1.1.0", "https://github.com/PySide/PySide.git"],
-        ["Tools", "0.2.13", "https://github.com/PySide/Tools.git"],
+        ["Shiboken", "1.1.1", giturl + "/shiboken.git"],
+        ["PySide", "1.1.1", giturl + "/pyside.git"],
+        ["Tools", "0.2.13", giturl + "/pyside-tools.git"],
     ],
 }
 
@@ -130,6 +128,7 @@ def process_module(download, module, modules_dir, install_dir, qtinfo, py_includ
         "-DCMAKE_INSTALL_PREFIX=%s" % install_dir,
         ".."
     ]
+    
     if sys.version_info[0] > 2:
         args.append("-DPYTHON3_EXECUTABLE=%s" % sys.executable)
         args.append("-DPYTHON3_INCLUDE_DIR=%s" % py_include_dir)
@@ -138,10 +137,12 @@ def process_module(download, module, modules_dir, install_dir, qtinfo, py_includ
         args.append("-DPYTHON_EXECUTABLE=%s" % sys.executable)
         args.append("-DPYTHON_INCLUDE_DIR=%s" % py_include_dir)
         args.append("-DPYTHON_LIBRARY=%s" % py_library)
-    if module_name.lower() == "generatorrunner":
+    
+    if module_name.lower() == "shiboken":
         args.append("-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=yes")
-    if module_name.lower() == "shiboken" and sys.version_info[0] > 2:
-        args.append("-DUSE_PYTHON3=ON")
+        if sys.version_info[0] > 2:
+            args.append("-DUSE_PYTHON3=ON")
+    
     if run_process(args, logger) != 0:
         raise Exception("Error configuring " + module_name)
     
