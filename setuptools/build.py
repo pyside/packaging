@@ -8,33 +8,32 @@ import optparse
 import traceback
 import distutils.sysconfig
 import logging
+import platform
 
 from utils import *
 from qtinfo import QtInfo
+from package import make_package
 
 
 PYSIDE_VERSION = "1.1.1"
 
-
 logger = logging.getLogger('setuptools')
 
-
-giturl = "https://git.gitorious.org/pyside"
-
 # Modules
+giturl = "https://git.gitorious.org/pyside"
 modules = {
     'dev': [
-        ["Shiboken", "master", giturl + "/shiboken.git"],
-        ["PySide", "master", giturl + "/pyside.git"],
-        ["Tools", "master", giturl + "/pyside-tools.git"],
+        ["shiboken", "master", giturl + "/shiboken.git", True],
+        ["pyside", "master", giturl + "/pyside.git", True],
+        ["pyside-tools", "master", giturl + "/pyside-tools.git", True],
     ],
     'stable': [
-        ["Shiboken", "1.1.1", giturl + "/shiboken.git"],
-        ["PySide", "1.1.1", giturl + "/pyside.git"],
-        ["Tools", "0.2.13", giturl + "/pyside-tools.git"],
+        ["shiboken", "1.1.1", giturl + "/shiboken.git", True],
+        ["pyside", "1.1.1", giturl + "/pyside.git", True],
+        ["pyside-tools", "0.2.13", giturl + "/pyside-tools.git", True],
     ],
 }
-
+examples_module = ["pyside-examples", "master", giturl + "/pyside-examples.git", False]
 
 # Change the cwd to our source dir
 try:
@@ -66,18 +65,43 @@ def check_env(download):
             logger.info('Found %s' % f)
 
 
-def process_modules(build_module, download, modules, modules_dir, install_dir, qtinfo, py_include_dir, py_library):
+def process_modules(build_module, download, modules, modules_dir, install_dir, qtinfo,
+    py_executable, py_include_dir, py_library, build_type):
+    
     if not os.path.exists(install_dir):
         logger.info("Creating install folder %s..." % install_dir)
         os.mkdir(install_dir)
     
     for module in modules:
         if build_module is None or build_module.lower() == module[0].lower():
-            process_module(download, module, modules_dir, install_dir, qtinfo, py_include_dir, py_library)
+            process_module(download, module, modules_dir, install_dir, qtinfo,
+                py_executable, py_include_dir, py_library, build_type)
 
 
-def process_module(download, module, modules_dir, install_dir, qtinfo, py_include_dir, py_library):
+def download_module(module_name, repo, branch, modules_dir):
+    if os.path.exists(module_name):
+        logger.info("Deleting module folder %s..." % module_name)
+        rmtree(module_name)
+    
+    # Clone sources from git repository
+    logger.info("Downloading " + module_name + " sources at " + repo)
+    if run_process(["git", "clone", repo], logger) != 0:
+        raise Exception("Error cloning " + repo)
+    os.chdir(modules_dir + "/" + module_name)
+
+    # Checkout branch
+    logger.info("Changing to branch " + branch + " in " + module_name)
+    if run_process(["git", "checkout", branch], logger) != 0:
+        raise Exception("Error changing to branch " + branch + " in " + module_name)
+
+
+def process_module(download, module, modules_dir, install_dir, qtinfo,
+    py_executable, py_include_dir, py_library, build_type):
+    
     module_name = module[0]
+    repo = module[2]
+    branch = module[1]
+    
     logger.info("Processing module %s..." % module_name)
     
     if not os.path.exists(modules_dir):
@@ -85,22 +109,11 @@ def process_module(download, module, modules_dir, install_dir, qtinfo, py_includ
     os.chdir(modules_dir)
     
     if download:
-        if os.path.exists(module_name):
-            logger.info("Deleting module folder %s..." % module_name)
-            rmtree(module_name)
-        
-        # Clone sources from git repository
-        repo = module[2]
-        logger.info("Downloading " + module_name + " sources at " + repo)
-        if run_process(["git", "clone", repo], logger) != 0:
-            raise Exception("Error cloning " + repo)
-        os.chdir(modules_dir + "/" + module_name)
+        download_module(module_name, repo, branch, modules_dir)
     
-        # Checkout branch
-        branch = module[1]
-        logger.info("Changing to branch " + branch + " in " + module_name)
-        if run_process(["git", "checkout", branch], logger) != 0:
-            raise Exception("Error changing to branch " + branch + " in " + module_name)
+    build_module = module[3]
+    if not build_module:
+        return
     
     build_dir = os.path.join(os.path.join(modules_dir, module_name),  "build")
     if os.path.exists(build_dir):
@@ -124,17 +137,18 @@ def process_module(download, module, modules_dir, install_dir, qtinfo, py_includ
         "-G", cmake_generator,
         "-DQT_QMAKE_EXECUTABLE=%s" % qtinfo.qmake_path,
         "-DBUILD_TESTS=False",
-        "-DCMAKE_BUILD_TYPE=Release",
+        "-DDISABLE_DOCSTRINGS=True",
+        "-DCMAKE_BUILD_TYPE=%s" % build_type,
         "-DCMAKE_INSTALL_PREFIX=%s" % install_dir,
         ".."
     ]
     
     if sys.version_info[0] > 2:
-        args.append("-DPYTHON3_EXECUTABLE=%s" % sys.executable)
+        args.append("-DPYTHON3_EXECUTABLE=%s" % py_executable)
         args.append("-DPYTHON3_INCLUDE_DIR=%s" % py_include_dir)
         args.append("-DPYTHON3_LIBRARY=%s" % py_library)
     else:
-        args.append("-DPYTHON_EXECUTABLE=%s" % sys.executable)
+        args.append("-DPYTHON_EXECUTABLE=%s" % py_executable)
         args.append("-DPYTHON_INCLUDE_DIR=%s" % py_include_dir)
         args.append("-DPYTHON_LIBRARY=%s" % py_library)
     
@@ -178,7 +192,7 @@ def main():
     logger.addHandler(fhandler)
     
     try:
-        optparser = optparse.OptionParser(usage="create_package [options]", version="PySide package creator")
+        optparser = optparse.OptionParser(usage="build [options]", version="PySide package builder")
         optparser.add_option("-e", "--check-environ", dest="check_environ",                         
                              action="store_true", default=False, help="Check the environment")
         optparser.add_option("-q", "--qmake", dest="qmake_path",                         
@@ -189,22 +203,36 @@ def main():
                              default="stable", help="Specify what version of modules to download from git repository: 'dev' or 'stable'. Default is 'stable'.")
         optparser.add_option("-p", "--package-version", dest="package_version",
                              default=PYSIDE_VERSION, help="Specify package version. Default is %s" % PYSIDE_VERSION)
+        optparser.add_option("-u", "--debug", dest="debug",
+                             action="store_true", default=False, help="Build the debug version of pyside binaries.")
         optparser.add_option("-b", "--build-module", dest="build_module",
                              default=None, help="Specify what module to build")
         optparser.add_option("-o", "--only-package", dest="only_package",
                              action="store_true", default=False, help="Create a distribution package only using existing binaries.")
+        optparser.add_option("-x", "--pack-exmaples", dest="pack_examples",
+                             action="store_true", default=False, help="Add pyside examples to package.")
         options, args = optparser.parse_args(sys.argv)
         
+        build_type = "Release"
+        if options.debug:
+            build_type = "Debug"
+        
         py_version = "%s.%s" % (sys.version_info[0], sys.version_info[1])
-        
         py_include_dir = distutils.sysconfig.get_config_var("INCLUDEPY")
-        
         py_prefix = distutils.sysconfig.get_config_var("prefix")
+        py_executable = sys.executable
+        
+        dbgPostfix = ""
+        if build_type == "Debug":
+            dbgPostfix = "_d"
+            py_executable = py_executable[:-4] + "_d.exe"
         
         if sys.platform == "win32":
-            py_library = os.path.join(py_prefix, "libs/python%s.lib" % py_version.replace(".", ""))
+            py_library = os.path.join(py_prefix, "libs/python%s%s.lib" % \
+                (py_version.replace(".", ""), dbgPostfix))
         else:
-            py_library = os.path.join(py_prefix, "lib/libpython%s.so" % py_version)
+            py_library = os.path.join(py_prefix, "lib/libpython%s.so" % \
+                (py_version, dbgPostfix))
         
         if not os.path.exists(py_library):
             logger.error("Failed to locate the Python library %s" % py_library)
@@ -224,13 +252,14 @@ def main():
             logger.error("Failed to find qmake. Please specify the path to qmake with --qmake parameter.")
             sys.exit(1)
         
-        # Add path to this version of Qt to environment if it's not there.
-        # Otherwise the "generatorrunner" will not find the Qt libraries
+        # Update os.path
         paths = os.environ['PATH'].lower().split(os.pathsep)
+        def updatepath(path):
+            if not path.lower() in paths:
+                logger.info("Adding path \"%s\" to environment" % path)
+                paths.append(path)
         qt_dir = os.path.dirname(qtinfo.qmake_path)
-        if not qt_dir.lower() in paths:
-            logger.info("Adding path \"%s\" to environment" % qt_dir)
-            paths.append(qt_dir)
+        updatepath(qt_dir)
         os.environ['PATH'] = os.pathsep.join(paths)
         
         qt_version = qtinfo.version
@@ -239,7 +268,8 @@ def main():
             logger.error("Failed to query the Qt version with qmake %s" % qtinfo.qmake_path)
             sys.exit(1)
         
-        install_dir = os.path.join(script_dir, "install-py%s-qt%s") % (py_version, qt_version)
+        install_dir = os.path.join(script_dir, "install-py%s-qt%s-%s-%s") % \
+            (py_version, qt_version, platform.architecture()[0], build_type.lower())
         
         logger.info("------------------------------------------")
         if options.build_module:
@@ -247,8 +277,10 @@ def main():
         logger.info("Generate package version: %s" % options.package_version)
         if options.download:
             logger.info("Download modules version: %s" % options.pyside_version)
+        logger.info("Build type: %s" % build_type)
+        logger.info("Python prefix: %s" % py_prefix)
         logger.info("Python version: %s" % py_version)
-        logger.info("Python executable: %s" % sys.executable)
+        logger.info("Python executable: %s" % py_executable)
         logger.info("Python includes: %s" % py_include_dir)
         logger.info("Python library: %s" % py_library)
         logger.info("Script directory: %s" % script_dir)
@@ -264,12 +296,17 @@ def main():
         if options.check_environ:
             return
         
+        if options.pack_examples:
+            modules['dev'].append(examples_module)
+            modules['stable'].append(examples_module)
+        
         if not options.only_package:
-            process_modules(options.build_module, options.download, modules[options.pyside_version], modules_dir, install_dir, qtinfo, py_include_dir, py_library)
+            process_modules(options.build_module, options.download, modules[options.pyside_version],
+                modules_dir, install_dir, qtinfo, py_executable, py_include_dir, py_library, build_type)
         
         if options.build_module is None and options.package_version is not None:
-            from package import make_package
-            make_package(options.package_version, script_dir, modules_dir, install_dir, py_version, qtinfo, logger)
+            make_package(options.package_version, script_dir, modules_dir, install_dir, py_version,
+                options.pack_examples, qtinfo, logger)
     
     except Exception:
         logger.error(''.join(traceback.format_exception(*sys.exc_info())))

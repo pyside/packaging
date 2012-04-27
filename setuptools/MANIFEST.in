@@ -1,6 +1,8 @@
-include *.pyd *.dll *.exe
+recursive-include src/PySide *.pyd *.dll *.exe *.lib
 recursive-include src/PySide/plugins **
 recursive-include src/PySide/imports **
 recursive-include src/PySide/translations **
+recursive-include src/PySide/include **
+recursive-include src/PySide/typesystems **
 recursive-include src/PySide/examples **
 recursive-include src/pysideuic/widget-plugins **

@@ -13,7 +13,7 @@ Prerequisities
 
 3. Git: http://code.google.com/p/msysgit/downloads/list
 
-4. Python 2.5, 2.6 or 2.7: http://www.python.org/download/
+4. Python 2.6, 2.7 or 3.2: http://www.python.org/download/
 
 Build
 -----
@@ -43,6 +43,8 @@ Build
    -e                   Check the environment
    -b                   Specify what module to build
    -o                   Create a distribution package only using existing binaries
+   -u                   Build the debug version of pyside binaries
+   -x                   Add pyside examples to package
 
 4. After the successfull build, the final binary distribution can be found in subfolder "dist":
   c:\repositories\packaging\setuptools\dist\PySide-1.0.3qt473.win32-py2.7.exe
