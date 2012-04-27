@@ -79,7 +79,9 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version,
     cpbin("bin/shiboken.exe")
     cpbin("bin/shiboken.dll")
     cpbin("bin/shiboken-python%s.dll" % py_version)
+    cpbin("lib/pyside.lib")
     cpbin("lib/pyside-python%s.lib" % py_version)
+    cpbin("lib/shiboken.lib")
     cpbin("lib/shiboken-python%s.lib" % py_version)
     
     # <install>/share/PySide/typesystems/* -> src/PySide/typesystems
