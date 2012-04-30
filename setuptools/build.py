@@ -30,7 +30,7 @@ modules = {
     'stable': [
         ["shiboken", "1.1.1", giturl + "/shiboken.git", True],
         ["pyside", "1.1.1", giturl + "/pyside.git", True],
-        ["pyside-tools", "0.2.13", giturl + "/pyside-tools.git", True],
+        ["pyside-tools", "0.2.14", giturl + "/pyside-tools.git", True],
     ],
 }
 examples_module = ["pyside-examples", "master", giturl + "/pyside-examples.git", False]
@@ -147,10 +147,15 @@ def process_module(download, module, modules_dir, install_dir, qtinfo,
         args.append("-DPYTHON3_EXECUTABLE=%s" % py_executable)
         args.append("-DPYTHON3_INCLUDE_DIR=%s" % py_include_dir)
         args.append("-DPYTHON3_LIBRARY=%s" % py_library)
+        if build_type.lower() == 'debug':
+            args.append("-DPYTHON3_DBG_EXECUTABLE=%s" % py_executable)
+            args.append("-DPYTHON3_DEBUG_LIBRARY=%s" % py_library)
     else:
         args.append("-DPYTHON_EXECUTABLE=%s" % py_executable)
         args.append("-DPYTHON_INCLUDE_DIR=%s" % py_include_dir)
         args.append("-DPYTHON_LIBRARY=%s" % py_library)
+        if build_type.lower() == 'debug':
+            args.append("-DPYTHON_DEBUG_LIBRARY=%s" % py_library)
     
     if module_name.lower() == "shiboken":
         args.append("-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=yes")

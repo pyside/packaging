@@ -5,6 +5,7 @@ import shutil
 import datetime
 import traceback
 import optparse
+import platform
 
 from utils import *
 from qtinfo import QtInfo
@@ -17,7 +18,7 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version,
 
     os.chdir(script_dir)
 
-    libs_dir = os.path.join(script_dir, "libs")
+    libs_dir = os.path.join(script_dir, "libs/%s" % platform.architecture()[0])
 
     pkgsrc_dir = os.path.join(script_dir, "src")
     if os.path.exists(pkgsrc_dir):
