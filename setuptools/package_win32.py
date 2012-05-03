@@ -170,7 +170,6 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version,
         "setup.py",
         "bdist_wininst",
         "--target-version=%s" % py_version,
-        "--bdist-dir=build",
         "--dist-dir=%s" % dist_dir,
         ], logger) != 0:
         raise Exception("Error building distribution package ")
