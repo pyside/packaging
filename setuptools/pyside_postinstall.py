@@ -20,6 +20,7 @@ except NameError:
     def file_created(file):
         pass
 
+# TODO: install ssl dlls into sys.prefix (or system32) folder - see pywin32 install script
 
 def install():
     try:
@@ -37,7 +38,8 @@ def install():
         file_created(qtconf_path)
         pyside_path = os.path.dirname(QtCore.__file__)
         pyside_path = pyside_path.replace("\\", "/")
-        pyside_path = pyside_path.replace("lib/site-packages", "Lib/site-packages")
+        if sys.platform == "win32":
+            pyside_path = pyside_path.replace("lib/site-packages", "Lib/site-packages")
         print("PySide installed in %s..." % pyside_path)
         f.write("""[Paths]
 Prefix = %s

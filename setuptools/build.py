@@ -65,8 +65,8 @@ def check_env(download):
             logger.info('Found %s' % f)
 
 
-def process_modules(build_module, download, modules, modules_dir, install_dir, build_name, qtinfo,
-    py_executable, py_include_dir, py_library, build_type):
+def process_modules(build_module, download, modules, script_dir, modules_dir, install_dir, build_name,
+    qtinfo, py_executable, py_include_dir, py_library, build_type):
     
     if not os.path.exists(install_dir):
         logger.info("Creating install folder %s..." % install_dir)
@@ -74,28 +74,34 @@ def process_modules(build_module, download, modules, modules_dir, install_dir, b
     
     for module in modules:
         if build_module is None or build_module.lower() == module[0].lower():
-            process_module(download, module, modules_dir, install_dir, build_name, qtinfo,
-                py_executable, py_include_dir, py_library, build_type)
+            process_module(download, module, script_dir, modules_dir, install_dir, build_name,
+                qtinfo, py_executable, py_include_dir, py_library, build_type)
 
 
-def download_module(module_name, repo, branch, modules_dir):
-    if os.path.exists(module_name):
-        logger.info("Deleting module folder %s..." % module_name)
-        rmtree(module_name)
+def download_module(modules_dir, module_name, repo, branch):
+    module_src_dir = os.path.join(modules_dir, module_name)
+    
+    if not os.path.exists(modules_dir):
+        os.mkdir(modules_dir)
+    
+    if os.path.exists(module_src_dir):
+        logger.info("Deleting module source folder %s..." % module_src_dir)
+        rmtree(module_src_dir)
     
     # Clone sources from git repository
-    logger.info("Downloading " + module_name + " sources at " + repo)
+    os.chdir(modules_dir)
+    logger.info("Cloning repository " + repo)
     if run_process(["git", "clone", repo], logger) != 0:
         raise Exception("Error cloning " + repo)
-    os.chdir(modules_dir + "/" + module_name)
-
+    
     # Checkout branch
+    os.chdir(module_src_dir)
     logger.info("Changing to branch " + branch + " in " + module_name)
     if run_process(["git", "checkout", branch], logger) != 0:
         raise Exception("Error changing to branch " + branch + " in " + module_name)
 
 
-def process_module(download, module, modules_dir, install_dir, build_name, qtinfo,
+def process_module(download, module, script_dir, modules_dir, install_dir, build_name, qtinfo,
     py_executable, py_include_dir, py_library, build_type):
     
     module_name = module[0]
@@ -104,35 +110,34 @@ def process_module(download, module, modules_dir, install_dir, build_name, qtinf
     
     logger.info("Processing module %s..." % module_name)
     
-    if not os.path.exists(modules_dir):
-        os.mkdir(modules_dir)
-    os.chdir(modules_dir)
-    
     if download:
-        download_module(module_name, repo, branch, modules_dir)
+        download_module(modules_dir, module_name, repo, branch)
     
     build_module = module[3]
     if not build_module:
         return
     
-    build_dir = os.path.join(os.path.join(modules_dir, module_name),  "build-%s" % build_name)
-    if os.path.exists(build_dir):
-        logger.info("Deleting build folder %s..." % build_dir)
-        rmtree(build_dir)
-    logger.info("Creating build folder %s..." % build_dir)
-    os.mkdir(build_dir)
-    os.chdir(build_dir)
+    build_dir = os.path.join(script_dir,  "build-%s" % build_name)
+    if not os.path.exists(build_dir):
+        os.mkdir(build_dir)
     
-    # Compile
+    module_build_dir = os.path.join(build_dir,  module_name)
+    if os.path.exists(module_build_dir):
+        logger.info("Deleting module build folder %s..." % module_build_dir)
+        rmtree(module_build_dir)
+    logger.info("Creating module build folder %s..." % module_build_dir)
+    os.mkdir(module_build_dir)
+    os.chdir(module_build_dir)
+    
+    module_src_dir = os.path.join(modules_dir, module_name)
+    
     if sys.platform == "win32":
         cmake_generator = "NMake Makefiles"
         make_cmd = "nmake"
     else:
         cmake_generator = "Unix Makefiles"
         make_cmd = "make"
-    
-    logger.info("Configuring " + module_name + " in " + os.getcwd() + "...")
-    args = [
+    cmake_cmd = [
         "cmake",
         "-G", cmake_generator,
         "-DQT_QMAKE_EXECUTABLE=%s" % qtinfo.qmake_path,
@@ -140,40 +145,39 @@ def process_module(download, module, modules_dir, install_dir, build_name, qtinf
         "-DDISABLE_DOCSTRINGS=True",
         "-DCMAKE_BUILD_TYPE=%s" % build_type,
         "-DCMAKE_INSTALL_PREFIX=%s" % install_dir,
-        ".."
+        module_src_dir
     ]
-    
     if sys.version_info[0] > 2:
-        args.append("-DPYTHON3_EXECUTABLE=%s" % py_executable)
-        args.append("-DPYTHON3_INCLUDE_DIR=%s" % py_include_dir)
-        args.append("-DPYTHON3_LIBRARY=%s" % py_library)
+        cmake_cmd.append("-DPYTHON3_EXECUTABLE=%s" % py_executable)
+        cmake_cmd.append("-DPYTHON3_INCLUDE_DIR=%s" % py_include_dir)
+        cmake_cmd.append("-DPYTHON3_LIBRARY=%s" % py_library)
         if build_type.lower() == 'debug':
-            args.append("-DPYTHON3_DBG_EXECUTABLE=%s" % py_executable)
-            args.append("-DPYTHON3_DEBUG_LIBRARY=%s" % py_library)
+            cmake_cmd.append("-DPYTHON3_DBG_EXECUTABLE=%s" % py_executable)
+            cmake_cmd.append("-DPYTHON3_DEBUG_LIBRARY=%s" % py_library)
     else:
-        args.append("-DPYTHON_EXECUTABLE=%s" % py_executable)
-        args.append("-DPYTHON_INCLUDE_DIR=%s" % py_include_dir)
-        args.append("-DPYTHON_LIBRARY=%s" % py_library)
+        cmake_cmd.append("-DPYTHON_EXECUTABLE=%s" % py_executable)
+        cmake_cmd.append("-DPYTHON_INCLUDE_DIR=%s" % py_include_dir)
+        cmake_cmd.append("-DPYTHON_LIBRARIES=%s" % py_library)
         if build_type.lower() == 'debug':
-            args.append("-DPYTHON_DEBUG_LIBRARY=%s" % py_library)
-    
+            cmake_cmd.append("-DPYTHON_DEBUG_LIBRARY=%s" % py_library)
     if module_name.lower() == "shiboken":
-        args.append("-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=yes")
+        cmake_cmd.append("-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=yes")
         if sys.version_info[0] > 2:
-            args.append("-DUSE_PYTHON3=ON")
+            cmake_cmd.append("-DUSE_PYTHON3=ON")
     
-    if run_process(args, logger) != 0:
+    logger.info("Configuring module %s (%s)..." % (module_name,  module_src_dir))
+    if run_process(cmake_cmd, logger) != 0:
         raise Exception("Error configuring " + module_name)
     
-    logger.info("Compiling " + module_name + "...")
+    logger.info("Compiling module %s..." % module_name)
     if run_process(make_cmd, logger) != 0:
         raise Exception("Error compiling " + module_name)
     
-    logger.info("Testing " + module_name + "...")
+    logger.info("Testing module %s..." % module_name)
     if run_process("ctest", logger) != 0:
         logger.error("Some " + module_name + " tests failed!")
     
-    logger.info("Installing " + module_name + "...")
+    logger.info("Installing module %s..." % module_name)
     if run_process([make_cmd, "install/fast"], logger) != 0:
         raise Exception("Error pseudo installing " + module_name)
 
@@ -285,6 +289,7 @@ def main():
         if options.download:
             logger.info("Download modules version: %s" % options.pyside_version)
         logger.info("Build type: %s" % build_type)
+        logger.info("Build name: %s" % build_name)
         logger.info("Python prefix: %s" % py_prefix)
         logger.info("Python version: %s" % py_version)
         logger.info("Python executable: %s" % py_executable)
@@ -293,7 +298,7 @@ def main():
         logger.info("Script directory: %s" % script_dir)
         logger.info("Modules directory: %s" % modules_dir)
         logger.info("Install directory: %s" % install_dir)
-        logger.info("qmake path: %s" % qtinfo.qmake_path)
+        logger.info("Qt qmake: %s" % qtinfo.qmake_path)
         logger.info("Qt version: %s" % qt_version)
         logger.info("Qt bins: %s" % qtinfo.bins_dir)
         logger.info("Qt plugins: %s" % qtinfo.plugins_dir)
@@ -309,7 +314,7 @@ def main():
         
         if not options.only_package:
             process_modules(options.build_module, options.download, modules[options.pyside_version],
-                modules_dir, install_dir, build_name, qtinfo, py_executable, py_include_dir, py_library, build_type)
+                script_dir, modules_dir, install_dir, build_name, qtinfo, py_executable, py_include_dir, py_library, build_type)
         
         if options.build_module is None and options.package_version is not None:
             make_package(options.package_version, script_dir, modules_dir, install_dir, py_version,
