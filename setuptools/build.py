@@ -65,7 +65,7 @@ def check_env(download):
             logger.info('Found %s' % f)
 
 
-def process_modules(build_module, download, modules, modules_dir, install_dir, qtinfo,
+def process_modules(build_module, download, modules, modules_dir, install_dir, build_name, qtinfo,
     py_executable, py_include_dir, py_library, build_type):
     
     if not os.path.exists(install_dir):
@@ -74,7 +74,7 @@ def process_modules(build_module, download, modules, modules_dir, install_dir, q
     
     for module in modules:
         if build_module is None or build_module.lower() == module[0].lower():
-            process_module(download, module, modules_dir, install_dir, qtinfo,
+            process_module(download, module, modules_dir, install_dir, build_name, qtinfo,
                 py_executable, py_include_dir, py_library, build_type)
 
 
@@ -95,7 +95,7 @@ def download_module(module_name, repo, branch, modules_dir):
         raise Exception("Error changing to branch " + branch + " in " + module_name)
 
 
-def process_module(download, module, modules_dir, install_dir, qtinfo,
+def process_module(download, module, modules_dir, install_dir, build_name, qtinfo,
     py_executable, py_include_dir, py_library, build_type):
     
     module_name = module[0]
@@ -115,7 +115,7 @@ def process_module(download, module, modules_dir, install_dir, qtinfo,
     if not build_module:
         return
     
-    build_dir = os.path.join(os.path.join(modules_dir, module_name),  "build")
+    build_dir = os.path.join(os.path.join(modules_dir, module_name),  "build-%s" % build_name)
     if os.path.exists(build_dir):
         logger.info("Deleting build folder %s..." % build_dir)
         rmtree(build_dir)
@@ -273,8 +273,10 @@ def main():
             logger.error("Failed to query the Qt version with qmake %s" % qtinfo.qmake_path)
             sys.exit(1)
         
-        install_dir = os.path.join(script_dir, "install-py%s-qt%s-%s-%s") % \
+        build_name = "py%s-qt%s-%s-%s" % \
             (py_version, qt_version, platform.architecture()[0], build_type.lower())
+        
+        install_dir = os.path.join(script_dir, "install-%s" % build_name)
         
         logger.info("------------------------------------------")
         if options.build_module:
@@ -307,7 +309,7 @@ def main():
         
         if not options.only_package:
             process_modules(options.build_module, options.download, modules[options.pyside_version],
-                modules_dir, install_dir, qtinfo, py_executable, py_include_dir, py_library, build_type)
+                modules_dir, install_dir, build_name, qtinfo, py_executable, py_include_dir, py_library, build_type)
         
         if options.build_module is None and options.package_version is not None:
             make_package(options.package_version, script_dir, modules_dir, install_dir, py_version,
