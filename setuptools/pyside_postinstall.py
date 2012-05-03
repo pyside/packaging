@@ -4,7 +4,7 @@
 #
 # This file is based on pywin32_postinstall.py file from pywin32 project
 
-import os, sys, traceback
+import os, sys, traceback, shutil
 
 
 try:
@@ -19,8 +19,6 @@ except NameError:
     is_bdist_wininst = False # we know what it is not - but not what it is :)
     def file_created(file):
         pass
-
-# TODO: install ssl dlls into sys.prefix (or system32) folder - see pywin32 install script
 
 def install():
     try:
@@ -48,6 +46,14 @@ Plugins = plugins
 Translations = translations
             """ % (pyside_path))
         print("The PySide extensions were successfully installed.")
+        # Install OpenSSL libs
+        for dll in ["libeay32.dll", "ssleay32.dll"]:
+            dest_path = os.path.join(exec_prefix, dll)
+            src_path = os.path.join(pyside_path, dll)
+            if not os.path.exists(dest_path) and os.path.exists(src_path):
+                shutil.copy(src_path, dest_path)
+                file_created(dest_path)
+                print("Installed %s to %s." % (dll, exec_prefix))
     except ImportError:
         print("The PySide extensions were not installed: %s" % traceback.print_exception(*sys.exc_info()))
 
