@@ -11,8 +11,8 @@ from utils import *
 from qtinfo import QtInfo
 
 
-def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version,
-    pack_examples, qtinfo, logger):
+def make_package(pkg_version, script_dir, sources_dir, build_dir, install_dir,
+    py_version, pack_examples, debug, qtinfo, logger):
     
     logger.info("Generating python distribution package...")
 
@@ -26,18 +26,21 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version,
     if os.path.exists(setup_dir):
         logger.info("Deleting folder %s..." % setup_dir)
         rmtree(setup_dir)
-    os.mkdir(setup_dir)
+    os.makedirs(setup_dir)
 
     pkgsrc_dir = os.path.join(setup_dir, "src")
-    os.mkdir(pkgsrc_dir)
+    os.makedirs(pkgsrc_dir)
 
     # Prepare setup sources
     for f in ["pyside_postinstall.py", "README.txt", "MANIFEST.in"]:
         shutil.copy(os.path.join(script_dir, f), os.path.join(setup_dir, f))
     logger.info("Preparing setup.py...")
-    version_str = "%sqt%s" % (pkg_version, qtinfo.version.replace(".", "")[0:3])
-    replace_in_file("setup.py.in", os.path.join(setup_dir, "setup.py"), { "${version}": version_str })
+    version_str = "%sqt%s%s" % \
+        (pkg_version, qtinfo.version.replace(".", "")[0:3], debug and "dbg" or "")
+    replace_in_file("setup.py.in", os.path.join(setup_dir, "setup.py"),
+        { "${version}": version_str })
     
+    # TODO: debug
     # <install>/lib/site-packages/PySide/* -> src/PySide
     src = os.path.join(install_dir, "lib/site-packages/PySide")
     logger.info("Copying PySide sources from %s" % (src))
@@ -54,7 +57,7 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version,
     # <install>/bin/pyside-uic -> src/PySide/scripts/uic.py
     src = os.path.join(install_dir, "bin/pyside-uic")
     dst = os.path.join(pkgsrc_dir, "PySide/scripts")
-    os.mkdir(dst)
+    os.makedirs(dst)
     f = open(os.path.join(dst, "__init__.py"), "wt")
     f.write("# Package")
     f.close()
@@ -96,8 +99,6 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version,
     src = os.path.join(install_dir, "include")
     logger.info("Copying C++ headers from %s" % (src))
     copytree(src, os.path.join(pkgsrc_dir, "PySide/include"))
-    
-    # TODO: PDB (debug build)
     
     def cplib(name):
         src = os.path.join(libs_dir, "%s" % name)
@@ -148,7 +149,7 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version,
     logger.info("Copying Qt translations from %s" % (src))
     dst = os.path.join(pkgsrc_dir, "PySide/translations")
     if not os.path.exists(dst):
-        os.mkdir(dst)
+        os.makedirs(dst)
     for name in os.listdir(src):
         if name.endswith(".ts"):
             srcname = os.path.join(src, name)
@@ -158,7 +159,7 @@ def make_package(pkg_version, script_dir, modules_dir, install_dir, py_version,
 
     if pack_examples:
         # <modules>/pyside-examples/examples/* -> src/PySide/examples
-        src = os.path.join(modules_dir, "pyside-examples/examples")
+        src = os.path.join(sources_dir, "pyside-examples/examples")
         if os.path.exists(src):
             logger.info("Copying PySide examples from %s" % (src))
             copytree(src, os.path.join(pkgsrc_dir, "PySide/examples"))
