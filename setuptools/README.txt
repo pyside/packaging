@@ -5,7 +5,7 @@ About PySide
 PySide is the Python Qt bindings project, providing access the complete Qt 4.8 framework
 as well as to generator tools for rapidly generating bindings for any C++ libraries.
 
-The PySide project is developed in the open, with all facilities you’d expect
+The PySide project is developed in the open, with all facilities you'd expect
 from any modern OSS project such as all code in a git repository [1], an open
 Bugzilla [2] for reporting bugs, and an open design process [3]. We welcome
 any contribution without requiring a transfer of copyright.
@@ -31,15 +31,15 @@ Bug fixes
 - 1041 QAbstractItemModel has wrong ownership policy for selectionModel()
 - 1086 generatorrunner segfault processing #include
 - 1110 Concurrency error causes GC heap corruption
-- 1113 Instantiating QObject in user-defined QML element’s constructor crashes if instantiated from QML
+- 1113 Instantiating QObject in user-defined QML element's constructor crashes if instantiated from QML
 - 1129 Segmentation fault on close by QStandardItem/QStandardItemModel
 - 1104 QSettings has problems with long integers
 - 1108 tests/QtGui/pyside_reload_test.py fails when bytecode writing is disabled
-- 1138 Subclassing of QUiLoader leads to “Internal C++ object already deleted” exception (again)
+- 1138 Subclassing of QUiLoader leads to "Internal C++ object already deleted" exception (again)
 - 1124 QPainter.drawPixmapFragments should take a list as first argument
 - 1065 Invalid example in QFileDialog documentation
-- 1092 shiboken names itself a ‘generator’
-- 1094 shiboken doesn’t complain about invalid options
+- 1092 shiboken names itself a 'generator'
+- 1094 shiboken doesn't complain about invalid options
 - 1044 Incorrect call to parent constructor in example
 - 1139 Crash at exit due to thread state (tstate) being NULL
 - PYSIDE-41 QModelIndex unhashable
@@ -80,7 +80,7 @@ Bug fixes
 ---------
 
 - 1058 Strange code in PySide/QtUiTools/glue/plugins.h
-- 1057 valgrind detected “Conditional jump or move depends on uninitialised value”
+- 1057 valgrind detected "Conditional jump or move depends on uninitialised value"
 - 1052 PySideConfig.cmake contains an infinite loop due to missing default for SHIBOKEN_PYTHON_SUFFIX
 - 1048 QGridLayout.itemAtPosition() crashes when it should return None
 - 1037 shiboken fails to build against python 3.2 (both normal and -dbg) on i386 (and others)
@@ -89,14 +89,14 @@ Bug fixes
 - 1031 QState.parentState() or QState.machine() causes python crash at exit
 - 1029 qmlRegisterType Fails to Increase the Ref Count
 - 1028 QWidget winId missing
-- 1016 Calling of Q_INVOKABLE method returning not QVariant is impossible…
+- 1016 Calling of Q_INVOKABLE method returning not QVariant is impossible...
 - 1013 connect to QSqlTableModel.primeInsert() causes crash
 - 1012 FTBFS with hardening flags enabled
 - 1011 PySide Cygwin patch
 - 1010 Shiboken Cygwin patch
 - 1009 GeneratorRunner Cygwin patch
 - 1008 ApiExtractor Cygwin patch
-- 891 ApiExtractor doesn’t support doxygen as backend to doc generation.
+- 891 ApiExtractor doesn't support doxygen as backend to doc generation.
 
 1.0.8 (2011-10-21)
 ==================
@@ -126,13 +126,13 @@ Bug fixes
 - 985 Provide versioned pyside-docs zip file to help packagers
 - 981 QSettings docs should empathize the behavior changes of value() on different platforms
 - 902 Expose Shiboken functionality through a Python module
-- 997 QDeclarativePropertyMap doesn’t work.
+- 997 QDeclarativePropertyMap doesn't work.
 - 994 QIODevice.readData must use qmemcpy instead of qstrncpy
 - 989 Pickling QColor fails
 - 987 Disconnecting a signal that has not been connected
 - 973 shouldInterruptJavaScript slot override is never called
 - 966 QX11Info.display() missing
-- 959 can’t pass QVariant to the QtWebkit bridge
+- 959 can't pass QVariant to the QtWebkit bridge
 - 1006 Segfault in QLabel init
 - 1002 Segmentation fault on PySide/Spyder exit
 - 998 Segfault with Spyder after switching to another app
@@ -163,23 +163,23 @@ Bug fixes
 - 944 Segfault on QIcon(None).pixmap()
 - 941 Signals with QtCore.Qt types as arguments has invalid signatures
 - 964 QAbstractItemView.moveCursor() method is missing
-- 963 What’s This not displaying QTableWidget column header information as in Qt Designer
+- 963 What's This not displaying QTableWidget column header information as in Qt Designer
 - 961 QColor.__repr__/__str__ should be more pythonic
 - 960 QColor.__reduce__ is incorrect for HSL colors
 - 950 implement Q_INVOKABLE
 - 940 setAttributeArray/setUniformValueArray do not take arrays
 - 931 isinstance() fails with Signal instances
-- 928 100’s of QGraphicItems with signal connections causes slowdown
+- 928 100's of QGraphicItems with signal connections causes slowdown
 - 930 Documentation mixes signals and functions.
 - 923 Make QScriptValue (or QScriptValueIterator) implement the Python iterator protocol
-- 922 QScriptValue’s repr() should give some information about its data
+- 922 QScriptValue's repr() should give some information about its data
 - 900 QtCore.Property as decorator
 - 895 jQuery version is outdated, distribution code de-duplication breaks documentation search
-- 731 Can’t specify more than a single ’since’ argument
+- 731 Can't specify more than a single 'since' argument
 - 983 copy.deepcopy raises SystemError with QColor
 - 947 NETWORK_ERR during interaction QtWebKit window with server
 - 873 Deprecated methods could emit DeprecationWarning
-- 831 PySide docs would have a “Inherited by” list for each class
+- 831 PySide docs would have a "Inherited by" list for each class
 
 1.0.5 (2011-07-22)
 ==================
@@ -187,7 +187,7 @@ Bug fixes
 Major changes
 -------------
 
-- Widgets present on “ui” files are exported in the root widget, check PySide ML thread for more information[1];
+- Widgets present on "ui" files are exported in the root widget, check PySide ML thread for more information[1];
 - pyside-uic generate menubars without parent on MacOS plataform;
 - Signal connection optimizations;
 
@@ -202,7 +202,7 @@ Bug fixes
 - 925 Segfault when passing a QScriptValue as QObject or when using .toVariant() on a QScriptValue
 - 905 QtGui.QHBoxLayout.setMargin function call is created by pyside-uic, but this is not available in the pyside bindings
 - 904 Repeatedly opening a QDialog with Qt.WA_DeleteOnClose set crashes PySide
-- 899 Segfault with ‘QVariantList’ Property.
+- 899 Segfault with 'QVariantList' Property.
 - 893 Shiboken leak reference in the parent control
 - 878 Shiboken may generate incompatible modules if a new class is added.
 - 938 QTemporaryFile JPEG problem
