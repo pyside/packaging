@@ -56,13 +56,12 @@ setup(
     author_email = 'contact@pyside.org',
     url = 'http://www.pyside.org',
     license = 'LGPL',
+    packages = find_packages(exclude=['ez_setup']),
+    include_package_data = True,
     zip_safe = False,
-    packages = find_packages('src'),
-    package_dir = {'': 'src'},
     entry_points = {
         'console_scripts': [
             'pyside-uic = PySide.scripts.uic:main',
         ]
     },
-    include_package_data = True,
 )
