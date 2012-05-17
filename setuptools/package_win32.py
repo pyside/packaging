@@ -18,6 +18,8 @@ def make_package(pkg_version, script_dir, sources_dir, build_dir, install_dir,
 
     os.chdir(script_dir)
 
+    templates_dir = os.path.join(script_dir, "templates")
+    
     libs_dir = os.path.join(script_dir, "libs/%s" % platform.architecture()[0])
 
     dist_dir = os.path.join(script_dir, "packages")
@@ -33,14 +35,13 @@ def make_package(pkg_version, script_dir, sources_dir, build_dir, install_dir,
 
     # Prepare setup sources
     for f in ["pyside_postinstall.py", "README.txt", "MANIFEST.in"]:
-        shutil.copy(os.path.join(script_dir, f), os.path.join(setup_dir, f))
+        shutil.copy(os.path.join(templates_dir, f), os.path.join(setup_dir, f))
     logger.info("Preparing setup.py...")
     version_str = "%sqt%s%s" % \
         (pkg_version, qtinfo.version.replace(".", "")[0:3], debug and "dbg" or "")
-    replace_in_file("setup.py.in", os.path.join(setup_dir, "setup.py"),
+    replace_in_file(os.path.join(templates_dir, "setup.py"), os.path.join(setup_dir, "setup.py"),
         { "${version}": version_str })
     
-    # TODO: debug
     # <install>/lib/site-packages/PySide/* -> src/PySide
     src = os.path.join(install_dir, "lib/site-packages/PySide")
     logger.info("Copying PySide sources from %s" % (src))
