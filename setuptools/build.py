@@ -293,7 +293,9 @@ def main():
         logger.info("Qt plugins: %s" % qtinfo.plugins_dir)
         logger.info("------------------------------------------")
         
-        check_env(options.download)
+        if not options.only_package:
+            check_env(options.download)
+        
         if options.check_environ:
             return
         

@@ -1,4 +1,4 @@
-recursive-include PySide *.pyd *.dll *.exe *.lib
+recursive-include PySide **
 recursive-include PySide/plugins **
 recursive-include PySide/imports **
 recursive-include PySide/translations **

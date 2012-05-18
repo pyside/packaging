@@ -6,72 +6,133 @@ import time
 import shutil
 import subprocess
 import popenasync
+import fnmatch
 
 
-try:
-    from shutil import ignore_patterns, copytree
-    # Running Python > 2.5
-except ImportError:
-    # Running Python <= 2.5
-    # Imported from Python 2.7 module shutil
-    import fnmatch
-    def ignore_patterns(*patterns):
-        def _ignore_patterns(path, names):
-            ignored_names = []
-            for pattern in patterns:
-                ignored_names.extend(fnmatch.filter(names, pattern))
-            return set(ignored_names)
-        return _ignore_patterns
-    def copytree(src, dst, symlinks=False, ignore=None):
-        names = os.listdir(src)
-        if ignore is not None:
-            ignored_names = ignore(src, names)
-        else:
-            ignored_names = set()
-
-        os.makedirs(dst)
-        errors = []
-        for name in names:
-            if name in ignored_names:
-                continue
-            srcname = os.path.join(src, name)
-            dstname = os.path.join(dst, name)
-            try:
-                if symlinks and os.path.islink(srcname):
-                    linkto = os.readlink(srcname)
-                    os.symlink(linkto, dstname)
-                elif os.path.isdir(srcname):
-                    copytree(srcname, dstname, symlinks, ignore)
-                else:
-                    # Will raise a SpecialFileError for unsupported file types
-                    shutil.copy2(srcname, dstname)
-            # catch the Error from the recursive copytree so that we can
-            # continue with other files
-            except shutil.Error as err:
-                errors.extend(err.args[0])
-            except EnvironmentError as why:
-                errors.append((srcname, dstname, str(why)))
-        try:
-            shutil.copystat(src, dst)
-        except OSError as why:
-            if WindowsError is not None and isinstance(why, WindowsError):
-                # Copying file access times may fail on Windows
-                pass
-            else:
-                errors.extend((src, dst, str(why)))
-        if errors:
-            raise Error(errors)
+def filter_match(name, patterns):
+    for pattern in patterns:
+        if pattern is None:
+            continue
+        if fnmatch.fnmatch(name, pattern):
+            return True
+    return False
 
 
-def replace_in_file(src, dst, vars):
-    f = open(src, "rt")
+def subst_vars(input, **vars):
+    if vars is not None:
+        for key in vars:
+            input = input.replace("${%s}" % key, str(vars[key]))
+    return input
+
+
+def copyfile(src, dst, logger=None, force=True, subst_content=True, vars=None):
+    if vars is not None:
+        src = subst_vars(src, **vars)
+        dst = subst_vars(dst, **vars)
+    
+    if not os.path.exists(src) and not force:
+        if logger is not None:
+            logger.info("**Skiping copy file %s to %s. Source does not exists." % (src, dst))
+        return
+    
+    if logger is not None:
+        logger.info("Copying file %s to %s." % (src, dst))
+    
+    if vars is None or not subst_content:
+        shutil.copy2(src, dst)
+        return
+    
+    f = open(src, "rb")
     content =  f.read()
     f.close()
-    for k in vars:
-        content = content.replace(k, vars[k])
-    f = open(dst, "wt")
+    content = subst_vars(content, **vars)
+    f = open(dst, "wb")
     f.write(content)
     f.close()
+
+
+def makefile(dst, content=None, logger=None, vars=None):
+    if vars is not None:
+        if content is not None:
+            content = subst_vars(content, **vars)
+        dst = subst_vars(dst, **vars)
+    
+    if logger is not None:
+        logger.info("Making file %s." % (dst))
+    
+    dstdir = os.path.dirname(dst)
+    if not os.path.exists(dstdir):
+        os.makedirs(dstdir)
+    
+    f = open(dst, "wt")
+    if content is not None:
+        f.write(content)
+    f.close()
+
+
+def copydir(src, dst, logger=None, filter=None, ignore=None, force=True,
+    recursive=True, subst_files_content=False, vars=None):
+    
+    if vars is not None:
+        src = subst_vars(src, **vars)
+        dst = subst_vars(dst, **vars)
+    
+    if not os.path.exists(src) and not force:
+        if logger is not None:
+            logger.info("**Skiping copy tree %s. Source does not exists." % \
+                (src, dst, filter, ignore))
+        return
+    
+    if logger is not None:
+        logger.info("Copying tree %s to %s. filter=%s. ignore=%s." % \
+            (src, dst, filter, ignore))
+    
+    names = os.listdir(src)
+    
+    if not os.path.exists(dst):
+        os.makedirs(dst)
+    
+    errors = []
+    for name in names:
+        srcname = os.path.join(src, name)
+        dstname = os.path.join(dst, name)
+        try:
+            if os.path.isdir(srcname):
+                if recursive:
+                    copydir(srcname, dstname, logger, filter, ignore, force, recursive,
+                        subst_files_content, vars)
+            else:
+                if (filter is not None and not filter_match(name, filter)) or \
+                    (ignore is not None and filter_match(name, ignore)):
+                    continue
+                copyfile(srcname, dstname, logger, True, subst_files_content, vars)
+        # catch the Error from the recursive copytree so that we can
+        # continue with other files
+        except shutil.Error as err:
+            errors.extend(err.args[0])
+        except EnvironmentError as why:
+            errors.append((srcname, dstname, str(why)))
+    try:
+        shutil.copystat(src, dst)
+    except OSError as why:
+        if WindowsError is not None and isinstance(why, WindowsError):
+            # Copying file access times may fail on Windows
+            pass
+        else:
+            errors.extend((src, dst, str(why)))
+    if errors:
+        raise EnvironmentError(errors)
+
+
+def rmtree(dirname):
+    def handleRemoveReadonly(func, path, exc):
+        excvalue = exc[1]
+        if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
+            os.chmod(path, stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO) # 0777
+            func(path)
+        else:
+            raise
+    shutil.rmtree(dirname, ignore_errors=False, onerror=handleRemoveReadonly)
 
 
 def run_process(args, logger=None):
@@ -115,21 +176,6 @@ def run_process(args, logger=None):
     return proc.returncode
 
 
-# LINKS:
-#   http://stackoverflow.com/questions/1213706/what-user-do-python-scripts-run-as-in-windows/1214935#1214935
-def rmtree(filename):
-    def handleRemoveReadonly(func, path, exc):
-        excvalue = exc[1]
-        if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
-            os.chmod(path, stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO) # 0777
-            func(path)
-        else:
-            raise
-    shutil.rmtree(filename, ignore_errors=False, onerror=handleRemoveReadonly)
-
-
-# LINKS:
-#   http://snippets.dzone.com/posts/show/6313
 def find_executable(executable, path=None):
     """Try to find 'executable' in the directories listed in 'path' (a
     string listing directories separated by 'os.pathsep'; defaults to
