@@ -25,7 +25,7 @@ def subst_vars(input, **vars):
     return input
 
 
-def copyfile(src, dst, logger=None, force=True, subst_content=True, vars=None):
+def copyfile(src, dst, logger=None, force=True, vars=None, subst_content=False):
     if vars is not None:
         src = subst_vars(src, **vars)
         dst = subst_vars(dst, **vars)
@@ -42,11 +42,12 @@ def copyfile(src, dst, logger=None, force=True, subst_content=True, vars=None):
         shutil.copy2(src, dst)
         return
     
-    f = open(src, "rb")
+    print ("copyfile " + src)
+    f = open(src, "rt")
     content =  f.read()
     f.close()
     content = subst_vars(content, **vars)
-    f = open(dst, "wb")
+    f = open(dst, "wt")
     f.write(content)
     f.close()
 
@@ -71,7 +72,7 @@ def makefile(dst, content=None, logger=None, vars=None):
 
 
 def copydir(src, dst, logger=None, filter=None, ignore=None, force=True,
-    recursive=True, subst_files_content=False, vars=None):
+    recursive=True, vars=None, subst_files_content=False):
     
     if vars is not None:
         src = subst_vars(src, **vars)
@@ -100,12 +101,12 @@ def copydir(src, dst, logger=None, filter=None, ignore=None, force=True,
             if os.path.isdir(srcname):
                 if recursive:
                     copydir(srcname, dstname, logger, filter, ignore, force, recursive,
-                        subst_files_content, vars)
+                        vars, subst_files_content)
             else:
                 if (filter is not None and not filter_match(name, filter)) or \
                     (ignore is not None and filter_match(name, ignore)):
                     continue
-                copyfile(srcname, dstname, logger, True, subst_files_content, vars)
+                copyfile(srcname, dstname, logger, True, vars, subst_files_content)
         # catch the Error from the recursive copytree so that we can
         # continue with other files
         except shutil.Error as err:

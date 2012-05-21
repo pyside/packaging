@@ -40,11 +40,11 @@ def install():
             pyside_path = pyside_path.replace("lib/site-packages", "Lib/site-packages")
         print("PySide installed in %s..." % pyside_path)
         f.write("""[Paths]
-Prefix = %s
-Binaries = .
-Plugins = plugins
-Translations = translations
-            """ % (pyside_path))
+Prefix = %(pyside_prefix)s
+Binaries = %(pyside_prefix)s
+Plugins = %(pyside_prefix)s/plugins
+Translations = %(pyside_prefix)s/translations
+""" % { "pyside_prefix": pyside_path })
         print("The PySide extensions were successfully installed.")
         if sys.platform == "win32":
             # Install OpenSSL libs

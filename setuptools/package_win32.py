@@ -45,9 +45,10 @@ def make_package(pkg_version, script_dir, sources_dir, build_dir, install_dir,
     
     # Prepare package sources
     logger.info("Preparing package sources...")
-    for f in os.listdir(templates_dir):
-        copyfile("${templates_dir}/%s" % f, "${setup_dir}/%s" % f,
-            logger=logger, force=True, vars=vars)
+    copydir(
+        "${templates_dir}",
+        "${setup_dir}",
+        logger=logger, vars=vars, subst_files_content=True)
     
     # <install>/lib/site-packages/PySide/* -> <setup>/PySide
     copydir(
@@ -103,11 +104,11 @@ def make_package(pkg_version, script_dir, sources_dir, build_dir, install_dir,
         "${setup_dir}/PySide/include",
         logger=logger, vars=vars)
 
-    # libs/* -> <setup>/PySide/
-    copyfile("${libs_dir}/libeay32.dll", "${setup_dir}/PySide/libeay32.dll",
-        force=False, logger=logger, vars=vars)
-    copyfile("${libs_dir}/ssleay32.dll", "${setup_dir}/PySide/ssleay32.dll",
-        force=False, logger=logger, vars=vars)
+    # <libs>/* -> <setup>/PySide/
+    copydir(
+        "${libs_dir}",
+        "${setup_dir}/PySide",
+        logger=logger, vars=vars)
 
     # <qt>/bin/*.dll -> <setup>/PySide
     copydir("${qt_bin_dir}", "${setup_dir}/PySide",
