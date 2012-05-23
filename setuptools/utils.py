@@ -80,7 +80,7 @@ def copydir(src, dst, logger=None, filter=None, ignore=None, force=True,
     
     if not os.path.exists(src) and not force:
         if logger is not None:
-            logger.info("**Skiping copy tree %s. Source does not exists." % \
+            logger.info("**Skiping copy tree %s to %s. Source does not exists. filter=%s. ignore=%s." % \
                 (src, dst, filter, ignore))
         return
     

@@ -108,7 +108,7 @@ def make_package(pkg_version, script_dir, sources_dir, build_dir, install_dir,
     copydir(
         "${libs_dir}",
         "${setup_dir}/PySide",
-        logger=logger, vars=vars)
+        force=False, logger=logger, vars=vars)
 
     # <qt>/bin/*.dll -> <setup>/PySide
     copydir("${qt_bin_dir}", "${setup_dir}/PySide",
